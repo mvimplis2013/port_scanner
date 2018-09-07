@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 3.0.4 (Python 3.6.4 on linux)" generated="20180907 22:01:07.435">
+<suite id="s1" name="NmapTest" source="/home/miltos/code-playground/system/monitoring/port_scanner/robotnmap/NmapTest.robot">
+<test id="s1-t1" name="Run Basic Port Scan">
+<kw name="nmap_script_scan ${TARGET} version_intense=3 file_export=nmap.txt">
+<msg timestamp="20180907 22:01:07.526" level="FAIL">No keyword with name 'nmap_script_scan ${TARGET} version_intense=3 file_export=nmap.txt' found.</msg>
+<status status="FAIL" starttime="20180907 22:01:07.526" endtime="20180907 22:01:07.527"></status>
+</kw>
+<status status="FAIL" starttime="20180907 22:01:07.521" endtime="20180907 22:01:07.527" critical="yes">No keyword with name 'nmap_script_scan ${TARGET} version_intense=3 file_export=nmap.txt' found.</status>
+</test>
+<status status="FAIL" starttime="20180907 22:01:07.436" endtime="20180907 22:01:07.527"></status>
+</suite>
+<statistics>
+<total>
+<stat pass="0" fail="1">Critical Tests</stat>
+<stat pass="0" fail="1">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat pass="0" fail="1" id="s1" name="NmapTest">NmapTest</stat>
+</suite>
+</statistics>
+<errors>
+<msg timestamp="20180907 22:01:07.417" level="ERROR">Error in file '/home/miltos/code-playground/system/monitoring/port_scanner/robotnmap/NmapTest.robot': Non-existing setting 'Library RoboNmap'.</msg>
+<msg timestamp="20180907 22:01:07.418" level="ERROR">Error in file '/home/miltos/code-playground/system/monitoring/port_scanner/robotnmap/NmapTest.robot': Non-existing setting 'Library Collections'.</msg>
+<msg timestamp="20180907 22:01:07.436" level="ERROR">Error in file '/home/miltos/code-playground/system/monitoring/port_scanner/robotnmap/NmapTest.robot': Setting variable '${TARGET} example.com' failed: Invalid variable name '${TARGET} example.com'.</msg>
+</errors>
+</robot>
