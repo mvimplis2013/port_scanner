@@ -76,5 +76,21 @@ def snake_to_camel_case(value: str) -> str:
 
     return "".join(word.capitalize() for word in value.split())
 
+def valid_file(path: str) -> bool:
+    """Verifies that a string path actually exists and is a file
+    
+    Arguments:
+        path {str} -- The path to verify
+    
+    Returns:
+        bool -- ** True ** if path exists and is a file
+    """
+    path = Path(path.expanduser()
+
+    log.debug("checking if %s is a valid file", path)
+
+    rturn path.exists() and path.is_file()
+
+
 
 
