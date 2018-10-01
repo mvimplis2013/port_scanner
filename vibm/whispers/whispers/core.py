@@ -27,27 +27,27 @@ class Response:
         self, status: str, provider: str, data: dict, response: requests.Response = None,
         errors: list = None,
     ):
-    self.status = status
-    self.provider = provider
-    self.data = data
-    self.response = response
-    self.errors = errors
+        self.status = status
+        self.provider = provider
+        self.data = data
+        self.response = response
+        self.errors = errors
 
-def __repr__(self):
-    return f"<Response,provider={self.provider.capitalize()}, status={self.status}, errors={self.errors}>"
+    def __repr__(self):
+        return f"<Response,provider={self.provider.capitalize()}, status={self.status}, errors={self.errors}>"
 
-def raise_on_errors(self):
-    if self.errors:
-        raise NotificationError(
-            provider=self.provider,
-            data=self/data,
-            errors=self.errors,
-            response=self.response,
-        )
+    def raise_on_errors(self):
+        if self.errors:
+            raise NotificationError(
+                provider=self.provider,
+                data=self/data,
+                errors=self.errors,
+                response=self.response,
+            )
 
-@property
-def ok(self):
-    return self.errors is None
+    @property
+    def ok(self):
+        return self.errors is None
 
 class SchemaResourse(ABC):
     @property
@@ -203,6 +203,70 @@ class Provider(SchemaResourse, ABC):
     @property
     def metadata(self) -> dict:
         return {"base_url": self.base_url, "site_url": self.site_url, "name": self.name}
+
+    @property
+    def resources(self) -> list:
+        """Return a list of names of relevant :class:`~notifiers.core.ProviderResource` objects"""
+        return list(self._resources.keys())
+
+    @abstractmethod
+    def _send_notification(self, data: dict) -> Response:
+        """The core method to trigger the provider notification. Must be overriden.
+
+        Arguments:
+            data {dict} -- Notification data
+        
+        Returns:
+            Response -- [description]
+        """
+        pass
+
+    def notify(self, raise_on_errors: bool = False, **kwargs) -> Response:
+        """
+        The main method to send notification. Prepare the data via the 
+        :meth:`~notifiers.core.SchemaResource._prepare_data` method 
+
+        :param: kwargs: Notification data
+        :param: raise_on_errors: Should the meth:`~notifiers.core.Response.raise_on_errors` be invoked immediately
+        
+        :raises: :class:`~notifiers.exceptions.NotificationError` if ``raise_on_errors`` is set to True 
+         and response contained errors
+
+        Keyword Arguments:
+            raise_on_errors {bool} -- [description] (default: {False})
+        
+        Returns:
+            Response -- A :class:`~notifiers.core.Response` object
+        """
+
+        data = self._process_data(**kwargs)
+        rsp = self._send_notification(data)
+
+        if raise_on_errors:
+            rsp.raise_on_errors()
+
+        return rsp
+
+class ProviderResource(SchemaResource, ABC):
+    """ 
+    The base class that is used to fetch provider realted resources 
+    like rooms, channels, users etc.
+    """ 
+    @property
+    @abstractmethod
+    def resource_name(self):
+        pass
+
+    @abstractmethod
+    def _get_resource(self, data: dict):
+        pass
+
+    def __call__(self, **kwargs):
+        data = self.process_data(**kwargs)
+        return self._get_resource(data)
+
+    def __repr__(self):
+        return f"<ProviderResourse,provider={self.name},resource={self.resource_name}>"
 
 def entry_point():
     exit(1)
