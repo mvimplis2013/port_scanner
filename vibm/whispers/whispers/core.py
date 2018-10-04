@@ -155,7 +155,7 @@ class SchemaResource(ABC):
 
         :raises: :class:`~notifiers.exceptions.BadArguments`
         """
-        log.debug("validating provider data")
+        log.debug("validating provided data")
         e = best_match(self.validator.iter_errors(data))
 
         if e:
