@@ -64,7 +64,7 @@ class MailGun(Provider):
                 "format": "email",
                 "title": "Email address for FROM header",
                 "duplicate": True,
-            }
+            },
             "domain": {"type": "string", "title": "MailGun's domain to use"},
             "cc": __email_list,
             "bcc": __email_list,
@@ -142,5 +142,6 @@ class MailGun(Provider):
                 "additionalProperties": {"type": "object"},
                 "title": "attach a custom JSON data to the message",
             },
-            "additionalProperties": False,
-        }
+        },
+        "additionalProperties": False,
+    }

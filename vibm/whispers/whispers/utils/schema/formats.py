@@ -4,7 +4,7 @@ from datetime import datetime
 
 import jsonschema
 
-from notifiers.utils.helpers import6 valid_file
+from whispers.utils.helpers import valid_file
 
 ISO8601 = re.compile(
     r"^(?P<full>("

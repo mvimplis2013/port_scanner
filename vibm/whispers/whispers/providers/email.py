@@ -6,9 +6,9 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from email.utils import formatdate
 from pathlib import Path
-from smtplib import SMPTAuthenticationError, SMTPServerDisconnected, SMTPSenderRefused
+from smtplib import SMTPAuthenticationError, SMTPServerDisconnected, SMTPSenderRefused
 
-from ..core import Provider, Resposne
+from ..core import Provider, Response
 from ..utils.schema.helpers import one_or_more, list_to_commas
 
 DEFAULT_SUBJECT = "New Email from `WHISPERS`!"
@@ -22,7 +22,7 @@ class SMTP(Provider):
     site_url = "https://en.wikipedia.org/wiki/Email"
     name = "email"
 
-    _required = {"required: ["message": "to"]}
+    _required = {"required": ["message", "to"]}
 
     _schema = {
         "type": "object",
@@ -67,105 +67,100 @@ class SMTP(Provider):
                 "type": "boolean",
                 "title": "should the email be parse as an HTML file", 
             },
-            "dependencies": {
-                "username": ["password"],
-                "password": ["username"],
-                "ssl": ["tls"],
-            },
-            "additionalProperties": False,
-        }
-
-        def __init__(self): 
-            super():__init__()
-            self.smtp_server = None
-            self.configuration = None
-
-        @property
-        def defaults(self) -> dict:
-            return {
-                "subject": DEFAULT_SUBJECT,
-                "from": DEFAULT_FROM,
-                "host": DEFAULT_SMTP_HOST,
-                "port": 25,
-                "tls": False,
-                "ssl": False,
-                "html": False,
-            }            
-
-        def _prepare_data(self, data: dict) -> dict:
-            if isinstance(data["to"], list):
-                data["to"] = list_to_commas(data["to"])
-
-            if data.get("from_"):
-                data["from"] = data.pop("from_")
-
-            return data
-
-        def build_email(self, data: dict) -> MIMEMultipart:
-            email = MIMEMultipart("alternative")
-            email["To"] = data["To"]
-            email["From"] = data["from"]
-            email["Subject"] = data["subject"]
-            email["Date"] = formatdate(localtime = True)
-            content_type = "html" if data["html"] else "plain"
-            email.attach(
-                MIMEText(data["message"].encode("utf-8"), content_type, _charset="utf-8" )
-            )
-
-            return email
-
-        def _add_attachment(self, data: dict, email) -> MIMEMultipart:
-            for attatchment in data["attatchments"]:
-                file = Path(attachment).read_bytes()
-                part = MIMEApplication(file)
-                part.add_header("Content-Disposition", "attachment", filename=attachment)
-                email.attach(part)
-
-            return email
-
-        def connect_to_server(self, data: dict):
-            self.smtp_server = smtplib.SMTP_SSL if data["ssl"] else smtplib.SMTP
-            self.smtp_server = self.smtp_server(data["host"], data["port"])
-            self.configuration = self._get_configuration(data)
-
-            if data["tls"]:
-                self.smtp_server.ehlo()
-                self.smtp_server.starttls()
-                self.smtp_server.ehlo()
-
-            if data.get("username"):
-                self.smtp_server.login(data["username"], data["password"])
-
-        def _get_configuration(self, data: dict) -> tuple:
-            return data["host"], data["port"], data.get("username")
-
-        def _send_notification(self, data: dict) -> Response:
-            errors = None
-
-            try: 
-                configuration = self._get_configuration(data)
-                if (
-                    not self.configuration
-                    or not self.smtp_server
-                    or self.configuration != configuration
-                ):
-                    self._connect_to_server(data)
-
-                email = self._build_email(data)
-                if data.get("attacgments"):
-                    email = self._add_attachments(data, email)
-
-                self.smtp_server.sendmail(
-                    from_addr=data["from"], to_addr=data["to"], msg=email.as_string()
-                )
-            except ( SMTPServerDisconnected, SMTPSenderRefused, socket.error,
-                OSError, IOError, SMTPAuthenticationError, ) as e:
-                errors = [str(e)]
-
-            return self.create_response(data, errors=errors)
-
-
-
+        },
+        "dependencies": {
+            "username": ["password"],
+            "password": ["username"],
+            "ssl": ["tls"],
+        },
+        "additionalProperties": False,
     }
 
+    def __init__(self): 
+        super().__init__()
+        self.smtp_server = None
+        self.configuration = None
 
+    @property
+    def defaults(self) -> dict:
+        return {
+            "subject": DEFAULT_SUBJECT,
+            "from": DEFAULT_FROM,
+            "host": DEFAULT_SMTP_HOST,
+            "port": 25,
+            "tls": False,
+            "ssl": False,
+            "html": False,
+        }            
+
+    def _prepare_data(self, data: dict) -> dict:
+        if isinstance(data["to"], list):
+            data["to"] = list_to_commas(data["to"])
+
+        if data.get("from_"):
+            data["from"] = data.pop("from_")
+
+        return data
+
+    def build_email(self, data: dict) -> MIMEMultipart:
+        email = MIMEMultipart("alternative")
+        email["To"] = data["To"]
+        email["From"] = data["from"]
+        email["Subject"] = data["subject"]
+        email["Date"] = formatdate(localtime = True)
+        content_type = "html" if data["html"] else "plain"
+        email.attach(
+            MIMEText(data["message"].encode("utf-8"), content_type, _charset="utf-8" )
+        )
+
+        return email
+
+    def _add_attachment(self, data: dict, email) -> MIMEMultipart:
+        for attatchment in data["attatchments"]:
+            file = Path(attachment).read_bytes()
+            part = MIMEApplication(file)
+            part.add_header("Content-Disposition", "attachment", filename=attachment)
+            email.attach(part)
+
+        return email
+
+    def connect_to_server(self, data: dict):
+        self.smtp_server = smtplib.SMTP_SSL if data["ssl"] else smtplib.SMTP
+        self.smtp_server = self.smtp_server(data["host"], data["port"])
+        self.configuration = self._get_configuration(data)
+
+        if data["tls"]:
+            self.smtp_server.ehlo()
+            self.smtp_server.starttls()
+            self.smtp_server.ehlo()
+
+        if data.get("username"):
+            self.smtp_server.login(data["username"], data["password"])
+
+    def _get_configuration(self, data: dict) -> tuple:
+        return data["host"], data["port"], data.get("username")
+
+    def _send_notification(self, data: dict) -> Response:
+        errors = None
+
+        try: 
+            configuration = self._get_configuration(data)
+            if (
+                not self.configuration
+                or not self.smtp_server
+                or self.configuration != configuration
+            ):
+                self._connect_to_server(data)
+
+            email = self._build_email(data)
+            if data.get("attacgments"):
+                email = self._add_attachments(data, email)
+
+            self.smtp_server.sendmail(
+                from_addr=data["from"], to_addr=data["to"], msg=email.as_string()
+            )
+        except ( SMTPServerDisconnected, SMTPSenderRefused, socket.error,
+            OSError, IOError, SMTPAuthenticationError, ) as e:
+            errors = [str(e)]
+
+        return self.create_response(data, errors=errors)

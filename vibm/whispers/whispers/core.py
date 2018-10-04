@@ -49,7 +49,20 @@ class Response:
     def ok(self):
         return self.errors is None
 
-class SchemaResourse(ABC):
+class SchemaResource(ABC):
+    """Base class that represents an object schema and its utility methods
+    
+    Arguments:
+        ABC {[type]} -- [description]
+    
+    Raises:
+        SchemaError -- [description]
+        BadArguments -- [description]
+    
+    Returns:
+        [type] -- [description]
+    """
+
     @property
     @abstractmethod
     def _required(self) -> dict:
@@ -59,6 +72,8 @@ class SchemaResourse(ABC):
     @abstractmethod
     def _schema(self) -> dict:
         pass
+
+    _merged_schema = None
 
     @property
     @abstractmethod
@@ -70,7 +85,7 @@ class SchemaResourse(ABC):
         if not self._merged_schema:
             log.debug("merging required dict into schema for %s", self.name)
 
-            self._merged_schema = self._schema_copy()
+            self._merged_schema = self._schema.copy()
             self._merged_schema.update(self._required)
 
         return self._merged_schema
@@ -131,7 +146,7 @@ class SchemaResourse(ABC):
                 schema_error=e.message, provider=self.name, data=self.schema
             )
 
-    def validate_data(self, data: dict):
+    def _validate_data(self, data: dict):
         """
         Validates data against provider schema. Raises :class:`~notifiers.exceptions.BadArguments` is relevant
         
@@ -146,13 +161,13 @@ class SchemaResourse(ABC):
         if e:
             custom_error_key = f"error_{e.validator}"
 
-        msg = (
-            e.schema[custom_error_key]
-            if e.schema.get(custom_error_key)
-            else e.message
-        )
+            msg = (
+                e.schema[custom_error_key]
+                if e.schema.get(custom_error_key)
+                else e.message
+            )
 
-        raise BadArguments(validation_error=msg, provider=self.name, data=data)
+            raise BadArguments(validation_error=msg, provider=self.name, data=data)
 
     def _validate_data_dependencies(self, data: dict) -> dict:
         return data
@@ -164,7 +179,7 @@ class SchemaResourse(ABC):
         if environs:
             data = merge_dicts(data, environs)
 
-        data = self.merge_defaults(data)
+        data = self._merge_defaults(data)
         self._validate_data(data)
         data = self._validate_data_dependencies(data)
         data = self._prepare_data(data)
@@ -176,9 +191,9 @@ class SchemaResourse(ABC):
             self.schema, format_checker = format_checker
         )
 
-        self.validate_schema()
+        self._validate_schema()
 
-class Provider(SchemaResourse, ABC):
+class Provider(SchemaResource, ABC):
     _resources = {}
 
     def __repr__(self):
@@ -268,8 +283,47 @@ class ProviderResource(SchemaResource, ABC):
     def __repr__(self):
         return f"<ProviderResourse,provider={self.name},resource={self.resource_name}>"
 
-def entry_point():
-    exit(1)
+# Avoid premature import 
+from .providers import _all_providers
 
-if __name__ == "__main__":
-    entry_point()
+def get_notifier(provider_name: str, strict: bool = False) -> Provider:
+    """Convenience method to return the an instantiated :class:`~whispers.core.Provider` object according to `name`
+    
+    Arguments:
+        provider_name {str} -- The `name` of the requested :class:`~whispers.core.Provider`
+    
+    Keyword Arguments:
+        strict {bool} -- Raises a :class:`ValueError` if the given provider string was not found (default: {False})
+    
+    Returns:
+        Provider -- :class:`Provider` or None
+
+    :raises ValueError: In case of `strict` is True and provider not found
+    """
+
+    if provider_name in _all_providers:
+        log.debug("found a match for %s, returning", provider_name)
+        return _all_providers[provider_name]()
+    elif strict:
+        raise NoSuchNotifierError(name=provider_name)
+
+def all_providers() -> list:
+    """Returns a list of all :class:`~whispers.core.Provider` names
+    
+    Returns:
+        list -- [description]
+    """
+    
+    return list(_all_providers.keys())
+
+def notify(provider_name: str, **kwargs) -> Response:
+    """Quickly sends a notification without needing to get a notifier via the :func:`get_notifier` method.
+
+    :param provider_name: Name of the notifier to use. Note that if this notifier name does not exist it will raise an exception.
+    :param kwargs: Notification data, dependent on provider
+    :return: :class:Response
+    :raises: :class:`~whispers.exceptions.NoSuchNotifierError` if `provider_name` is unknown
+    """
+
+    return get_notifier(provider_nane=provider_name, strict=True).notify(**kwargs)
+

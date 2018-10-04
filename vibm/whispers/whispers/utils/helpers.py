@@ -34,7 +34,7 @@ def merge_dicts(target_dict: dict, merge_dict: dict) -> dict:
     """
     log.debug("merging dict %s into %s", merge_dict, target_dict)
 
-    for key, value in merge_dict.items:
+    for key, value in merge_dict.items():
         if key not in target_dict:
             target_dict[key] = value
 
@@ -85,11 +85,11 @@ def valid_file(path: str) -> bool:
     Returns:
         bool -- ** True ** if path exists and is a file
     """
-    path = Path(path.expanduser()
+    path = Path(path).expanduser()
 
     log.debug("checking if %s is a valid file", path)
 
-    rturn path.exists() and path.is_file()
+    return path.exists() and path.is_file()
 
 
 

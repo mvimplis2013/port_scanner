@@ -26,6 +26,7 @@ class Slack(Provider):
                     "type": "boolean",
                     "title": "Optional flag indicating whether the `value` is short enough to be displayed"
                     " side-by-side with other values",
+                },
             },
             "required": ["title"],
             "additionalProperties": False,
@@ -54,7 +55,7 @@ class Slack(Provider):
                     "type": "string",
                     "title": "Attachment title URL",
                 },
-                "image_url" {
+                "image_url": {
                     "type": "string",
                     "format": "uri",
                     "title": "Thumbnail URL",
@@ -66,7 +67,7 @@ class Slack(Provider):
                 "footer_icon": {
                     "type": "string",
                     "format": "uri",
-                    "Footer icon URL",
+                    "title": "Footer icon URL",
                 },
                 "ts": {
                     "type": ["integer", "string"],
@@ -90,65 +91,66 @@ class Slack(Provider):
                     "type": "string",
                     "title": "Can either be one of `good`, `warning`, `danger`, or any hex color code",
                 },
-                "required": ["fallback"],
-                "additionalProperties": "False",
+                "fields": __fields,
             },
-        }
-        _required = {"required": ["webhook_url", "message"]}
-        _schema = {
-            "type": "object",
-            properties: {
-                "webhook_url": {
-                    "type": "string",
-                    "format": "uri",
-                    "title": "The webhook URL to use. Register one at https://my.slack.com/services/new/incoming-webhook/",
-                },
-                "icon_url": {
-                    "type": "string",
-                    "format": "uri",
-                    "title": "override bot icon with image URL",
-                },
-                "icon_emoji": {
-                    "type": "string",
-                    "title": "override bot icon with emoji name.",
-                },
-                "username": {
-                    "type": "string",
-                    "title": "override the displayed bot name",
-                },
-                "channel": {
-                    "type": "string",
-                    "title": "override default channel or private message",
-                },
-                "unfurl_links": {
-                    "type": "boolean",
-                    "title": "avoid automatic attachment creation from URLs",
-                },
-                "message": {
-                    "type": "string",
-                    "title": "This is the text that will be posted to the channel",
-                },
-                "attachments": __attachments,
-            },
+            "required": ["fallback"],
             "additionalProperties": False,
         },
-
-        def _prepare_data(self, data: dict) -> dict:
-            text = data.pop(message)
-            data["text"] = text
-            if data.get("icon_emoji"):
-                icon_emoji = data["icon_emoji"]
-                if not icon_emoji.startswith(":"):
-                    icon_emoji = f":{icon_emoji}"
-                if not icon_emoji.endswith(":"):
-                    icon_emoji += ":"
-                data["icon_emoji"] = icon_emoji
-
-            return data
-
-        def _send_notification(sefl, data: dict) -> Response:
-            url = data.pop("webhook_url")
-            response, errors = request.post(url, json=data)
-
-            return self.create_response(data, response, errors)            
     }
+    _required = {"required": ["webhook_url", "message"]}
+    _schema = {
+        "type": "object",
+        "properties": {
+            "webhook_url": {
+                "type": "string",
+                "format": "uri",
+                "title": "The webhook URL to use. Register one at https://my.slack.com/services/new/incoming-webhook/",
+            },
+            "icon_url": {
+                "type": "string",
+                "format": "uri",
+                "title": "override bot icon with image URL",
+            },
+            "icon_emoji": {
+                "type": "string",
+                "title": "override bot icon with emoji name.",
+            },
+            "username": {
+                "type": "string",
+                "title": "override the displayed bot name",
+            },
+            "channel": {
+                "type": "string",
+                "title": "override default channel or private message",
+            },
+            "unfurl_links": {
+                "type": "boolean",
+                "title": "avoid automatic attachment creation from URLs",
+            },
+            "message": {
+                "type": "string",
+                "title": "This is the text that will be posted to the channel",
+            },
+            "attachments": __attachments,
+        },
+        "additionalProperties": False,
+    },
+
+    def _prepare_data(self, data: dict) -> dict:
+        text = data.pop(message)
+        data["text"] = text
+        if data.get("icon_emoji"):
+            icon_emoji = data["icon_emoji"]
+            if not icon_emoji.startswith(":"):
+                icon_emoji = f":{icon_emoji}"
+            if not icon_emoji.endswith(":"):
+                    icon_emoji += ":"
+            data["icon_emoji"] = icon_emoji
+
+        return data
+
+    def _send_notification(sefl, data: dict) -> Response:
+        url = data.pop("webhook_url")
+        response, errors = request.post(url, json=data)
+
+        return self.create_response(data, response, errors)            
