@@ -3,12 +3,12 @@ from . import email
 class Gmail(email.SMTP):
     """ Send email via Gmail """
 
-    site_url = "https://wwww.google.com/gmail.about"
+    site_url = "https://wwww.google.com/gmail/about/"
     base_url = "smtp.gmail.com"
     name = "gmail"
 
     @property
-    def gefaults(self) -> dict:
+    def defaults(self) -> dict:
         data = super().defaults
         data["host"] = self.base_url
         data["port"] = 587

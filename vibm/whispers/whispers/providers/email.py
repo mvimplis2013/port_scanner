@@ -40,6 +40,11 @@ class SMTP(Provider):
                 "type": "string",
                 "format": "email",
                 "title": "the FROM address to use in the email",
+            },
+            "from_": {
+                "type": "string",
+                "format": "email",
+                "title": "the FROM address to use in the email",
                 "duplicate": True,
             },
             "attatchments": one_or_more(
@@ -104,7 +109,7 @@ class SMTP(Provider):
 
     def _build_email(self, data: dict) -> MIMEMultipart:
         email = MIMEMultipart("alternative")
-        email["To"] = data["To"]
+        email["To"] = data["to"]
         email["From"] = data["from"]
         email["Subject"] = data["subject"]
         email["Date"] = formatdate(localtime = True)
@@ -116,7 +121,7 @@ class SMTP(Provider):
         return email
 
     def _add_attachment(self, data: dict, email) -> MIMEMultipart:
-        for attatchment in data["attatchments"]:
+        for attatchment in data["attachments"]:
             file = Path(attachment).read_bytes()
             part = MIMEApplication(file)
             part.add_header("Content-Disposition", "attachment", filename=attachment)
@@ -153,14 +158,16 @@ class SMTP(Provider):
                 self._connect_to_server(data)
 
             email = self._build_email(data)
-            if data.get("attacgments"):
+            
+            if data.get("attachments"):
                 email = self._add_attachments(data, email)
 
             self.smtp_server.sendmail(
                 from_addr=data["from"], to_addr=data["to"], msg=email.as_string()
             )
-        except ( SMTPServerDisconnected, SMTPSenderRefused, socket.error,
+        except ( 
+            SMTPServerDisconnected, SMTPSenderRefused, socket.error,
             OSError, IOError, SMTPAuthenticationError, ) as e:
-            errors = [str(e)]
+                errors = [str(e)]
 
         return self.create_response(data, errors=errors)

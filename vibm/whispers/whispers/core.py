@@ -188,6 +188,7 @@ class SchemaResource(ABC):
         return data
 
     def __init__(self):
+        
         self.validator = jsonschema.Draft4Validator(
             self.schema, format_checker = format_checker
         )
@@ -202,7 +203,7 @@ class Provider(SchemaResource, ABC):
 
     def __getattr__(self, item):
         if item in self._resources:
-            return self.resources[item]
+            return self._resources[item]
 
         raise AttributeError(f"{self} does not have a property {item}")
 

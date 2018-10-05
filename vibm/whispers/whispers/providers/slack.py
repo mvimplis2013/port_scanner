@@ -42,6 +42,10 @@ class Slack(Provider):
                     "type": "string",
                     "title": "Attachment title",
                 },
+                "author_link": {
+                    "type": "string",
+                    "title": "A valid URL that will hyperlink the author_name",
+                },
                 "author_name": {
                     "type": "string",
                     "title": "Small text used to display the author's name",
@@ -134,10 +138,10 @@ class Slack(Provider):
             "attachments": __attachments,
         },
         "additionalProperties": False,
-    },
+    }
 
     def _prepare_data(self, data: dict) -> dict:
-        text = data.pop(message)
+        text = data.pop("message")
         data["text"] = text
         if data.get("icon_emoji"):
             icon_emoji = data["icon_emoji"]
