@@ -17,7 +17,7 @@ ISO8601 = re.compile(
     r"(?:Z|([\-+](?:[01][0-9])|(?:2[0123]))(:?(?:[0-5][0-9]))?))?)?))$"
 )
 
-E164 = re.compile(r"^\+[1-9]\d{1,14}$")
+E164 = re.compile(r"^\+?[1-9]\d{1,14}$")
 format_checker = jsonschema.FormatChecker()
 
 @format_checker.checks("iso8601", raises=ValueError)
