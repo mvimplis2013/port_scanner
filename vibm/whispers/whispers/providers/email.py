@@ -36,7 +36,7 @@ class SMTP(Provider):
                     "title": "one or more email addresses to use",
                 }
             ),
-            "from_": {
+            "from": {
                 "type": "string",
                 "format": "email",
                 "title": "the FROM address to use in the email",
@@ -102,7 +102,7 @@ class SMTP(Provider):
 
         return data
 
-    def build_email(self, data: dict) -> MIMEMultipart:
+    def _build_email(self, data: dict) -> MIMEMultipart:
         email = MIMEMultipart("alternative")
         email["To"] = data["To"]
         email["From"] = data["from"]
@@ -124,7 +124,7 @@ class SMTP(Provider):
 
         return email
 
-    def connect_to_server(self, data: dict):
+    def _connect_to_server(self, data: dict):
         self.smtp_server = smtplib.SMTP_SSL if data["ssl"] else smtplib.SMTP
         self.smtp_server = self.smtp_server(data["host"], data["port"])
         self.configuration = self._get_configuration(data)

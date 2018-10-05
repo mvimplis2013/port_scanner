@@ -156,6 +156,8 @@ class SchemaResource(ABC):
         :raises: :class:`~notifiers.exceptions.BadArguments`
         """
         log.debug("validating provided data")
+        print("Validating Provided Data %s!", data)
+
         e = best_match(self.validator.iter_errors(data))
 
         if e:
@@ -187,6 +189,8 @@ class SchemaResource(ABC):
         return data
 
     def __init__(self):
+        print(self.schema)
+        
         self.validator = jsonschema.Draft4Validator(
             self.schema, format_checker = format_checker
         )
