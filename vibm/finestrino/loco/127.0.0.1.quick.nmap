@@ -1,0 +1,142 @@
+# Nmap 7.01 scan initiated Tue Oct  9 23:42:25 2018 as: nmap -sC -sV -oA loco/127.0.0.1.quick 127.0.0.1
+Nmap scan report for localhost (127.0.0.1)
+Host is up (0.00020s latency).
+Not shown: 990 closed ports
+PORT     STATE SERVICE         VERSION
+22/tcp   open  ssh             OpenSSH 7.2p2 Ubuntu 4ubuntu2.4 (Ubuntu Linux; protocol 2.0)
+| ssh-hostkey: 
+|   2048 72:01:8d:06:34:eb:3f:6d:b0:a7:75:dc:86:d2:25:06 (RSA)
+|_  256 b8:9c:26:75:22:d5:b8:17:ff:58:79:30:5a:77:62:3c (ECDSA)
+80/tcp   open  http            lighttpd 1.4.35
+|_http-server-header: lighttpd/1.4.35
+|_http-title: Welcome page
+631/tcp  open  ipp             CUPS 2.1
+| http-methods: 
+|_  Potentially risky methods: PUT
+| http-robots.txt: 1 disallowed entry 
+|_/
+|_http-server-header: CUPS/2.1 IPP/2.1
+|_http-title: Home - CUPS 2.1.3
+3000/tcp open  ppp?
+3306/tcp open  mysql           MySQL 5.7.23-0ubuntu0.16.04.1
+| mysql-info: 
+|   Protocol: 53
+|   Version: .7.23-0ubuntu0.16.04.1
+|   Thread ID: 62
+|   Capabilities flags: 63487
+|   Some Capabilities: Support41Auth, LongPassword, SupportsCompression, DontAllowDatabaseTableColumn, FoundRows, ConnectWithDatabase, SupportsTransactions, IgnoreSigpipes, InteractiveClient, LongColumnFlag, ODBCClient, SupportsLoadDataLocal, Speaks41ProtocolNew, IgnoreSpaceBeforeParenthesis, Speaks41ProtocolOld
+|   Status: Autocommit
+|_  Salt: *(aJ'\x05GK0\x18^O9L7NC4}
+5432/tcp open  postgresql      PostgreSQL DB
+8000/tcp open  http            Ajenti http control panel
+|_http-title: Site doesn't have a title.
+8086/tcp open  d-s-n?
+8088/tcp open  radan-http?
+8888/tcp open  sun-answerbook?
+4 services unrecognized despite returning data. If you know the service/version, please submit the following fingerprints at https://nmap.org/cgi-bin/submit.cgi?new-service :
+==============NEXT SERVICE FINGERPRINT (SUBMIT INDIVIDUALLY)==============
+SF-Port3000-TCP:V=7.01%I=7%D=10/9%Time=5BBD12B7%P=x86_64-pc-linux-gnu%r(Ge
+SF:nericLines,67,"HTTP/1\.1\x20400\x20Bad\x20Request\r\nContent-Type:\x20t
+SF:ext/plain;\x20charset=utf-8\r\nConnection:\x20close\r\n\r\n400\x20Bad\x
+SF:20Request")%r(GetRequest,10A,"HTTP/1\.0\x20302\x20Found\r\nLocation:\x2
+SF:0/login\r\nSet-Cookie:\x20grafana_sess=6c1a8e44d843cb16;\x20Path=/;\x20
+SF:HttpOnly\r\nSet-Cookie:\x20redirect_to=%252F;\x20Path=/\r\nDate:\x20Tue
+SF:,\x2009\x20Oct\x202018\x2020:42:31\x20GMT\r\nContent-Length:\x2029\r\nC
+SF:ontent-Type:\x20text/html;\x20charset=utf-8\r\n\r\n<a\x20href=\"/login\
+SF:">Found</a>\.\n\n")%r(Help,67,"HTTP/1\.1\x20400\x20Bad\x20Request\r\nCo
+SF:ntent-Type:\x20text/plain;\x20charset=utf-8\r\nConnection:\x20close\r\n
+SF:\r\n400\x20Bad\x20Request")%r(HTTPOptions,1000,"HTTP/1\.0\x20404\x20Not
+SF:\x20Found\r\nContent-Type:\x20text/html;\x20charset=UTF-8\r\nSet-Cookie
+SF::\x20grafana_sess=add4a996a1c16350;\x20Path=/;\x20HttpOnly\r\nDate:\x20
+SF:Tue,\x2009\x20Oct\x202018\x2020:42:36\x20GMT\r\n\r\n<!DOCTYPE\x20html>\
+SF:n<html\x20lang=\"en\">\n\x20\x20<head>\n\x20\x20\x20\x20<meta\x20charse
+SF:t=\"utf-8\">\n\x20\x20\x20\x20<meta\x20http-equiv=\"X-UA-Compatible\"\x
+SF:20content=\"IE=edge,chrome=1\">\n\x20\x20\x20\x20<meta\x20name=\"viewpo
+SF:rt\"\x20content=\"width=device-width\">\n\x20\x20\x20\x20<meta\x20name=
+SF:\"theme-color\"\x20content=\"#000\">\n\n\x20\x20\x20\x20<title>Grafana<
+SF:/title>\n\n\t\t<base\x20href=\"/\"\x20/>\n\n\t\t\n\t\t\x20\x20<link\x20
+SF:rel=\"stylesheet\"\x20href=\"public/build/grafana\.dark\.css\?v4\.6\.2\
+SF:">\n\t\t\n\n\x20\x20\x20\x20<link\x20rel=\"icon\"\x20type=\"image/png\"
+SF:\x20href=\"public/img/fav32\.png\">\n\x20\x20\x20\x20<link\x20rel=\"mas
+SF:k-icon\"\x20href=\"public/img/grafana_mask_icon\.svg\"\x20color=\"#F05A
+SF:28\">\n\t</head>\n\n\t<body\x20ng-cloak>\n\t\t<grafana-app\x20class=\"g
+SF:rafana-app\">\n\n\t\t\t<aside\x20class=\"sidemenu-wrapper\">\n\t\t\t\t<
+SF:sidemenu\x20ng-if=\"contextSrv\.sidemenu\"></sidemenu>\n\t\t\t</aside>\
+SF:n\n\t\t\t<div\x20class=\"page-alert-list\">\n\t\t\t\t<div\x20ng-repeat=
+SF:'")%r(RTSPRequest,67,"HTTP/1\.1\x20400\x20Bad\x20Request\r\nContent-Typ
+SF:e:\x20text/plain;\x20charset=utf-8\r\nConnection:\x20close\r\n\r\n400\x
+SF:20Bad\x20Request");
+==============NEXT SERVICE FINGERPRINT (SUBMIT INDIVIDUALLY)==============
+SF-Port5432-TCP:V=7.01%I=7%D=10/9%Time=5BBD12B7%P=x86_64-pc-linux-gnu%r(SM
+SF:BProgNeg,85,"E\0\0\0\x84SFATAL\0C0A000\0Munsupported\x20frontend\x20pro
+SF:tocol\x2065363\.19778:\x20server\x20supports\x201\.0\x20to\x203\.0\0Fpo
+SF:stmaster\.c\0L2014\0RProcessStartupPacket\0\0");
+==============NEXT SERVICE FINGERPRINT (SUBMIT INDIVIDUALLY)==============
+SF-Port8086-TCP:V=7.01%I=7%D=10/9%Time=5BBD12B7%P=x86_64-pc-linux-gnu%r(Ge
+SF:nericLines,67,"HTTP/1\.1\x20400\x20Bad\x20Request\r\nContent-Type:\x20t
+SF:ext/plain;\x20charset=utf-8\r\nConnection:\x20close\r\n\r\n400\x20Bad\x
+SF:20Request")%r(GetRequest,E2,"HTTP/1\.0\x20404\x20Not\x20Found\r\nConten
+SF:t-Type:\x20text/plain;\x20charset=utf-8\r\nX-Content-Type-Options:\x20n
+SF:osniff\r\nX-Influxdb-Build:\x20OSS\r\nX-Influxdb-Version:\x201\.4\.2\r\
+SF:nDate:\x20Tue,\x2009\x20Oct\x202018\x2020:42:31\x20GMT\r\nContent-Lengt
+SF:h:\x2019\r\n\r\n404\x20page\x20not\x20found\n")%r(HTTPOptions,E2,"HTTP/
+SF:1\.0\x20404\x20Not\x20Found\r\nContent-Type:\x20text/plain;\x20charset=
+SF:utf-8\r\nX-Content-Type-Options:\x20nosniff\r\nX-Influxdb-Build:\x20OSS
+SF:\r\nX-Influxdb-Version:\x201\.4\.2\r\nDate:\x20Tue,\x2009\x20Oct\x20201
+SF:8\x2020:42:31\x20GMT\r\nContent-Length:\x2019\r\n\r\n404\x20page\x20not
+SF:\x20found\n")%r(RTSPRequest,67,"HTTP/1\.1\x20400\x20Bad\x20Request\r\nC
+SF:ontent-Type:\x20text/plain;\x20charset=utf-8\r\nConnection:\x20close\r\
+SF:n\r\n400\x20Bad\x20Request")%r(Help,67,"HTTP/1\.1\x20400\x20Bad\x20Requ
+SF:est\r\nContent-Type:\x20text/plain;\x20charset=utf-8\r\nConnection:\x20
+SF:close\r\n\r\n400\x20Bad\x20Request")%r(SSLSessionReq,67,"HTTP/1\.1\x204
+SF:00\x20Bad\x20Request\r\nContent-Type:\x20text/plain;\x20charset=utf-8\r
+SF:\nConnection:\x20close\r\n\r\n400\x20Bad\x20Request")%r(TLSSessionReq,6
+SF:7,"HTTP/1\.1\x20400\x20Bad\x20Request\r\nContent-Type:\x20text/plain;\x
+SF:20charset=utf-8\r\nConnection:\x20close\r\n\r\n400\x20Bad\x20Request")%
+SF:r(Kerberos,67,"HTTP/1\.1\x20400\x20Bad\x20Request\r\nContent-Type:\x20t
+SF:ext/plain;\x20charset=utf-8\r\nConnection:\x20close\r\n\r\n400\x20Bad\x
+SF:20Request")%r(FourOhFourRequest,E2,"HTTP/1\.0\x20404\x20Not\x20Found\r\
+SF:nContent-Type:\x20text/plain;\x20charset=utf-8\r\nX-Content-Type-Option
+SF:s:\x20nosniff\r\nX-Influxdb-Build:\x20OSS\r\nX-Influxdb-Version:\x201\.
+SF:4\.2\r\nDate:\x20Tue,\x2009\x20Oct\x202018\x2020:42:56\x20GMT\r\nConten
+SF:t-Length:\x2019\r\n\r\n404\x20page\x20not\x20found\n")%r(LPDString,67,"
+SF:HTTP/1\.1\x20400\x20Bad\x20Request\r\nContent-Type:\x20text/plain;\x20c
+SF:harset=utf-8\r\nConnection:\x20close\r\n\r\n400\x20Bad\x20Request");
+==============NEXT SERVICE FINGERPRINT (SUBMIT INDIVIDUALLY)==============
+SF-Port8888-TCP:V=7.01%I=7%D=10/9%Time=5BBD12B7%P=x86_64-pc-linux-gnu%r(Ge
+SF:tRequest,34C,"HTTP/1\.0\x20200\x20OK\r\nAccept-Ranges:\x20bytes\r\nCach
+SF:e-Control:\x20public,\x20max-age=3600\r\nContent-Length:\x20546\r\nCont
+SF:ent-Type:\x20text/html;\x20charset=utf-8\r\nEtag:\x20\"54625162324\"\r\
+SF:nLast-Modified:\x20Wed,\x2025\x20Oct\x202017\x2013:23:24\x20GMT\r\nVary
+SF::\x20Accept-Encoding\r\nX-Chronograf-Version:\x201\.3\.10\.0\r\nDate:\x
+SF:20Tue,\x2009\x20Oct\x202018\x2020:42:31\x20GMT\r\n\r\n<!DOCTYPE\x20html
+SF:>\n<html>\n\x20\x20<head>\n\x20\x20\x20\x20<meta\x20http-equiv=\"Conten
+SF:t-type\"\x20content=\"text/html;\x20charset=utf-8\"/>\n\x20\x20\x20\x20
+SF:<title>Chronograf</title>\n\x20\x20<link\x20rel=\"shortcut\x20icon\"\x2
+SF:0href=\"/favicon\.ico\"><link\x20href=\"/chronograf\.css\"\x20rel=\"sty
+SF:lesheet\"></head>\n\x20\x20<body>\n\x20\x20\x20\x20<div\x20id='react-ro
+SF:ot'\x20data-basepath=\"\"></div>\n\x20\x20<script\x20type=\"text/javasc
+SF:ript\"\x20src=\"/manifest\.aecb0551e7217f0693e8\.js\"></script><script\
+SF:x20type=\"text/javascript\"\x20src=\"/vendor\.792ca5929e9930c3a3b5\.js\
+SF:"></script><script\x20type=\"text/javascript\"\x20src=\"/app\.2839238b7
+SF:002c97f5cf9\.js\"></script></body>\n</html>\n")%r(HTTPOptions,34C,"HTTP
+SF:/1\.0\x20200\x20OK\r\nAccept-Ranges:\x20bytes\r\nCache-Control:\x20publ
+SF:ic,\x20max-age=3600\r\nContent-Length:\x20546\r\nContent-Type:\x20text/
+SF:html;\x20charset=utf-8\r\nEtag:\x20\"54625162324\"\r\nLast-Modified:\x2
+SF:0Wed,\x2025\x20Oct\x202017\x2013:23:24\x20GMT\r\nVary:\x20Accept-Encodi
+SF:ng\r\nX-Chronograf-Version:\x201\.3\.10\.0\r\nDate:\x20Tue,\x2009\x20Oc
+SF:t\x202018\x2020:42:31\x20GMT\r\n\r\n<!DOCTYPE\x20html>\n<html>\n\x20\x2
+SF:0<head>\n\x20\x20\x20\x20<meta\x20http-equiv=\"Content-type\"\x20conten
+SF:t=\"text/html;\x20charset=utf-8\"/>\n\x20\x20\x20\x20<title>Chronograf<
+SF:/title>\n\x20\x20<link\x20rel=\"shortcut\x20icon\"\x20href=\"/favicon\.
+SF:ico\"><link\x20href=\"/chronograf\.css\"\x20rel=\"stylesheet\"></head>\
+SF:n\x20\x20<body>\n\x20\x20\x20\x20<div\x20id='react-root'\x20data-basepa
+SF:th=\"\"></div>\n\x20\x20<script\x20type=\"text/javascript\"\x20src=\"/m
+SF:anifest\.aecb0551e7217f0693e8\.js\"></script><script\x20type=\"text/jav
+SF:ascript\"\x20src=\"/vendor\.792ca5929e9930c3a3b5\.js\"></script><script
+SF:\x20type=\"text/javascript\"\x20src=\"/app\.2839238b7002c97f5cf9\.js\">
+SF:</script></body>\n</html>\n");
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+# Nmap done at Tue Oct  9 23:43:44 2018 -- 1 IP address (1 host up) scanned in 79.32 seconds

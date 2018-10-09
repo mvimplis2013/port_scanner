@@ -1,0 +1,4 @@
+# Nmap 7.01 scan initiated Tue Oct  9 23:42:25 2018 as: nmap -sC -sV -oA loco/127.0.0.1.quick 127.0.0.1
+Host: 127.0.0.1 (localhost)	Status: Up
+Host: 127.0.0.1 (localhost)	Ports: 22/open/tcp//ssh//OpenSSH 7.2p2 Ubuntu 4ubuntu2.4 (Ubuntu Linux; protocol 2.0)/, 80/open/tcp//http//lighttpd 1.4.35/, 631/open/tcp//ipp//CUPS 2.1/, 3000/open/tcp//ppp?///, 3306/open/tcp//mysql//MySQL 5.7.23-0ubuntu0.16.04.1/, 5432/open/tcp//postgresql//PostgreSQL DB/, 8000/open/tcp//http//Ajenti http control panel/, 8086/open/tcp//d-s-n?///, 8088/open/tcp//radan-http?///, 8888/open/tcp//sun-answerbook?///	Ignored State: closed (990)
+# Nmap done at Tue Oct  9 23:43:44 2018 -- 1 IP address (1 host up) scanned in 79.32 seconds

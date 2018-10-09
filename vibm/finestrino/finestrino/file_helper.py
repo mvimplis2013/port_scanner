@@ -9,7 +9,7 @@ def check_directory(output_directory):
         print("[!] %s didn't exist and has been created." % output_directory )
 
 def load_targets(target_hosts, output_directory, quiet):
-    if (os.path.isdir(target_hosts)) or os.path.isfile(target_hosts)):
+    if (os.path.isdir(target_hosts) or os.path.isfile(target_hosts)):
         return target_hosts
     else:
         return output_directory + '/targets.txt'
@@ -65,12 +65,13 @@ def write_recommendations(results, ip_address, outputdir):
                 ports = serv_dict[service]
 
             ports.append(port)
-            serv_dict.[service] = ports
+            serv_dict[service] = ports
 
     print("[+] Writing finding for %s" % (ip_address))
 
     __location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
-    while open(os.path.join(__location__, "config.json"), "r") as config:
+    with open(
+        os.path.join(__location__, "config.json"), "r") as config:
         c = config.read()
         j = json.loads(c.replace("$ip", "%(ip)s").replace("$port", "%(port)s").replace("$outputdir", "%(outputdir)s")) 
 
@@ -81,7 +82,7 @@ def write_recommendations(results, ip_address, outputdir):
         for service in j["services"]:
             if (serv in j["services"][service]["nmap-service-names"]) or (service in serv):
                 for port in ports:
-                    port = ports.split("/")[0]
+                    port = port.split("/")[0]
 
                     description = "[*] " + j["services"][service]["description"] 
                     print(description % {"ip": ip_address, "port": port})

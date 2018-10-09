@@ -1,0 +1,26 @@
+[*] Found HTTP/S service on 127.0.0.1:80
+[*] Found HTTP/S service on 127.0.0.1:8000
+    [*] Enumeration
+     [=] nikto -h 127.0.0.1 -p 8000 -output loco/127.0.0.1_8000_nikto.txt
+     [=] curl -i 127.0.0.1:8000
+     [=] w3m -dump 127.0.0.1/robots.txt | tee loco/127.0.0.1_8000_robots.txt
+     [=] VHostScan -t 127.0.0.1 -oN loco/127.0.0.1_8000_vhost.txt
+
+[*] Found HTTP service on 127.0.0.1:80
+[*] Found HTTP service on 127.0.0.1:8000
+    [*] Enumeration
+     [=] dirb http://127.0.0.1:8000/ -o loco/127.0.0.1_8000_dirb.txt
+     [=] dirbuser -H -u http://127.0.0.1:8000/ -l /usr/share/wordlists/dirbuster/directory-list-lowercase-2.3-medium.txt -t 20 -s / -v -r loco/127.0.0.1_8000_dirbuster_medium.txt
+     [=] gobuster -w /usr/share/seclists/Discovery/Web-Content/common.txt -u http://127.0.0.1:8000/ -s '200,204,301,302,307,403,500' -e | tee 'loco/127.0.0.1_8000_gobuster_common.txt'
+     [=] gobuster -w /usr/share/seclists/Discovery/Web-Content/CGIs.txt -u http://127.0.0.1:8000/ -s '200,204,301,302,307,403,500' -e | tee 'loco/127.0.0.1_8000_gobuster_cgis.txt'
+
+[*] Found HTTP service on 127.0.0.1:8088
+    [*] Enumeration
+     [=] dirb http://127.0.0.1:8088/ -o loco/127.0.0.1_8088_dirb.txt
+     [=] dirbuser -H -u http://127.0.0.1:8088/ -l /usr/share/wordlists/dirbuster/directory-list-lowercase-2.3-medium.txt -t 20 -s / -v -r loco/127.0.0.1_8088_dirbuster_medium.txt
+     [=] gobuster -w /usr/share/seclists/Discovery/Web-Content/common.txt -u http://127.0.0.1:8088/ -s '200,204,301,302,307,403,500' -e | tee 'loco/127.0.0.1_8088_gobuster_common.txt'
+     [=] gobuster -w /usr/share/seclists/Discovery/Web-Content/CGIs.txt -u http://127.0.0.1:8088/ -s '200,204,301,302,307,403,500' -e | tee 'loco/127.0.0.1_8088_gobuster_cgis.txt'
+
+
+
+[*] Always remember to manually go over the portscan report and carefully read between the lines ;)
