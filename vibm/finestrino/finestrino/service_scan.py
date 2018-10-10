@@ -6,10 +6,10 @@ import time
 
 from multiprocessing import Process, Queue
 
-from .file_helper import check_directory
-from .file_helper import load_targets
-from .file_helper import create_dir_structure
-from .file_helper import write_recommendations
+from file_helper import check_directory
+from file_helper import load_targets
+from file_helper import create_dir_structure
+from file_helper import write_recommendations
 
 def nmap_scan(ip_address, output_directory, dns_server, quick, no_udp_service_scan):
     ip_address = ip_address.strip()

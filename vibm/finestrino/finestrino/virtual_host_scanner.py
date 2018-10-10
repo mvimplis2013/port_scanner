@@ -44,4 +44,33 @@ class virtual_host_scanner(object):
         virtual_host_list = open(self.wordlist).read().splitlines()
         results = ''
 
-        for virtual_host in virtual_host_list
+        for virtual_host in virtual_host_list:
+            hostname = virtual_host.replace("%s", self.target)
+
+            headers = {
+                'Host': hostname if self.port == 80 else '{}:{}'.format(hostname, port),
+                'Accept': "*/*"
+            }
+
+            dest_url = '{}://{}:{}/'.format("https" if int(self.port) == 443 else "http", self.target, self.port)
+
+            try:
+                res = requests.get(dest_url, headers=headers, verify=False)
+            except requests.exceptions.RequestException:
+                continue
+
+            if res.status_code in self.ignore_http_codes:
+                continue
+
+            if self.ignore_content_length > 0 and self.ignore_content_length == int(res.headers.get('content-length')):
+                continue
+
+            output = 'Found: {} (code: {}, length: {})'.format(hostname, res.status_code, res.headers.get('content-length'))            
+            results += output + "\n"
+
+            print(output)
+            for key, value in res.headers.items():
+                output = '  {}: {}'.format(key, value)
+                results += output + "\n"
+
+                print(output)

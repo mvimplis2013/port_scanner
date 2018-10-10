@@ -1,7 +1,8 @@
 import subprocess
 import sys
 import os
-from .file_helper import check_directory
+
+from file_helper import check_directory
 
 def ping_sweeper(target_hosts, output_directory, quiet):
     check_directory(output_directory)
