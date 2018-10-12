@@ -89,6 +89,7 @@ def main():
     utils = ['nmap', 'snmpwalk', 'nbtscan']
     for util in utils:
         util_checks(util)
+        
 
 if __name__ == "__main__":
     main()
