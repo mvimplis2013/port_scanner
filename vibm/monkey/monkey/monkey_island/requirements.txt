@@ -1,0 +1,17 @@
+python-dateutil
+tornado
+werkzeug
+jinja2
+markupsafe
+itsdangerous
+click
+flask
+Flask-Pymongo
+Flask-Restful
+Flask-JWT
+jsonschema
+netifaces
+ipaddress
+enum34
+PyCrypto
+pymongo==3.5.0
