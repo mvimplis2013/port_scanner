@@ -52,7 +52,7 @@ def local_ip_addresses():
 
     for interface in interfaces():
         addresses = ifaddresses(interface).get(AF_INET, [])
-        ip_list.extend([link['addr'] for link in addresses if link['address'] != '127.0.0.1'])
+        ip_list.extend([link['addr'] for link in addresses if link['addr'] != '127.0.0.1'])
     
     return ip_list
 
