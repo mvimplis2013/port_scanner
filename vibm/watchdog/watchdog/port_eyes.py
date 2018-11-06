@@ -3,35 +3,39 @@ from libnmap.process import NmapProcess
 from libnmap.parser import NmapParser, NmapParserException
 from robot.api import logger
 
+import argparse
+
 class port_eyes(object):
     def __init__(self):
         self.results = None
 
     def nmap_default_scan(self, target, file_export = None):
-        tagrget = str(target)
+        target = str(target)
 
         if file_export == None:
-            nmproc = NmapProcess(target, "-sV")
+            nmproc = NmapProcess(target, "-Pn -sV")
         else:
             nmproc = NmapProcess(target, '-oN {0}'.format(file_export),
                                  safe_mode = False)
 
         rc = nmproc.run()
-        print(type(nmproc.stdout))
-
+        
         if rc != 0:
             raise Exception(
                 'EXCEPTION: nmap scan failed: {0}'.format(nmproc.stderr))
 
         try:
             parsed = NmapParser.parse(nmproc.stdout)
-            print(parsed)
 
             self.results = parsed
+
+            self.nmap_print_results()
         except NmapParserException as ne:
             print('EXCEPTION: Exception in Parsing results: {0}'.format(ne.msg))
 
     def nmap_all_tcp_scan(self, target, file_export = None):
+        print('AAAA')
+
         target = str(target)
 
         if file_export == None:
@@ -49,6 +53,8 @@ class port_eyes(object):
         try:
             parsed = NmapParser.parse(nmproc.stdout)
             print(parsed)
+
+            nmap_print_results(this)
 
             self.results = parsed
         except NmapParserException as ne:
@@ -107,7 +113,7 @@ class port_eyes(object):
         except NmapParserException as ne:
             print('EXCEPTION: Exception in parsing results: {0}'.format(ne.msg))
 
-    def nmap_scriptscan(self, target, portlist=None, version_intense='0',
+    def nmap_script_scan(self, target, portlist=None, version_intense='0',
                         script_name=None, file_export=None):
         target = str(target)
 
@@ -140,11 +146,10 @@ class port_eyes(object):
             self.results = parsed
         except NmapParserException as ne:
             print('EXCEPTION: Exception in parsing results: {0}'.format(ne.msg))
-
+    
     def nmap_print_results(self):
         for scanned_hosts in self.results.hosts:
-            logger.info(scanned_hosts)
-            logger.info("  PORT  STATE    SERVICE")
+            
             for serv in scanned_hosts.services:
                 pserv = "{0:5s}/{1:3s} {2:12s} {3}".format(
                     str(serv.port), str(serv.protocol),
@@ -153,13 +158,26 @@ class port_eyes(object):
                 if len(serv.banner):
                     pserv += " ({0})".format(serv.banner)
 
-                logger.info(pserv)
-
                 if serv.scripts_results:
                     for output in serv.scripts_results:
                         logger.info("\t Output: {0}, Elements: {1}, ID: {2}".
                                     format(output['output'], output['elements'],
                                            output['id']))
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("target")
+    args = parser.parse_args() 
+
+    target = args.target
+
+    porteyes = port_eyes()
+    porteyes.nmap_default_scan(target=target)
+
+if __name__ == "__main__":
+    main()
+
+
 
         
         
