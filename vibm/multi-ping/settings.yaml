@@ -1,0 +1,4 @@
+default:
+  host: server.com from YAML
+  port: 5000
+  username: admin
