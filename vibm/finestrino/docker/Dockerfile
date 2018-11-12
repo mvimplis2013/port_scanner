@@ -19,7 +19,16 @@ WORKDIR /root
 
 # set up the system tools 
 # -----------------------
-# RUN apt-get update && apt-get install -y \
+# RUN apt-get update && apt-get install -y --no-install-recommends \
 #    build-essential \
-#    git
+#    git \
+#    wget \
+#    curl \
+#    python-dev 
+
+# RUN git clone -b ${CLONE_TAG} --depth 1 https://github.com/mvimplis2013/port_scanner.git . && \
+#    pip install --upgrade pip && \
+#    cd python && for req in $(cat requirements.txt) pydot; pip install $req; done && \
+#    cd .. 
+
 
