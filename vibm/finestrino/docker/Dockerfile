@@ -1,4 +1,4 @@
-FROM alpine:3.7
+FROM ubuntu:xenial
 
 LABEL maintainer john-fistikis@red-planet.com
 
@@ -19,7 +19,7 @@ WORKDIR /root
 
 # set up the system tools 
 # -----------------------
-RUN apt-get update && apt-get install -y \
-    build-essential \
-    git
+# RUN apt-get update && apt-get install -y \
+#    build-essential \
+#    git
 
