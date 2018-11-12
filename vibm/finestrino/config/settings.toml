@@ -1,0 +1,18 @@
+# This is a TOML Configuration Document for VLAB-Monitoring Tool
+
+[owner]
+name="John Fistikis"
+
+[servers]
+  # Identation (tabs and/or spaces) is allowed but not required
+  [servers.vlab01]
+  name="vlab1.dyndns.org"
+
+  [servers.vlab02]
+  name="vlab2.dyndns.org"
+
+# Line breaks are OK when inside arrays
+administrators = [
+    "robert",
+    "kostas"
+] 
