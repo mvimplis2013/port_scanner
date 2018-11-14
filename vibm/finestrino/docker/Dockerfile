@@ -1,62 +1,25 @@
-FROM ubuntu:xenial
-#FROM debian:jessie
+#
+# Dockerfile for VLAB-External-Monitor
+#
 
-LABEL maintainer john-fistikis@red-planet.com
+FROM debian:jessie
+MAINTAINER vibm <mvimblis@gmail.com>
 
-# Create a group and user
+ENV VLAB_EXT_VER 0.0.1
+ENV VLAB_EXT_URL https://github.com/mvimplis2013/vlab_ext-${VLAB_EXT_VER}.tar.gz
+ENV VLAB_EXT_SHA xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+ENV VLAB_EXT_FILE vlab_ext.tar.gz
+ENV VLAB_EXT_TEMP vlab-ext
+ENV VLAB_EXT_DEPS build-essential curl
 
-# SECURITY matters ?
-# Why loose precious time !
-
-# RUN addgroup -S appVLABgroup && adduser -S appVLABuser -G appVLABgroup
-
-# Tell docker that all future commands should run as the "appVLABuser" user
-# USER appVLABuser 
-
-# home directory
-# WORKDIR /appVLABuser
-
-# root is the home directory
-WORKDIR /root
-
-# set up System-Tools 
-# -------------------
-# Install from a package manager because it takes so long to build.
-
-RUN apt-get update && apt-get install -y \    
-    build-essential \
-    curl \
-    git \
-    libcurl4-openssl-dev \
-    libmemcached-dev \
-    libncurses5-dev \ 
-    libreadline-dev \
-    libsqlite3-dev \
-    libssl-dev \
-    pkg-config \
-    pypy
-    wget \
-#    python-dev
-    zliblg-dev
-
-# Setup variables
-ENV PROVISIONING /provisioning
-
-ARG CELERY_USER=developer
-
-# Check for mandatory build arguments
-RUN : "$(CELERY_USER:?$CELERY_USER build argument needs to be set and non-empty.)"
-
-ENV HOME /home/$CELERY_HOME
-ENV PATH='$HOME/.pyenv/bin:$PATH'
-
-# Copy and run setup scripts
-WORKDIR $PROVISIONING
-copy dcoker/scripts/install-couchbase.sh .
-
-# RUN git clone -b ${CLONE_TAG} --depth 1 https://github.com/mvimplis2013/port_scanner.git . && \
-#    pip install --upgrade pip && \
-#    cd python && for req in $(cat requirements.txt) pydot; pip install $req; done && \
-#    cd .. 
-
-
+# set -x ... Print commands and their arguments as executed 
+#     -e ... Exit immediately if a command exits with a non-zero status. 
+RUN set -xe \
+    && apt-get update \
+    && apt-get install -y ${VLAB_EXT_DEPS} \
+    && mkdir ${VLAB_EXT_TEMP} \
+    && cd ${VLAB_EXT_TEMP} \
+    && curl -sSL ${VLAB_EXT_URL} -o ${VLAB_EXT_FILE} \
+    && echo "${VLAB_EXT_SHA} *{VLAB_EXT_FILE}" | shasum -c \
+    && tar xzf ${VLAB_EXT_FILE} --strip 1 \
+    && pip install -r requirements.txt
