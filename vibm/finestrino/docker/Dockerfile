@@ -6,7 +6,9 @@ FROM debian:jessie
 MAINTAINER vibm <mvimblis@gmail.com>
 
 ENV VLAB_EXT_VER 0.0.1
+
 ENV VLAB_EXT_URL https://github.com/mvimplis2013/vlab_ext-${VLAB_EXT_VER}.tar.gz
+
 ENV VLAB_EXT_SHA xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 ENV VLAB_EXT_FILE vlab_ext.tar.gz
 ENV VLAB_EXT_TEMP vlab-ext
