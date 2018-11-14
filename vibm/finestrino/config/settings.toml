@@ -1,4 +1,14 @@
 # This is a TOML Configuration Document for VLAB-Monitoring Tool
+[default]
+host = "server.com from TOML"
+port = 5000
+username = "admin"
+PASSWORD = "Secret"
+levels = [
+  "debug", 
+  "info", 
+  "warning"
+]
 
 [owner]
 name="John Fistikis"
