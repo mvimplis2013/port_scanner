@@ -16,16 +16,39 @@ class TomlConfigParserTest(unittest.TestCase):
 
     def test_get_config(self):
         config = get_config('toml')
-        print('Get Config ', config.data)
-        print( config.get('hdfs', 'client') ) 
+        self.assertIsInstance(config, FinestrinoTomlParser) 
 
-#class HelpersTest(FinestrinoTestCase):
-#    def test_add_without_install(self):
-#        enabled = FinestrinoTomlParser.enabled
-#        FinestrinoTomlParser.enabled = False
-#        with self.assertRaises(ImportError):
-#            add_config_path('test/testconfig/finestrino.toml')
-#        FinestrinoTomlParser.enabled = enabled
+    def test_file_reading(self):
+        config = get_config('toml')
+        self.assertIn('hdfs', config.data)
+
+    def test_get(self):
+        config = get_config('toml')
+
+        # test getting
+        self.assertEqual(config.get('hdfs', 'client'), 'hadoopcli')
+        self.assertEqual(config.get('hdfs', 'client', ' test'), 'hadoopcli')
+
+        # test default
+        self.assertEqual(config.get('hdfs', 'test', 'check'), 'check')
+
+        with self.assertRaises(KeyError):
+            config.get('hdfs', 'test')
+
+        # test override , keys is defined in both .toml files
+        self.assertEqual(config.get('hdfs', 'namenode_host'), 'localhost')
+
+        # test non-string values 
+        self.assertEqual(config.get('hdfs', 'namenode_port'), 50030)
+
+    def test_set(self):
+        config = get_config('toml')
+
+        self.assertEqual(config.get('hdfs', 'client'), 'hadoopcli')
+        config.set('hdfs', 'client', 'test')
+        self.assertEqual(config.get('hdfs', 'client'), 'test')
+        config.set('hdfs', 'check', 'test me')
+        self.assertEqual(config.get('hdfs', 'check'), 'test me')
 
 # Toplevel script environment
 # A module can discover whether or not it is running in the main scope by checking its own __name__, 

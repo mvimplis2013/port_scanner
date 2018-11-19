@@ -23,7 +23,6 @@ class FinestrinoTomlParser(BaseParser):
 
     @staticmethod
     def _update_data(data, new_data):
-        print('Inside Update Data')
         if not new_data:
             return data
         if not data:
@@ -38,11 +37,9 @@ class FinestrinoTomlParser(BaseParser):
         return data
 
     def read(self, config_paths):
-        print('Someone called me')
         self.data = dict()
 
         for path in config_paths:
-            print('Path is ...', path)
             if os.path.isfile(path):
                 self.data = self._update_data(self.data, toml.load(path))
 

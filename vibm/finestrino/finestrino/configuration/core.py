@@ -24,7 +24,6 @@ if PARSER not in PARSERS:
     PARSER = DEFAULT_PARSER
 
 def _check_parser(parser_class, parser):
-    print("-->" , parser_class , "==>" , parser)
     if not parser_class.enabled:
         msg = (
             "Parser not installed yet. "
@@ -51,7 +50,6 @@ def add_config_path(path):
     Arguments:
         path {[type]} -- [description]
     """
-    print('Configuration Path is ...', path)
     if not os.path.isfile(path):
         warnings.warn("Config file does not exist: {path}".format(path=path))
         return False
