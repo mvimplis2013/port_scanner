@@ -3,6 +3,9 @@ import os.path
 try:
     import toml
 except ImportError:
+    print("Cannot Import Specified Module ... TOML")
+    print("Try ... pip install toml")
+
     toml = False
 
 from .base_parser import BaseParser
