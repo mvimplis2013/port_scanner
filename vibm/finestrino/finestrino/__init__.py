@@ -7,7 +7,7 @@ from finestrino.main import FinestrinoMain
 
 def start(config, args):
     global mode
-    
+
 def main():
     """Main entry point for VLAB
 
@@ -25,3 +25,11 @@ def main():
 
     # VLAB-Buster can be ran in Standalone, Client or Server mode
     start(config=config, args=args)
+
+
+from finestrino import task
+from finestrino.task import Task
+
+__all__ = [
+    'task', 'Task',
+]

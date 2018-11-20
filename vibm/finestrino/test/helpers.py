@@ -1,5 +1,7 @@
 import unittest
 
+import finestrino.task
+
 class with_config(object):
     """Decorator to override config settings for the length of a function.
 

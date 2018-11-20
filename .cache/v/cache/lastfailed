@@ -1,5 +1,7 @@
 {
   "vibm/finestrino/test/scheduler_test.py": true,
   "vibm/finestrino/test/scheduler_test.py::SchedulerIoTest::test_pretty_id_unicode": true,
-  "vibm/finestrino/test/scheduler_test.py::TestCase": true
+  "vibm/finestrino/test/scheduler_test.py::TestCase": true,
+  "vibm/finestrino/test/worker_test.py": true,
+  "vibm/finestrino/test/worker_test.py::WorkerTest::test_dep": true
 }

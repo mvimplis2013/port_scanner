@@ -23,6 +23,8 @@ import re
 import time
 import uuid
 
+from finestrino.task import Config
+
 RPC_METHODS = {}
 
 def rpc_method(**request_args):
@@ -58,8 +60,8 @@ def rpc_method(**request_args):
 
     return _rpc_method
 
-class scheduler():
-    pass
+class scheduler(Config):
+    retry_delay = 
 
 class Scheduler(object):
     """Async scheduler that can handle multiple workers, etc.
@@ -71,7 +73,7 @@ class Scheduler(object):
     """
 
     def __init__(self, config=None, resources=None, 
-        task_history_impl=None, **kwarsg):
+        task_history_impl=None, **kwargs):
         self._config = config or scheduler(**kwargs)
         self._state = SimpleTaskState(self._config.state_path)
 
