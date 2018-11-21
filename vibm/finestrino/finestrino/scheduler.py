@@ -23,7 +23,11 @@ import re
 import time
 import uuid
 
+from finestrino import configuration
 from finestrino.task import Config
+from finestrino import parameter
+
+from finestrino import task_history as history
 
 RPC_METHODS = {}
 
@@ -61,8 +65,64 @@ def rpc_method(**request_args):
     return _rpc_method
 
 class scheduler(Config):
-    retry_delay = 
+    retry_delay = parameter.FloatParameter(default=900.0)
+    remove_delay = parameter.FloatParameter(default=600.0)
+    worker_disconnect_delay = parameter.FloatParameter(default=60.0)
+    state_path = parameter.Parameter(default='/var/lib/finestrino-server/state.pickle')
 
+    batch_emails = parameter.BoolParameter(default=False, description='Send e-mails in batches rather than immediately')
+
+    # Jobs are disabled if we see more than retry_count failures in disable_window seconds.
+    # These disables last for disable_persist_seconds.
+    disable_window = parameter.IntParameter(default=3600)
+    retry_count = parameter.IntParameter(default=9999999999999)
+    disable_hard_timeout = parameter.IntParameter(default=999999999)
+    disable_persist = parameter.IntParameter(default=86400)
+    max_shown_tasks = parameter.IntParameter(default=100000)
+    max_graph_nodes = parameter.IntParameter(default=100000)
+
+    record_task_history = parameter.BoolParameter(default=False)
+
+    prune_on_get_work = parameter.BoolParameter(default=False)
+
+    pause_enabled = parameter.BoolParameter(default=True)
+
+    send_messages = parameter.BoolParameter(default=True)
+
+    def _get_retry_policy(self):
+        return RetryPolicy(self.retry_count, self.disable_hard_timeout, self.disable_window)
+
+def _get_default(x, default):
+    if x is not None:
+        return x
+    else:
+        return default 
+
+class SimpleTaskState(object):
+    """Keep track of the current state and handle persistance.
+
+    The point of this class is to enable other ways to keep state, eg by using a database.
+    
+    Arguments:
+        object {[type]} -- [description]
+    """
+    def __init__(self, state_path):
+        self._state_path = state_path
+        self._tasks = {}
+        self._status_tasks = collections.defaultdict(dict)
+        self._active_workers = {}
+        self._task_tachers = {}
+
+class Task(object):
+    """
+    
+    Arguments:
+        object {[type]} -- [description]
+    """
+    def __init__(self, task_id, status, deps, resources=None, priority=0, 
+        family='', module=None, params=None, param_visibilities=None,
+        accepts_messages=False, tracking_url=None, status_message=None,
+        progress_percentage=None, retry_policy=)
 class Scheduler(object):
     """Async scheduler that can handle multiple workers, etc.
 
@@ -72,8 +132,7 @@ class Scheduler(object):
         object {[type]} -- [description]
     """
 
-    def __init__(self, config=None, resources=None, 
-        task_history_impl=None, **kwargs):
+    def __init__(self, config=None, resources=None, task_history_impl=None, **kwargs):
         self._config = config or scheduler(**kwargs)
         self._state = SimpleTaskState(self._config.state_path)
 

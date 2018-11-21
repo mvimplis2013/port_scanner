@@ -19,3 +19,6 @@ def add_metaclass(metaclass):
     
     return wrapper
 
+# if PY3:
+def iteritems(d, **kw):
+    return iter(d.items(**kw))

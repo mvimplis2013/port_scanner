@@ -18,6 +18,11 @@ import traceback
 from finestrino import six
 from finestrino.task_register import Register
 
+from finestrino import parameter
+
+Parameter = parameter.Parameter
+logger = logging.getLogger('finestrino-interface')
+
 TASK_ID_INCLUDE_PARAMS = 3
 TASK_ID_TRUNCATE_PARAMS = 16
 TASK_ID_TRUNCATE_HASH = 10
@@ -288,6 +293,13 @@ class Task(object):
             return "{}.{}".format(cls.get_task_namespace(), cls.__name__)
 
     @classmethod
+    def get_task_family(self):
+        if not cls.get_nask_namespace():
+            return cls.__name__
+        else:
+            return "{}.{}".format(cls.get_task_namespace(), cls.__name__)
+             
+    @classmethod
     def get_params(cls):
         """Returns all of the Parameters for this Task.
         """
@@ -303,6 +315,59 @@ class Task(object):
         params.sort(key=lambda t: t[1]._counter)
 
         return params
+
+    @classmethod
+    def get_param_values(cls, params, args, kwargs):
+        result = {}
+
+        params_dict = dict(params)
+
+        task_family = cls.get_task_family
+
+        # In case any exceptions are thrown
+        exc_desc = '%s[args=%s, kwargs=%s]' % (task_family, args, kwargs)
+
+        # Fill in the positional arguments
+        positional_params = [(n,p) for n, p in params if p.positional]
+
+        for i, arg in enumerate(args):
+            if i >= len(positional_params):
+                raise parameter.UnknownParameterException('%s: takes at most %d parameters (%d given)' % (exc_desc, len(positional_params), len(args)))
+        
+            param_name, param_obj = positional_params[i]
+            result[param_name] = param_obj.normalize(arg)
+
+        # Then the keyword arguments
+        for param_name, arg in six.iteritems(kwargs):
+            if param_name in result:
+                raise parameter.DuplicateParameterException('%s: parameter %s was already set a positional parameter' % (exc_desc, param_name))
+            if param_name not in params_dict:
+                raise parameter.UknownParameterException('%s: unknown parameter %s' % (exc_desc, param_name))
+            result[param_name] = params_dict[param_name].normalize(arg)
+
+        # Then use the defaults for anything not filled in
+        for param_name, param_obj in params:
+            if param_name not in result:
+                if not param_obj.has_task_value(task_family, param_name):
+                    raise parameter.MissingParameterException("%s: requires the '%s' parameter to be set" % (exc_desc, param_name))
+                result[param_name] = param_obj.task_value(task_family, param_name)
+
+        def list_to_tuple(x):
+            if isinstance(x, list) or isinstance(x, set):
+                return tuple(x)
+            else:
+                return x
+
+        # Sort it by the correct order and make a list
+        return [(param_name, list_to_tuple(result[param_name])) for param_name, param_obj in params]
+    
+    def __init__(self, *args, **kwargs):
+        params = self.get_params()
+        param_values = self.get_param_values(params, args, kwargs)
+
+        # Set all values
+        for key, value in param_values:
+            setattr(self, key, value)
     
 
 

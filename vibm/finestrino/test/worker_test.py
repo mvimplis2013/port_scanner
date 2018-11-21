@@ -1,11 +1,14 @@
 import unittest
 
+import finestrino.notifications
+
 from finestrino.scheduler import Scheduler
+
+finestrino.notifications.DEBUG = True
 
 class WorkerTest(unittest.TestCase):
     def run(self, result=None):
-        self.sch = Scheduler(retry_delay=100, remove_delay=1000, 
-            worker_disconnect_delay=10)
+        self.sch = Scheduler(retry_delay=100, remove_delay=1000, worker_disconnect_delay=10)
         
         self.time = time.time
 

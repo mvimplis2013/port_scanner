@@ -63,7 +63,7 @@ class FinestrinoTomlParser(BaseParser):
     def getfloat(self, section, option, default=NO_DEFAULT):
         return self.get(section, option, default)
 
-    def getindict(self, section):
+    def getintdict(self, section):
         return self.data.get(section, {})
 
     def set(self, section, option, value=None):
