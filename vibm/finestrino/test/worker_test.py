@@ -1,8 +1,11 @@
+import time
+
 import unittest
 
 import finestrino.notifications
 
 from finestrino.scheduler import Scheduler
+from finestrino.worker import Worker
 
 finestrino.notifications.DEBUG = True
 

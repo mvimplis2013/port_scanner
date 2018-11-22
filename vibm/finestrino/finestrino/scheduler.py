@@ -29,6 +29,13 @@ from finestrino import parameter
 
 from finestrino import task_history as history
 
+_retry_policy_fields = [
+    "retry_count",
+    "disable_hard_timeout",
+    "disable_window",
+]
+RetryPolicy = collections.namedtuple("RetryPolicy", _retry_policy_fields)
+
 RPC_METHODS = {}
 
 def rpc_method(**request_args):
@@ -122,7 +129,9 @@ class Task(object):
     def __init__(self, task_id, status, deps, resources=None, priority=0, 
         family='', module=None, params=None, param_visibilities=None,
         accepts_messages=False, tracking_url=None, status_message=None,
-        progress_percentage=None, retry_policy=)
+        progress_percentage=None, retry_policy='notoptional'):
+        self.id = task_id
+
 class Scheduler(object):
     """Async scheduler that can handle multiple workers, etc.
 
@@ -152,7 +161,7 @@ class Scheduler(object):
 
         self._paused = False
 
-        if self._config._batch_emails:
+        if self._config.batch_emails:
             self._email_batcher = BatchNotifier()
 
     def load(self):

@@ -26,10 +26,15 @@ def main():
     # VLAB-Buster can be ran in Standalone, Client or Server mode
     start(config=config, args=args)
 
-
 from finestrino import task
 from finestrino.task import Task
 
+from finestrino import parameter
+from finestrino.parameter import (
+    Parameter, BoolParameter, IntParameter, FloatParameter, DateParameter,
+)
+
 __all__ = [
-    'task', 'Task',
+    'task', 'Task', 'Parameter', 'BoolParameter', 'IntParameter', 'FloatParameter',
+    'DateParameter',
 ]

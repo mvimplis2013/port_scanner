@@ -198,3 +198,38 @@ class BoolParameter(Parameter):
             return False
         else:
             raise ValueError("cannot interpret '{}'".format(val)) 
+
+class OptionalParameter(Parameter):
+    """ A Parameter that treats empty string as None """
+    def serialize(self, x):
+        if x is None:
+            return ''
+        else:
+            return str
+        
+    def parse(self, x):
+        return x or None
+
+    def _warn_on_wrong_parameter_type(self, param_name, param_value):
+        if self.__class__ != OptionalParameter:
+            return 
+        if not instanceof(param_value, six.string_types) and param_value is not None:
+            warnings.warn('OptionalParameter "{}" with value "{}" is not of type string '
+            'or None.'.format(param_name, param_value)) 
+
+_UNIX_EPOCH = datetime.datetime.utcfromtimestamp(0)
+
+class _DateParameterBase(Parameter):
+    """ Base class Parameter for date (not datetime) """
+    def __init__(self, interval=1, start=None, **kwargs):
+        super(_DateParameterBase, self).__init__(**kwargs)
+        self.interval = interval
+        self.start = start if start is not None else _UNIX_EPOCH.date()
+
+class DateParameter(_DateParameterBase):
+    """ Parameter whose value is a Date string formatted `YYYY-MM-DD`.
+
+    DateParameters are 90% of the time used to be interpolated into file 
+    system paths or the like
+    """
+    date_format = '%Y-%m-%d'
