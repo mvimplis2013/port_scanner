@@ -290,8 +290,10 @@ class _DatetimeParameterBase(Parameter):
             dt {[type]} -- [description]
         """
         if dt is None:
+            return str(dt)
 
-
+        return dt.strftime(self.date_format)
+    
 
 class DateHourParameter(_DatetimeParameterBase):
     """Parameter whose value is a :py:class:`~datetime.datetime` specified to the hour.
