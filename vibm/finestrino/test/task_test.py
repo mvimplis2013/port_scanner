@@ -16,8 +16,10 @@ class DummyTask(finestrino.Task):
     int_param = finestrino.IntParameter()
     float_param = finestrino.FloatParameter()
     date_param = finestrino.DateParameter()
+    datehour_param = finestrino.DateHourParameter()
 
-class TaskTest(TestCase):
+class TaskTest(
+    TestCase):
     def test_tasks_doctest(self):
         doctest.testmod(finestrino.task)
 

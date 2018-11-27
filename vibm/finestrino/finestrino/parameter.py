@@ -227,9 +227,79 @@ class _DateParameterBase(Parameter):
         self.start = start if start is not None else _UNIX_EPOCH.date()
 
 class DateParameter(_DateParameterBase):
-    """ Parameter whose value is a Date string formatted `YYYY-MM-DD`.
-
+    """ Paramter whose value is a :py:class:`datetime.date`.
+    A DateParameter is a Date string formatted ``YYYY-MM-DD``. For example,
+    `2013-07-10`` specifies July 10, 2013.
+    
     DateParameters are 90% of the time used to be interpolated into file 
-    system paths or the like
+    system paths or the like.
+
+    .. code:: python
+         class MyTask(finestrino.Task):
+             date = finestrino.DateParameter()
+
+             def run(self):
+                 templated_path = "/my/path/to/my/dataset{date:%Y/%m/%d}/"
+                 instantiated_path = templated_path.format(date=self.date)
     """
     date_format = '%Y-%m-%d'
+
+    def next_in_enumeration(self, value):
+        return value + datetime.timedelta(days=self.interval)
+
+    def normalize(self, value):
+        if value is None:
+            return None
+
+        if isinstance(value, datetime.datetime):
+            value = value.date()
+
+        delta = (value - self.start).days % self.interval
+
+        return value - datetime.timedelta(days=delta)
+
+class _DatetimeParameterBase(Parameter):
+    """Base class Parameter for datetime
+    
+    Arguments:
+        Parameter {[type]} -- [description]
+    """
+    def __init__(self, interval=1, start=None, **kwargs):
+        super(_DatetimeParameterBase, self).__init__(**kwargs)
+        self.interval = interval
+        self.start = start if start is not None else _UNIX_EPOCH
+
+    @abc.abstractproperty
+    def _timedelta(self):
+        """How to move one interval of this type forward (i.e. not counting self.interval)
+        """
+        pass
+
+    def parse(self, s):
+        """Parses a string to a :py:class:`~datetime.datetime`
+        
+        Arguments:
+            s {[type]} -- [description]
+        """
+        return datetime.datetime.strptime(s, self.date_format)
+
+    def serialize(self,dt):
+        """Converts the date to a string using the :py:attr:`~_DatetimeParameterBase.date_format`.
+        
+        Arguments:
+            dt {[type]} -- [description]
+        """
+        if dt is None:
+
+
+
+class DateHourParameter(_DatetimeParameterBase):
+    """Parameter whose value is a :py:class:`~datetime.datetime` specified to the hour.
+
+    A DateHourParameter is a ``2013-07-10T19`` specifies a ``July 10, 2013 at 19:00``.
+    
+    Arguments:
+        _DatetimeParameterBase {[type]} -- [description]
+    """
+    date_format = '%Y-%m-%dT%H' # iso 8601 is to use 'T'
+    _timedelta = datetime.timedelta(hours=1)
