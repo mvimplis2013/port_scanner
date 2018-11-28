@@ -17,6 +17,7 @@ class DummyTask(finestrino.Task):
     float_param = finestrino.FloatParameter()
     date_param = finestrino.DateParameter()
     datehour_param = finestrino.DateHourParameter()
+    timedelta_param = finestrino.TimeDeltaParameter()
     insignificant_param = finestrino.Parameter(significant=False)
 
 DUMMY_TASK_OK_PARAMS = dict(
@@ -25,8 +26,8 @@ DUMMY_TASK_OK_PARAMS = dict(
     int_param = 666,
     float_param = 123.456,
     date_param = datetime(2014, 9, 13).date(),
-    datehour_parameter = datetime(2014, 9, 13, 9),
-    timedelta_parameter = timedelta(44),   # Doesn't support seconds
+    datehour_param = datetime(2014, 9, 13, 9),
+    timedelta_param = timedelta(44),   # Doesn't support seconds
     insignificant_param = 'test'
 )
 
@@ -34,7 +35,7 @@ class DefaultInsignificantParamTask(finestrino.Task):
     insignificant_param = finestrino.Parameter(significant=False, default='value')
     necessary_param = finestrino.Parameter(significant=False)
 
-class TaskTest(unittest.TestCase):
+class TaskTest(TestCase):
     def test_tasks_doctest(self):
         doctest.testmod(finestrino.task)
 
@@ -44,10 +45,11 @@ class TaskTest(unittest.TestCase):
         self.assertEqual(original, other)
 
     def test_task_from_str_insignificant(self):
-        params = {'necessary_parma': 'needed'}
+        params = {'necessary_param': 'needed'}
         original = DefaultInsignificantParamTask(**params)
-        other = DefaultInsignificantParamTask.test_task_from_str_params(params)
-        assertEqual(original, other)
+        other = DefaultInsignificantParamTask.from_str_params(params)
+
+        self.assertEqual(original, other)
 
     def test_task_missing_necessary_param(self):
         with self.assertRaises(finestrino.parameter.MissingParameterException):

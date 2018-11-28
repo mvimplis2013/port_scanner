@@ -31,10 +31,11 @@ from finestrino.task import Task
 
 from finestrino import parameter
 from finestrino.parameter import (
-    Parameter, BoolParameter, IntParameter, FloatParameter, DateParameter,
+    Parameter, BoolParameter, IntParameter, FloatParameter, DateParameter, DateHourParameter,
+    TimeDeltaParameter,
 )
 
 __all__ = [
     'task', 'Task', 'Parameter', 'BoolParameter', 'IntParameter', 'FloatParameter',
-    'DateParameter',
+    'DateParameter', 'DateTimeParameter', 'TimeDeltaParameter',
 ]

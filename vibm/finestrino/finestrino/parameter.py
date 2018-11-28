@@ -24,6 +24,30 @@ from finestrino.cmdline_parser import CmdlineParser
 
 _no_value = object()
 
+class ParameterException(Exception):
+    """Base Exception
+    
+    Arguments:
+        Exception {[type]} -- [description]
+    """
+    pass
+
+class UnknownParameterException(ParameterException):
+    """Exception signifying that an unknown Parameter was supplied.
+    
+    Arguments:
+        ParameterException {[type]} -- [description]
+    """
+    pass
+
+class MissingParameterException(ParameterException):
+    """Exception signifying that there was a missing parameter.
+    
+    Arguments:
+        ParameterException {[type]} -- [description]
+    """
+    pass
+
 class ParameterVisibility(IntEnum):
     PUBLIC = 0
     HIDDEN = 1
@@ -90,6 +114,24 @@ class Parameter(object):
         self._counter = Parameter._counter
         Parameter._counter += 1
 
+    def parse(self, x):
+        """Parse an individual value from the input.
+
+        The default implementation is the identity function, but subclasses should override this method for specialized parsing.
+        
+        Arguments:
+            x {[type]} -- [description]
+        """
+        return x # default impl
+
+    def serialize(self, x):
+        """Converts the cvalue ``x`` to a string
+        
+        Arguments:
+            x {[type]} -- [description]
+        """
+        return str(x)
+
     def normalize(self, x):
         """Given a parsed parameter value, normalizes it.
 
@@ -125,7 +167,7 @@ class Parameter(object):
                     warnings.warn(warn, DeprecationWarning)
                 return value
             
-        return no_value
+        return _no_value
 
     def _value_iterator(self, task_name, param_name):
         cp_parser = CmdlineParser.get_instance()
@@ -154,7 +196,12 @@ class Parameter(object):
 
     def has_task_value(self, task_name, param_name):
         return self._get_value(task_name, param_name) != _no_value
-        
+
+    def _warn_on_wrong_param_type(self, param_name, param_value):
+        if self.__class__ != Parameter:
+            return
+        if not isinstance(param_value, six.string_types):
+            warning.warn('Parameter "{}" with value "{}" is not of type string.'.format(param_name, param_value))
 
 class IntParameter(Parameter):
     def parse(self, s):
@@ -225,6 +272,31 @@ class _DateParameterBase(Parameter):
         super(_DateParameterBase, self).__init__(**kwargs)
         self.interval = interval
         self.start = start if start is not None else _UNIX_EPOCH.date()
+
+    @abc.abstractproperty
+    def date_format(self):
+        """Override me with a :py:meth:`~datetime.date.strftime` string
+        """
+        pass
+
+    def parse(self, s):
+        """Parses a date string formatted like ```YYY-MM-DD``.
+        
+        Arguments:
+            s {[type]} -- [description]
+        """
+        return datetime.datetime.strptime(s, self.date_format).date()
+
+    def serialize(self, dt):
+        """Converts the date to a string using the :py:attr:`~_DateParameterBase.date_format`
+        
+        Arguments:
+            dt {[type]} -- [description]
+        """
+        if dt is None:
+            return str(dt)
+
+        return dt.strftime(self.date_format)
 
 class DateParameter(_DateParameterBase):
     """ Paramter whose value is a :py:class:`datetime.date`.
@@ -305,3 +377,27 @@ class DateHourParameter(_DatetimeParameterBase):
     """
     date_format = '%Y-%m-%dT%H' # iso 8601 is to use 'T'
     _timedelta = datetime.timedelta(hours=1)
+
+class TimeDeltaParameter(Parameter):
+    """Class that maps to timedelta using strings in any of the following forms:
+
+    ``n {w[eek[s]]|d[ay[s]]|h[our[s]]|m[inute[s]]|s[econd[s]]}`` (e.g. ``1 week 2 days`` or ``1 h``)
+    
+    Arguments:
+        Parameter {[type]} -- [description]
+    """
+    def _apply_regex(self, regex, input):
+        import re
+        re_match = re.match(regex, input)
+        if re_match and any(re_match.groups()):
+            kwargs = {}
+            has_val = False
+            for k, v in six.iteritems(re_match.groupdict(default="0")):
+                val = int(v)
+                if val > -1:
+                    has_val = True
+                    kwargs[k] = val
+                if has_val:
+                    return datetime.timedelta(**kwargs)
+
+

@@ -2,6 +2,8 @@
 It is a central concept and represents the state of the workflow.
 See :doc:`/tasks' for an overview.
 """
+import json 
+import hashlib
 
 import re
 
@@ -19,6 +21,7 @@ from finestrino import six
 from finestrino.task_register import Register
 
 from finestrino import parameter
+from finestrino.parameter import ParameterVisibility
 
 Parameter = parameter.Parameter
 logger = logging.getLogger('finestrino-interface')
@@ -275,7 +278,7 @@ class Task(object):
         """
         if cls.task_namespace != cls.__not_user_specified:
             return cls.task_namespace
-        elif cls.namespace_at_class_time == _SAME_AS_PYTHON_MODULE:
+        elif cls._namespace_at_class_time == _SAME_AS_PYTHON_MODULE:
             return cls.__module__
         
         return cls._namespace_at_class_time
@@ -293,8 +296,16 @@ class Task(object):
             return "{}.{}".format(cls.get_task_namespace(), cls.__name__)
 
     @classmethod
-    def get_task_family(self):
-        if not cls.get_nask_namespace():
+    def get_task_family(cls):
+        """The task family for given class.
+        
+        If task_namespace is not set, then it is simply the name of the class. 
+        
+        Returns:
+            [type] -- [description]
+        """
+
+        if not cls.get_task_namespace():
             return cls.__name__
         else:
             return "{}.{}".format(cls.get_task_namespace(), cls.__name__)
@@ -342,7 +353,8 @@ class Task(object):
             if param_name in result:
                 raise parameter.DuplicateParameterException('%s: parameter %s was already set a positional parameter' % (exc_desc, param_name))
             if param_name not in params_dict:
-                raise parameter.UknownParameterException('%s: unknown parameter %s' % (exc_desc, param_name))
+                raise parameter.UnknownParameterException(
+                    '%s: unknown parameter %s' % (exc_desc, param_name))
             result[param_name] = params_dict[param_name].normalize(arg)
 
         # Then use the defaults for anything not filled in
@@ -368,8 +380,57 @@ class Task(object):
         # Set all values
         for key, value in param_values:
             setattr(self, key, value)
-    
 
+        # Register kwargs as an attribute on the class 
+        self.param_kwargs = dict(param_values)
+
+        self._warn_on_wrong_param_types()
+        self.task_id = task_id_str(self.get_task_family(), self.to_str_params(only_significant=True, only_public=True))
+        self.__hash = hash(self.task_id)
+
+        self.set_tracking_url = None
+        self.set_status_message = None
+        self.set_progress_percentage = None
+
+    @classmethod
+    def from_str_params(cls, params_str):
+        """Creates an instance from a str->str hash.
+        
+        Arguments:
+            params_str {[type]} -- dict of param name
+        """
+        kwargs = {}
+        for param_name, param in cls.get_params():
+            if param_name in params_str:
+                param_str = params_str[param_name]
+                if isinstance(param_str, list):
+                    kwargs[param_name] = param._parse_list(param_str)
+                else:
+                    kwargs[param_name] = param.parse(param_str)
+
+        return cls(**kwargs)
+
+    def to_str_params(self, only_significant=False, only_public=False):
+        """Convert all parameters to a str->str hash
+        
+        Keyword Arguments:
+            only_significant {bool} -- [description] (default: {False})
+            only_public {bool} -- [description] (default: {False})
+        """
+        params_str = {}
+        params = dict(self.get_params())
+        for param_name, param_value in six.iteritems(self.param_kwargs):
+            if (((not only_significant) or params[param_name].significant) 
+                and ((not only_public) or params[param_name].visibility == ParameterVisibility.PUBLIC)
+                and params[param_name].visibility != ParameterVisibility.PRIVATE):
+                params_str[param_name] = params[param_name].serialize(param_value)
+
+        return params_str
+
+    def _warn_on_wrong_param_types(self):
+        params = dict(self.get_params())
+        for param_name, param_value in six.iteritems(self.param_kwargs):
+            params[param_name]._warn_on_wrong_param_type(param_name, param_value)
 
 class Config(Task):
     """Class for configuration

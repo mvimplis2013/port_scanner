@@ -20,5 +20,6 @@ def add_metaclass(metaclass):
     return wrapper
 
 # if PY3:
+string_types = str
 def iteritems(d, **kw):
     return iter(d.items(**kw))
