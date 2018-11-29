@@ -38,6 +38,9 @@ from finestrino.scheduler import Scheduler
 from finestrino.task import Task, Config
 from finestrino.parameter import FloatParameter, BoolParameter, IntParameter, OptionalParameter
 
+class TaskException(Exception):
+    pass
+    
 class worker(Config):
     # NOTE: `section.config-variable` in the config_path argument is deprecated in favor of `worker.config-variable`
     ping_interval = FloatParameter(default=1.0, 
@@ -108,8 +111,7 @@ class Worker(object):
     Arguments:
         object {[type]} -- [description]
     """
-    def __init__(self, scheduler=None, worker_id=None, worker_processes=1,
-        assistant=False, **kwargs):
+    def __init__(self, scheduler=None, worker_id=None, worker_processes=1, assistant=False, **kwargs):
         if scheduler is None:
             scheduler = Scheduler()
 

@@ -283,23 +283,12 @@ class Task(object):
         
         return cls._namespace_at_class_time
 
-    @classmethod 
-    def get_task_famiily(cls):
-        """The task family for a given class.
-        If ``task_namespace`` is not set, then it is simply the 
-        name of the class.
-        Otherwise, <task_namespace> is prefixed to the class name.
-        """
-        if not cls.get_task_namespace():
-            return cls.__name__
-        else:
-            return "{}.{}".format(cls.get_task_namespace(), cls.__name__)
-
     @classmethod
     def get_task_family(cls):
-        """The task family for given class.
+        """The task family for the given class.
         
-        If task_namespace is not set, then it is simply the name of the class. 
+        If ``task_namespace`` is not set, then it is simply the name of the class. 
+        Otherwise ``<task_namespace>.`` is prefixed to the class name.
         
         Returns:
             [type] -- [description]
@@ -440,6 +429,14 @@ class Config(Task):
     """
     pass
 
+class ExternalTask(Task):
+    """ Subclass for references to external dependencies.
+
+    An ExternalTask's does not have a `run` implementation, which signifies to
+    the framework that this Task's :py:meth:`output` is generated outside of
+    finestrino.
+    """
+    run = None
 
 
 

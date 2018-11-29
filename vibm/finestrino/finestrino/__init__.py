@@ -27,7 +27,7 @@ def main():
     start(config=config, args=args)
 
 from finestrino import task
-from finestrino.task import Task
+from finestrino.task import Task, Config, ExternalTask
 
 from finestrino import parameter
 from finestrino.parameter import (
@@ -35,7 +35,10 @@ from finestrino.parameter import (
     TimeDeltaParameter,
 )
 
+from finestrino.interface import run, build
+
 __all__ = [
-    'task', 'Task', 'Parameter', 'BoolParameter', 'IntParameter', 'FloatParameter',
+    'task', 'Task', 'Config', 'ExternalTask', 'Parameter', 'BoolParameter', 'IntParameter', 'FloatParameter',
     'DateParameter', 'DateTimeParameter', 'TimeDeltaParameter',
+    'build', 'run',
 ]

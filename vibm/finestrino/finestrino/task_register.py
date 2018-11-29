@@ -82,6 +82,97 @@ class Register(abc.ABCMeta):
             
         return '' # Default if nothing specified
 
+    @classmethod
+    def _get_reg(cls):
+        """Return all of the registered classes.
 
+        :return: an ``dict`` of task_family -> class
+        """
+        # We have to do this on-demand in case task names have changed later.
+        reg = dict()
 
+        for task_cls in cls._reg:
+            if not task_cls._visible_in_registry:
+                continue
 
+            name = task_cls.get_task_family()
+
+            if name in reg and \
+                (reg[name] == Register.AMBIGUOUS_CLASS or # Check so issubclass doesn't crash
+                not issubclass(task_cls, reg[name])):
+                # Registering two different classes - that means we can't instantiate them by name.
+                # The only exception is if one class is a subclass of the other. In that case, 
+                # we instantiate the most-derived class (fixes some issues with decorator wrappers).
+                reg[name] = Register.AMBIGUOUS_CLASS
+            else:
+                reg[name] = task_cls            
+
+        return reg
+
+    @classmethod
+    def get_task_cls(cls, name):
+        """Returns an unambiguous class or raises an exception.
+        
+        Arguments:
+            name {[type]} -- [description]
+        """
+        task_cls = cls._get_reg().get(name)
+
+        if not task_cls:
+            raise TaskClassNotFoundException(cls._missing_task_msg(name))
+
+        if task_cls == cls.AMBIGUOUS_CLASS:
+            raise TaskClassAmbiguousException('Task %r is ambiguous' % name)
+
+        return task_cls
+
+    @classmethod
+    def task_names(cls):
+        """List of task names as strings
+        """
+        return sorted(cls._get_reg().keys())
+
+    @staticmethod
+    def _editdistance(a, b):
+        """ Simple unweighted levelshtein distance """
+        r0 = range(0, len(b)+1)
+        r1 = [0] * (len(b)+1)
+
+        for i in range(0, len(a)):
+            r1[0] = i + 1
+
+            for j in range(0, len(b)):
+                c = 0 if a[i] is b[j] else 1
+                
+                r1[j+1] = min(r1[j]+1, r0[j+1]+1, r0[j]+c)
+
+            r0 = r1[:]
+
+        return r1[len(b)]
+
+    @classmethod
+    def _missing_task_msg(cls, task_name):
+        weighted_tasks = [(Register._editdistance(task_name, task_name_2), task_name_2) for task_name_2 in cls.task_names()]
+        ordered_tasks = sorted(weighted_tasks, key=lambda pair: pair[0])
+        candidates = [task for (dist, task) in ordered_tasks if dist <= 5 and dist < len(task)]
+
+        if candidates:
+            return "No task %s. Did you mean:\n%s" % (task_name, '\n'.join(candidates))
+        else:
+            return "No task %s. Candidates are: %s" % (task_name, cls.tasks_str())
+
+def load_task(module, task_name, params_str):
+    """Imports task dynamically given a module and a task name.
+    
+    Arguments:
+        module {[type]} -- [description]
+        task_name {[type]} -- [description]
+        params_str {[type]} -- [description]
+    """
+
+    if module is not None:
+        __import__(module)
+
+    task_cls = Register.get_task_cls(task_name)
+
+    return task_cls.from_str_params(params_str)

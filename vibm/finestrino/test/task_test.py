@@ -10,6 +10,8 @@ from datetime import datetime, timedelta
 import finestrino
 import finestrino.task
 
+from finestrino.task_register import load_task
+
 class DummyTask(finestrino.Task):
     param = finestrino.Parameter()
     bool_param = finestrino.BoolParameter()
@@ -54,6 +56,9 @@ class TaskTest(TestCase):
     def test_task_missing_necessary_param(self):
         with self.assertRaises(finestrino.parameter.MissingParameterException):
             DefaultInsignificantParamTask.from_str_params({})
+
+    def test_external_tasks_loadable(self):
+        task = load_task("finestrino", "ExternalTask", {})
 
 if __name__ == '__main__':
     unittest.main(TaskTest())
