@@ -44,4 +44,108 @@ class NotADirectory(FileSystemException):
 
 @six.add_metaclass(abc.ABCMeta)
 class FileSystem(object):
-    
+    """ 
+    FileSystem abstraction used in conjunction with :python:class:`FileSystemTarget`.
+
+    Typically a FileSystem is associated with instances of a :py:class:FileSystemTarget`. 
+    The instances of the :py:class:`FileSystemTarget` will delegate methods such as 
+    :py:meth:`FileSystemTarget.exists` and :py:meth:`FileSystemTarget.remove` to the FileSystem.
+
+    Methods of FileSystem raise :py:class:`FileSystemException` if there is a problem completing the operation.
+    """
+
+    @abc.abstractmethod
+    def exists(self, path):
+        """ 
+        Return TRUE if file or directory at PATH exist, False otherwise.
+
+        :param str path: a path within the FileSystem to check for existence.
+        """
+        pass
+
+    @abc.abstractmethod
+    def remove(self, path, recursive=True, skip_trash=True):
+        """ 
+        Remove file or directory at location PATH.
+
+        :param str path: a path within the FileSystem to remove.
+        :param bool recursive: if the path is a directory, recursively, remove the directory and
+            all of its descendants.
+        """
+        pass
+
+    def mkdir(self, path, parents=True, raise_if_exists=False):
+        """ 
+        Create directory at location ``path`` and implicitly create parent directories 
+        if they do not already exist.
+
+        :param str path: a path within the FileSystem to create as a directory.
+        :param bool parents: Create parent directories when necessary. When is parents=False and the
+            parent folder does not exist then raise an finestrino.target.MissingParentDirectory
+        :param bool raise_if_exists: raise an finestrino.target.FileAlreadyExists if 
+            the folder already exists.
+        """ 
+        raise NotImplementedError("mkdir() not implemented on {0}".format(self.__class__.__name__))
+
+    def isdir(self, path):
+        """ 
+        Return ``True`` if the location at ``path`` is a directory. If not then return ``False``.
+
+        :param str path: a path within the FileSystem to check as a directory.
+
+        "Note: This method is optional, not all FileSystem subclass implements it.
+        """
+        raise NotImplementedError("isdir() not implemented on {0}".format(self.__class__.__name__))
+
+    def listdir(self, path):
+        """ 
+        Return a list of files ropted in path.
+
+        This returns an iterable of the files rooted at ``path``. This is intended to be a recursive listing.
+
+        :param str path: a path within the FileSystem to list.
+
+        "Note": This method is optional, not all FileSystem subclasses implement it.
+        """
+        raise NotImplementedError("listdir() not implemented on {0}".format(self.__class__.__name__))
+
+    def move(self, path, dest):
+        """ 
+        Move a file from path to dest.
+        """
+        raise NotImplementedError("move() not implemeneted on {0}".format(self.__class__.__name__))
+
+    def rename_dont_save(self, path, dest):
+        """ 
+        Potentially rename ``path`` to ``dest``, but do not move it into the ``dest`` folder (if it is a folder). 
+        This relates to :ref:`AtomicWrites`.
+
+        This method will just do ``move()`` if the file doesn't ``exists()`` already.
+        """
+        warning.warn("File System {} client doesn't support atomic mv.".format(self.__class__.__name__))
+
+        if self.exists(dest):
+            raise FileAlreadyExists()
+
+        self.move(path, dest)
+
+    def rename(self, *args, **kwargs):
+        """
+        Alias for ``move()``
+        """
+        self.move(*args, **kwargs)
+
+    def copy(self, path, dest):
+        """
+        Copy a file or a directory with contents.
+
+        Currently, LocalFileSystem and MockFileSystem support only single file copying but 
+        S3Client copies either a file or a directory as required.
+        """
+        raise NotImplementedError("copy() not implemented on {0}".format(self.__classs__.__name__))
+
+class FileSystemTarget():
+      
+
+
+
