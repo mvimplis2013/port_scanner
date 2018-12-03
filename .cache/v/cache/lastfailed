@@ -1,4 +1,7 @@
 {
+  "vibm/finestrino/test/interface_test.py": true,
+  "vibm/finestrino/test/interface_test.py::InterfaceTest": true,
+  "vibm/finestrino/test/interface_test.py::InterfaceTest::test_interface_run_positive_path": true,
   "vibm/finestrino/test/scheduler_test.py": true,
   "vibm/finestrino/test/scheduler_test.py::SchedulerIoTest::test_pretty_id_unicode": true,
   "vibm/finestrino/test/scheduler_test.py::TestCase": true,
