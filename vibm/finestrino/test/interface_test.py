@@ -15,8 +15,9 @@ class InterfaceTest(unittest.TestCase):
         self.worker = Worker()
 
         self.worker_scheduler_factory = _WorkerSchedulerFactory()
-        self.worker_scheduler_factory.create_worker = Mock(return_value = self.worker)
-        self.worker_scheduler_factory.create_local_worker = Mock()
+        self.worker_scheduler_factory.create_worker = Mock(
+            return_value=self.worker)
+        self.worker_scheduler_factory.create_local_scheduler = Mock()
 
         super(InterfaceTest, self).setUp()
 
@@ -33,5 +34,7 @@ class InterfaceTest(unittest.TestCase):
         self.assertTrue(self._run_interface())
 
     def _run_interface(self):
-        return finestrino.interface.build([self.task_a, self.task_b], worker_scheduler_factory=self.worker_scheduler_factory)
+        return finestrino.interface.build(
+            [self.task_a, self.task_b], 
+            worker_scheduler_factory=self.worker_scheduler_factory)
 

@@ -38,6 +38,8 @@ from finestrino.scheduler import Scheduler
 from finestrino.task import Task, Config
 from finestrino.parameter import FloatParameter, BoolParameter, IntParameter, OptionalParameter
 
+_WAIT_INTERVAL_EPS = 0.00001
+
 class TaskException(Exception):
     pass
     
@@ -101,7 +103,8 @@ class worker(Config):
         'logging of each individual Task run.')
 
 class Worker(object):
-    """Worker object communicates with a scheduler.
+    """
+    Worker object communicates with a scheduler.
 
     Simple class that talks to a scheduler and:
 
@@ -121,7 +124,43 @@ class Worker(object):
         if not worker_id:
             worker_id = 'Worker(%s)' % ', '.join(['%s=%s' % (k, v) for k, v in self._worker_info])
 
-        self._config = worker(**kwargs)        
+        self._config = worker(**kwargs)
+
+        assert self._config.wait_interval >= _WAIT_INTERVAL_EPS, "[worker] wait_interval must be positive"        
+        assert self._config.wait_jitter >= 0.0 , "[worker] wait_jitter must be equal or greater than zero"
+
+        self._id = worker_id
+        self._scheduler = scheduler
+        self._assistant = assistant
+        self._stop_requesting_work = False
+
+        self.host = socket.gethostname()
+        self._scheduled_tasks = {}
+        self._suspended_tasks = {}
+        self._batch_running_tasks = {}
+        self._batch_families_sent = set()
+
+        self._first_task = None
+
+        self.add_succeeded = True
+        self.run_succeeded = True
+
+        self.unfulfilled_counts = collections.defaultdict(int)
+
+        if not self._config.no_install_shutdown_handler:
+            try: 
+                signal.signal(signal.SIGUSR1, self.handle_interrupt)
+                signal.siginterrupt(signal.SIGUSR1, False)
+            except AttributeError:
+                pass
+
+        # Keep info about what tasks are running (coule be in other processes)
+        self._task_result_queue = multiprocessing.Queue()
+        self._running_tasks = {}
+
+        # Stuff for execution summary
+        self._add_task_history = []
+        self._get_work_response_history = []
 
     def _generate_worker_info(self):
         # Generate as much info as possible about the worker.

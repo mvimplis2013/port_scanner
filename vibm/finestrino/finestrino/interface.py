@@ -1,9 +1,12 @@
 import os
 import tempfile
+import logging 
 
 from finestrino import task 
 from finestrino import parameter
 from finestrino.setup_logging import InterfaceLogging 
+from finestrino import rpc 
+from finestrino import lock
 
 class core(task.Config):
     """ 
@@ -70,7 +73,7 @@ class core(task.Config):
         description = "Configuration file for logging",
     )
 
-    log_level = parameter.ChoiseParameter(
+    log_level = parameter.ChoiceParameter(
         default = "DEBUG",
         choices = ["NOTSET", "DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"],
         description = "Default log level to use when logging_conf file is not set",
@@ -110,8 +113,6 @@ class core(task.Config):
         always_in_help = True,
     )
 
-    InterfaceLogging.setup(env_params)
-
 class _WorkerSchedulerFactory(object):
     
     def create_local_scheduler(self):
@@ -121,7 +122,9 @@ class _WorkerSchedulerFactory(object):
         return rpc.RemoteScheduler(url)
 
     def create_worker(self, scheduler, worker_processes, assistant=False):
-        return worker.Worker(self, scheduler, worker_processes=worker_processes, assistant=assistant)
+        print("Windows7")
+        return worker.Worker(
+            scheduler=scheduler, worker_processes=worker_processes, assistant=assistant)
 
 def _schedule_and_run(tasks, worker_scheduler_factory=None, override_defaults=None):
     """
@@ -140,6 +143,49 @@ def _schedule_and_run(tasks, worker_scheduler_factory=None, override_defaults=No
 
     env_params = core(**override_defaults)
 
+    InterfaceLogging.setup(env_params)
+
+    kill_signal = signal.SIGUSR1 if env_params.take_lock else None
+
+    if (not env_params.no_lock and 
+            not(lock.acquire_for(env_params.lock_pid_dir, env_params.lock_size, kill_signal))):
+        raise PidLockAlreadyTakenExit()
+        
+    if env_params.local_scheduler:
+        sch = worker_scheduler_factory.create_local_scheduler()
+    else:
+        if env_params.scheduler_url != '':
+            url = env_params.scheduler_url
+        else:
+            url = 'http://{host}:{port:d}/'.format(
+                host=env_params.scheduler_host,
+                port=env_params.scheduler_port,
+            )
+
+        sch = worker_scheduler_factory.create_remote_scheduler(url=url)
+
+    worker = worker_scheduler_factory.create_worker(
+        scheduler=sch, worker_processes=env_params.workers, 
+        assistant=env_params.assistant
+    )
+
+    if worker is None:
+        raise Exception()
+
+    success = True
+    logger = logging.getLogger("finestrino-interface")
+    
+    with worker:
+        for t in tasks:
+            success &= worker.add(t, env_params.parallel_scheduling, env_params.parallel_scheduling_processes)
+        
+        logger.info("Done scheduling tasks")
+        success &= worker.run()
+
+    logger.info(execution_summary.summary(worker))
+
+    return dict(success=success, worker=worker)
+    
 def build(tasks, worker_scheduler_factory=None, **env_params):
     """Run internally, bypassing the command-line parsing.
 
@@ -161,7 +207,34 @@ def build(tasks, worker_scheduler_factory=None, **env_params):
     if "no_lock" not in env_params:
         env_params["no_lock"] = True
 
-    return _schedule_and_run(tasks, worker_scheduler_factory, override_defaults=env_params)['success']
+    return _schedule_and_run(tasks, worker_scheduler_factory, 
+        override_defaults=env_params)["success"]
 
-def run():
+class PidLockAlreadyTakenExit(SystemExit):
+    """ 
+    The exception thrown by :py:func:`finestrino.run`, when the lock file 
+    is inaccessible.
+    """
     pass
+
+def run(*args, **kwargs):
+    return _run(*args, **kwargs)["success"]
+
+def _run(cmdline_args=None, main_task_cls=None, 
+        worker_scheduler_factory=None, use_dynamic_argparse=None, local_scheduler=False):
+    if use_dynamic_argparse is not None:
+        warnings.warn("use_dynamic_argparse is deprecated. do noy set it !", 
+            DeprecationWarning, stacklevel=2)
+
+        
+    if cmdline_args is None:
+        cmdline_args = sys.argv[1:]
+
+    if main_task_cls:
+        cmdline_args.insert(0, main_task_cls.task_family)
+
+    if local_scheduler:
+        cmdline_args.append("--local-scheduler")
+
+    with CmdLineParser.global_instance(cmdline_args) as cp:
+        return _schedule_and_run([cp. get_task_obj()], worker_scheduler_factory)
