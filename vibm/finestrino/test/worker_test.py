@@ -6,6 +6,7 @@ import finestrino.notifications
 
 from finestrino.scheduler import Scheduler
 from finestrino.worker import Worker
+from finestrino import Task
 
 finestrino.notifications.DEBUG = True
 

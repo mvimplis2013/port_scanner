@@ -107,6 +107,47 @@ def task_id_str(task_family, params):
 
     return '{}_{}_{}'.format(task_family, param_summary, param_hash[:TASK_ID_TRUNCATE_HASH])  
 
+def flatten(struct):
+    """
+    Creates a flat list of all the items in structured output (dicts, lists, items):
+
+    .. code-block:: python
+        >>> sorted(flatten(['foo', ['bar', 'troll']))
+        ['bar', 'foo', 'troll']
+    """
+    if struct is None:
+        return []
+    
+    flat = []
+
+    if isinstance(struct, dict):
+        for _, result in six.iteritems(struct):
+            flat += flatten(result)
+        
+        return flat
+
+    if isinstance(struct, six.string_types):
+        return [struct]
+
+    try:
+        iterator = iter(struct)
+    except TypeError:
+        return [struct]
+
+    for result in iterator:
+        flat += flatten(result)
+
+    return flat
+
+def flatten_output(task):
+    r = flatten(task.output())
+    if not r:
+        for dep in flatten(task.requires()):
+            r += flatten_output(dep)
+
+    return r
+
+
 class BulkCompleteNotImplementedError(NotImplementedError):
     """This is here to trick pylint.
     pylint thinks anything raising NottImplementedError needs to be 
@@ -420,6 +461,21 @@ class Task(object):
         params = dict(self.get_params())
         for param_name, param_value in six.iteritems(self.param_kwargs):
             params[param_name]._warn_on_wrong_param_type(param_name, param_value)
+
+    def initialized(self):
+        """ 
+        Returns `True` if the  Task is initialized or False otherwise.
+        """
+
+        return hasattr(self, 'task_id') 
+
+    def deps(self):
+        """ 
+        Internal method used by the scheduler.
+
+        Returns the flattened list of requires.
+        """
+        return flatten(self._requires()) 
 
 class Config(Task):
     """Class for configuration
