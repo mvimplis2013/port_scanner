@@ -15,8 +15,7 @@ class WorkerTest(unittest.TestCase):
         
         self.time = time.time
 
-        with Worker(scheduler=self.sch, worker_id='X') as w, 
-                Worker(scheduler=self.sch, worker_id='Y') as w2:
+        with Worker(scheduler=self.sch, worker_id='X') as w, Worker(scheduler=self.sch, worker_id='Y') as w2:
             self.w = w
             self.w2 = w2
             super(WorkerTest, self).run(result)

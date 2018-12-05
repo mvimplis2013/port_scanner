@@ -122,7 +122,7 @@ class Worker(object):
         self._worker_info = self._generate_worker_info()
 
         if not worker_id:
-            worker_id = 'Worker(%s)' % ', '.join(['%s=%s' % (k, v) for k, v in self._worker_info])
+            worker_id = 'worker(%s)' % ', '.join(['%s=%s' % (k, v) for k, v in self._worker_info])
 
         self._config = worker(**kwargs)
 
@@ -192,6 +192,13 @@ class Worker(object):
             pass
 
         return args
+
+    
+    def __enter__(self):
+        pass
+
+    def __exit__(self, type, value, traceback):
+        pass
 
 if __name__ == "__main__":
     w = Worker()

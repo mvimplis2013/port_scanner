@@ -13,7 +13,7 @@ import functools
 from ast import literal_eval
 
 try:
-    from configuration import NoOptionError, NoSectionError
+    from ConfigParser import NoOptionError, NoSectionError
 except ImportError:
     from configparser import NoOptionError, NoSectionError
 
