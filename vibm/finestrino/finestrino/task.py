@@ -147,7 +147,6 @@ def flatten_output(task):
 
     return r
 
-
 class BulkCompleteNotImplementedError(NotImplementedError):
     """This is here to trick pylint.
     pylint thinks anything raising NottImplementedError needs to be 
@@ -477,6 +476,28 @@ class Task(object):
         """
         return flatten(self._requires()) 
 
+    def requires(self):
+        """ 
+        The Tasks that this Task depends on. 
+
+        A Task will only run if all the Tasks that it requires are completed.
+        If your Task does not require any other Tasks, then you don't need to
+        override this method. Otherwise, a subclass can override this method
+        to return a single Task, a list of Task instances, or a dictionary 
+        whose values are Task instances.
+        """ 
+        return [] #default implementation
+
+    def _requires(self):
+        """ 
+        Override in "template" tasks which themselves are supposed to be 
+        subclassed and thus have their requires() overriden.
+
+        Must return an iterable which among others contains the _requires()
+        of the superclass.
+        """
+        return flatten(self.requires()) # base impl
+        
 class Config(Task):
     """Class for configuration
     

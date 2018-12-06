@@ -38,6 +38,8 @@ from finestrino.scheduler import Scheduler
 from finestrino.task import Task, Config
 from finestrino.parameter import FloatParameter, BoolParameter, IntParameter, OptionalParameter
 
+from finestrino.event import Event
+
 logger = logging.getLogger("finestrino-interface")
 
 _WAIT_INTERVAL_EPS = 0.00001
@@ -394,8 +396,6 @@ class Worker(object):
             accepts_messages = task.accepts_messages, 
         )
 
-
-
     def add(self, task, multiprocess=False, processes=0):
         """ 
         Add a Task for the worker to check and possibly schedule and run.
@@ -495,4 +495,45 @@ class Worker(object):
 
     def _log_dependency_error(self, task, tb):
         log_msg = "Will not run {task} or any dependencies due to an error in deps() method:\n{tb}".format(task=task, tb=tb)
-        logger.warning(kog_msg)
+        logger.warning(log_msg)
+
+    def _email_dependency_error(self, task, formatted_traceback):
+        self._announce_scheduling_failure(task, formatted_traceback)
+
+        if self._config.send_failure_email:
+            self._email_error(task, formatted_traceback, 
+                subject="Finestrino: {task} failed scheduling. Host: {host}",
+                headline="Will not run {task} or any dependencies due to error in deps() method",
+            )
+
+    def _email_unexpected_error(self, task, formatted_traceback):
+        # this sends even if failure e-mails are disabled, as they may indicate 
+        # a more severe failure that may not reach other alerting methods such as 
+        # a scheduler batch notification.
+        self._email_error(task, formatted_traceback, 
+            subject = "Finestrino: Framework error while scheduling Task {task}. HostL: {host}",
+                headline = "Finestrino framework error",
+        )
+
+    def _email_error(self, task, formatted_traceback, subject, headline):
+        formatted_subject = subject.format(task=task, host=self.host)
+        formatted_headline = headline.format(task=task, host=self.host)
+        command = subprocess.list2cmdline(sys.argv)
+        message = notifications.format_task_error(
+            
+        )
+
+    def _announce_scheduling_failure(self, task, expl):
+        try: 
+            self._scheduler.announce_scheduling_failure(
+                worker = self._id, 
+                task_name = str(task),
+                family = task.task_family,
+                params = task.to_str_params(only_significant=True),
+                expl = expl, 
+                owners = task._owner_list(),
+            )
+        except Exception:
+            formatted_traceback = traceback.format_exc()
+            self._email_unexpected_error(task, formatted_traceback)
+            raise

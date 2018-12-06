@@ -29,6 +29,8 @@ from finestrino import parameter
 
 from finestrino import task_history as history
 
+from finestrino.batch_notifier import BatchNotifier
+
 _retry_policy_fields = [
     "retry_count",
     "disable_hard_timeout",
@@ -171,6 +173,29 @@ class Scheduler(object):
         self._state.dump()
         if self._config.batch_emails:
             self._email_batcher.send_email()
+
+    @rpc_method()
+    def announce_scheduling_failure(self, task_name, family, params, expl, owners, **kwargs):
+        if not self._config.batch_emails:
+            return 
+
+        worker_id = kwargs['worker']
+        batched_params, _ = self._state.get_batcher(worker_id, family)
+
+        if batched_params:
+            unbatched_params = {
+                param: value
+                for param, value in six.iteritems(params) \
+                    if param not in batched_params
+            }
+        else:
+            unbatched_params = params
+
+        self._email_batcher.add_scheduling_fail(task_name, family, unbatched_params, expl, owners)
+
+    @rpc_method()
+    def add_task_batcher(self, worker, task_family, batched_args, max_batch_size=float('inf')):
+        self._state.set_batcher(worker, task_family, batched_args, max_batch_size)
 
     @rpc_method()
     def prune(self):
