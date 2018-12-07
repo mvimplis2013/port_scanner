@@ -206,7 +206,7 @@ class Task(object):
     max_batch_size = float('inf')
 
     @property
-    def batcable(self):
+    def batchable(self):
         """True if this instance can be run as part of a batch. 
         By default, True if it has any batched parameters.
         """
@@ -226,6 +226,15 @@ class Task(object):
         """Override this positiev integer to have different 
         ``disable_hard_timeout`` at task level.
         Check: :ref:`scheduler-config` 
+        """
+        return None
+
+    @property
+    def disable_window_seconds(self):
+        """ 
+        Override this positive integer to have different ``disable_window_seconds``
+        at task level.
+        Check :ref:scheduler-config`
         """
         return None
 
@@ -322,6 +331,16 @@ class Task(object):
             return cls.__module__
         
         return cls._namespace_at_class_time
+
+    @property
+    def task_family(self):
+        """ 
+        DEPRECATED since after 2.4.0. See :py:meth:`get_task_family` instead.
+        
+        Convenience method since a property on the metaclass isn't directly 
+        accessible through the class instances.
+        """
+        return self.__class__.task_family
 
     @classmethod
     def get_task_family(cls):
@@ -497,7 +516,20 @@ class Task(object):
         of the superclass.
         """
         return flatten(self.requires()) # base impl
-        
+
+    def process_resources(self):
+        """ 
+        Override in "template" tasks which provide common resources functionality
+        but allow subclasses to specify additional resources while preserving
+        the name for consistent end-user experience.
+        """
+        return self.resources # default implementation      
+
+    @classmethod
+    def batch_param_names(cls):
+        return [name for name, p in cls.get_params() if \
+            include_significant or p.significant]
+
 class Config(Task):
     """Class for configuration
     

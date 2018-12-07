@@ -31,6 +31,13 @@ from finestrino import task_history as history
 
 from finestrino.batch_notifier import BatchNotifier
 
+from finestrino.task_status import DISABLED, DONE, FAILED, \
+    PENDING, RUNNING, \
+    SUSPENDED, UNKNOWN, \
+    BATCH_RUNNING
+
+from finestrino import six
+
 _retry_policy_fields = [
     "retry_count",
     "disable_hard_timeout",
@@ -107,6 +114,62 @@ def _get_default(x, default):
     else:
         return default 
 
+class Worker(object):
+    """ 
+    Structure for tracking worker activity and keeping their references.
+    """
+    def __init__(self, worker_id, last_active=None):
+        self.id = worker_id
+        self.reference = None # reference to the worker in the real world
+        self.last_active = last_active or time.time() # seconds since epoch
+        self.last_get_work = None
+        self.started = time.time() # seconds since epoch
+        self.tasks = set() # task objects
+        self.info = {}
+        self.disabled = False
+        self.rpc_messages = []
+
+    def add_info(self, info):
+        self.info.update(info)
+
+    def update(self, worker_reference, get_work=False):
+        if worker_reference:
+            self.reference = worker_reference
+        self.last_active = time.time()
+
+        if get_work:
+            self.last_get_work = time.time()
+
+    @property
+    def assistant(self):
+        return self.info.get('assistant', False)
+
+    @property
+    def enabled(self):
+        return not self.disabled
+
+    def is_trivial_worker(self, state):
+        """
+        If it is not an assistant having only tasks that are 
+        without requirements
+        
+        Arguments:
+            state {[type]} -- [description]
+        """
+        if self.assistant:
+            return False
+        
+        return all(not task.resources for task in self.get_tasks(state, PENDING))
+
+    def get_tasks(self, state, *statuses):
+        num_self_tasks = len(self.tasks)
+        num_state_tasks = sum(len(state._status_tasks[status]) for status in statuses)
+
+        if num_self_tasks < num_state_tasks:
+            return six.moves.filter(lambda task: task.status in statuses, self.tasks)
+        else:
+            return six.moves.filter(lambda task: self.id in task.workers, state.get_active_tasksby_statuses(*statuses)) 
+
 class SimpleTaskState(object):
     """Keep track of the current state and handle persistance.
 
@@ -120,7 +183,17 @@ class SimpleTaskState(object):
         self._tasks = {}
         self._status_tasks = collections.defaultdict(dict)
         self._active_workers = {}
-        self._task_tachers = {}
+        self._task_batchers = {}
+
+    def get_state(self):
+        return self._tasks, self._active_workers, self._task_batchers
+
+    def get_worker(self, worker_id):
+        return self._active_workers.setdefault(worker_id, Worker(worker_id))
+
+    def get_active_tasks_by_status(self, *statuses):
+        return itertools.chain.from_iterable( \
+            six.itervalues(self._status_tasks[status]) for status in statuses)
 
 class Task(object):
     """
@@ -216,6 +289,76 @@ class Scheduler(object):
 
         self._state.inactivate_workers(remove_workers)
 
+    @rpc_method(allow_null=False)
+    def get_work(self, host=None, assistant=False, current_tasks=None, worker=None, **kwargs):
+        if self._config.prune_on_get_work:
+            self.prune()
+
+        assert worker is not None
+
+        worker_id = worker
+        worker = self._update_worker(worker_id, 
+            worker_reference={'host': host}, get_work=True)
+
+        if not worker.enabled:
+            reply = {'n_pending_taks': 0, 'running_tasks': [], 'task_id': None,
+                'n_unique_pending': 0, 'worker_state': worker.state,
+            }
+
+            return reply
+
+        if assistant:
+            self.add_worker(worker_id, [('assistant', assistant)])
+
+        batched_params, unbatched_params, batched_tasks, max_batch_size = \
+            None, None, [], 1
+        best_task = None
+        if current_tasks is not None:
+            ct_test = set(current_tasks)
+
+            for task in sorted(self._state.get_active_tasks_by_status(RUNNING) \
+                , key=self._rank):
+                if task.worker_running == worker_id and task.id not in ct_test:
+                    best_task = task 
+
+        if current_tasks is not None:
+            # batch running tasks that were not claimed sine the last get_work .. go back in the pool
+            self._reset_orphaned_batch_running_tasks(worker_id)
+
+        greedy_resources = collections.defaultdict(int)
+
+        worker = self._state.get_worker(worker_id)
+
+        if self._paused:
+            relevant_tasks = []
+        elif worker.is_trivial_worker(self._state):
+            pass
+        else:
+            pass 
+    
+
+    @rpc_method()
+    def add_task(self, task_id=None, status=PENDING, runnable=True, 
+        deps=None, new_deps=None, expl=None, resources=None,priority=0,
+        family='', module=None, params=None, param_visibilities=None, accepts_messages=False,
+        assistant=False, tracking_url=None, worker=None, batchable=None, batch_id=None,
+        retry_policy_dict=None, owners=None, **kwargs):
+        """ 
+        Add task identified by task_id if it doesn't already exists. 
+        If deps is NOT None, update dependency list
+        update status of task
+        add additional workers/ stakeholders
+        update priority when needed
+        """
+        assert worker is not None
+        worker_id = worker
+        worker = self._update_worker(worker_id) 
+
+        resources = {} if resources is None else resources.copy() 
+
+    def add_worker(self, worker, info, **kwargs):
+        self._state.get_worker(worker).add_info(info)
+
     def _prune_tasks(self):
         assistant_ids = {w.id for w in self._state.get_active_assistants()}
 
@@ -229,4 +372,33 @@ class Scheduler(object):
                 logger.debug("Removing task %r", task.id)
                 remove_tasks.append(task.id)
 
-            self._state.inactivate_tasks(remove_tasks)                    
+            self._state.inactivate_tasks(remove_tasks)           
+
+    def _update_worker(self, worker_id, worker_reference=None, get_work=False):
+        # Keep track of whenever the worker was last active.
+        # For convenience also return the worker object.
+        worker = self._state.get_worker(worker_id)
+        worker.update(worker_reference, get_work=get_work)
+
+        return worker
+
+    def _rank(self, task):
+        """ 
+        Return worker's rank function for task scheduling
+        """
+        return task.priority, -task.time
+
+    def _reset_orphaned_batch_running_tasks(self, worker_id):
+        running_batch_ids = {
+            task.batch_id 
+            for task in self._state.get_active_tasks_by_status(RUNNING)
+            if task.worker_running == worker_id
+        }
+
+        orphaned_tasks = [
+            task for task in self._state.get_active_tasks_by_status(BATCH_RUNNING)
+            if task.worker_running == worker_id and task.batch_id not in running_batch_ids
+        ]
+
+        for task in orphaned_tasks:
+            self._state.set_status(task, PENDING)
