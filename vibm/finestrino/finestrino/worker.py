@@ -37,6 +37,7 @@ from finestrino import six
 from finestrino.scheduler import Scheduler
 from finestrino.task import Task, Config
 from finestrino.parameter import FloatParameter, BoolParameter, IntParameter, OptionalParameter
+from finestrino import notifications 
 
 from finestrino.event import Event
 
@@ -520,8 +521,9 @@ class Worker(object):
         formatted_headline = headline.format(task=task, host=self.host)
         command = subprocess.list2cmdline(sys.argv)
         message = notifications.format_task_error(
-            
+            formatted_headline, task, command, formatted_traceback
         )
+        notifications.send_error_email(formatted_subject, message, task.owner_email)
 
     def _announce_scheduling_failure(self, task, expl):
         try: 

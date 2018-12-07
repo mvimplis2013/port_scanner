@@ -126,6 +126,87 @@ def send_email(subject, message, sender, recipients, image_png=None):
     email_sender = notifiers[email().method]
     email_sender(sender, subject, message, recipients, image_png)
 
-    logger.info()
+def format_task_error(headline, task, command, formatted_exception=None):
+    """ 
+    Format a message body for an error email related to a finestrino.task.Task
 
-     
+    :param headline: Summary line for the message
+    :param task: `finestrino.task.Task` instance  where this error occured
+    :param formatted_exception: optional string showing traceback
+
+    :return: message body
+    """
+    if formatted_exception:
+        formatted_exception = wrap_traceback(formatted_exception)
+    else: 
+        formatted_exception = ""
+
+    if email().format == 'html':
+        msg_template = textwrap.dedent('''
+        <html>
+        <body>
+        <h2>{headline}</h2>
+        
+        <table style="border-top: 1px solid black; border-bottom: 1px solid black">
+        <thead>
+        <tr><th>name</th>name<td>{name}</td></tr>
+        </thead>
+        <tbody>
+        {param_rows}
+        </tbody>
+        </table>
+        </pre>
+        
+        <h2>Command line</h2>
+        {traceback}
+        </body>
+        </html>
+        ''')
+
+        str_params = task.to_str_params()
+        params = '\n'.join('<tr><th>{}</th></tr>'.format(*items) for items in str_params.items())
+        
+        body = msg_template.format(headline=headline, name=task.task_family, param_rows=params, command=command, traceback=formatted_exception)
+    else:
+        msg_template = textwrap.dedent('''\
+        {headline}
+        
+        Name:{name}
+        
+        Parameters: 
+        {params}
+        
+        Command line:
+        {command}
+        
+        {traceback}
+        ''')
+
+        str_params = task.to_str_params()
+        max_width = max([0] + [len(x) for x in str_params.keys()])
+        params = '\n'.join('    {:{width}}: {}'.format(*items, width=max_width) for items in str_params.items())
+        body = msg_template.format(headline=headline, name=task.task_family, params=params, command=command, traceback=formatted_exception)
+
+    return body 
+
+def wrap_traceback(traceback):
+    """
+    For internal use only
+    """
+    if email().format == 'html':
+        try:
+            from pygments import highlight
+            from pygments.lexers import PythonTracebackLexer
+            from pygments.formatters import HtmlFormatter
+        except ImportError:
+            with_pygments = False
+
+        if with_pygments:
+            formatter = HtmlFormatter(noclasses=True)
+            wrapped = highlight(traceback, PythonTracebackLexer(), formatter)
+        else:
+            wrapped = '<pre>%s</pre>' % traceback
+    else:
+        wrapped = traceback
+
+    return wrapped
