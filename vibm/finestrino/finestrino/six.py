@@ -23,3 +23,6 @@ def add_metaclass(metaclass):
 string_types = str
 def iteritems(d, **kw):
     return iter(d.items(**kw))
+
+def itervalues(d, **kw):
+    return iter(d.values(**kw))

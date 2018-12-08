@@ -34,11 +34,12 @@ import traceback
 import types
 
 from finestrino import six
-from finestrino.scheduler import Scheduler
+from finestrino.scheduler import Scheduler, RetryPolicy
+from finestrino.scheduler import PENDING
 from finestrino.task import Task, Config
 from finestrino.parameter import FloatParameter, BoolParameter, IntParameter, OptionalParameter
 from finestrino import notifications 
-
+from finestrino.target import Target
 from finestrino.event import Event
 
 logger = logging.getLogger("finestrino-interface")
@@ -47,6 +48,9 @@ _WAIT_INTERVAL_EPS = 0.00001
 
 def _is_external(task):
     return task.run is None or task.run == NotImplemented
+
+def _get_retry_policy_dict(task):
+    return RetryPolicy(task.retry_count, task.disable_hard_timeout, task.disable_window_seconds)._asdict()
 
 class TaskException(Exception):
     pass
@@ -382,7 +386,7 @@ class Worker(object):
 
         self._scheduled_tasks[task.task_id] = task
         self._add_task(
-            worker = self.id,
+            worker = self._id,
             task_id = task.task_id,
             status = status,
             deps = deps,
@@ -393,9 +397,35 @@ class Worker(object):
             family = task.task_family,
             module = task.task_module,
             batchable = task.batchable,
-            retry_policy_dict = get_retry_policy_dict(task),
+            retry_policy_dict = _get_retry_policy_dict(task),
             accepts_messages = task.accepts_messages, 
         )
+
+    def _add_task(self, *args, **kwargs):
+        """ 
+        Call ``self._scheduler._add_task``, but store the values too so we can 
+        implement :py:func:`~finestrino.execution_summary.summary'.
+        """
+        task_id = kwargs['task_id']
+        status = kwargs['status'] 
+        runnable = kwargs['runnable']
+        
+        task = self._scheduled_tasks.get(task_id)
+
+        if task: 
+            self._add_task_history.append((task, status, runnable))
+            kwargs['owners'] = task._owner_list()
+
+        if task_id in self._batch_running_tasks:
+            for batch_task in self._batch_running_tasks.pop(task_id):
+                self._add_task_history.append((batch_task, status, True))
+
+        if task and kwargs.get('params'):
+            kwargs['param_visibilities'] = task._get_param_visibilities()
+
+        self._scheduler.add_task(*args, **kwargs)
+
+        logger.info('Informed scheduler that task %s has status %s', task_id, status)
 
     def add(self, task, multiprocess=False, processes=0):
         """ 
@@ -484,6 +514,12 @@ class Worker(object):
 
         return False
 
+    def _validate_dependency(self, dependency):
+        if isinstance(dependency, Target):
+            raise Exception("requires() can not return Target objects ... Wrap it in an ExternalTask class")
+        elif not isinstance(dependency, Task):
+            raise Exception("requires() must return Task objects but {} is a {}".format(dependency, type(dependency)))
+
     def _validate_task(self, task):
         if not isinstance(task, Task):
             raise TaskException("Cannot schedule non-task %s" % task)
@@ -539,3 +575,54 @@ class Worker(object):
             formatted_traceback = traceback.format_exc()
             self._email_unexpected_error(task, formatted_traceback)
             raise
+
+    def _add_task_batcher(self, task):
+        family = task.task_family
+
+    def _add_worker(self):
+        self._worker_info.append(('first_task', self._first_task))
+        self._scheduler.add_worker(self._id, self._worker_info)
+
+    def run(self):
+        """ 
+        Returns True if all scheduled tasks were executed successfully.
+        """ 
+        logger.info("Running Worker with %d processes", self.worker_processes)
+
+        sleeper = self._sleeper()
+        self.run_succeeded = True
+
+        self._add_worker()
+
+        while True:
+            while len(self._running_tasks) >= self.worker_processes > 0:
+                logger.debug("%d running tasks, waiting for next task to fonish", len(self._running_tasks))
+                self._handle_next_task()
+
+            get_work_response = self._get_work()
+
+        return True
+
+    def _sleeper(self):
+        while True:
+            jitter = self._config.wait_jitter
+            wait_interval = self._config.wait_interval + random.uniform(0, jitter)
+            logger.debug("Sleeping for %f seconds", wait_interval)
+            time.sleep(wait_interval)
+            yield
+
+    def _get_work(self):
+        if self._stop_requesting_work:
+            return GetWorkResponse(None, 0, 0, 0, 0, WORKER_STATE_DISABLED)
+
+        if self.worker_processes > 0:
+            logger.debug("Asking scheduler for work ...")
+            r = self._scheduler.get_work(
+                worker = self._id,
+                host = self.host,
+                assistant = self._assistant,
+                current_tasks = list(self._running_tasks.keys()),
+            )
+        else:
+            logger.debug("Checking if tasks are still pending")
+            r = self._scheduler.count_pending(worker=self._id)

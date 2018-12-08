@@ -1,0 +1,11 @@
+""" 
+Possible values for a Task's status in the scheduler.
+"""
+PENDING = 'PENDING'
+FAILED = 'FAILED'
+DONE = 'DONE'
+RUNNING = 'RUNNING'
+BATCH_RUNNING = 'BATCH_RUNNING'
+SUSPENDED = 'SUSPENDED'
+UNKNOWN = 'UNKNOWN'
+DISABLED = 'DISABLED'

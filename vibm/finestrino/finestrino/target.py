@@ -2,6 +2,12 @@
 The abstract :py:class:Target` class.
 It is a central concept of finestrino and represents the state of the workflow
 """
+import abc
+import logging 
+
+from finestrino import six 
+
+
 logger = logging.getLogger("finestrino-interface")
 
 @six.add_metaclass(abc.ABCMeta)
@@ -144,9 +150,31 @@ class FileSystem(object):
         """
         raise NotImplementedError("copy() not implemented on {0}".format(self.__classs__.__name__))
 
-class FileSystemTarget():
-      
+class FileSystemTarget(Target):
+    """" 
+    Base class for FileSystem Targets like :class:`~finestrino.file.LocalTarget` and 
+    :class:`~finestrino.contrib.hdfs.HdfsTarget`.
 
+    A FileSystemTarget has an associated :py:class:`FileSystem` to which certain 
+    operations can be delegated. By default :py:meth:`exists`and :py:meth:`remove`
+    are delegated to the :py:class:`FileSystem`, which is determined by the 
+    :py:attr:`fs` attribute.
 
+    Methods of FileSystemTarget raise a :py:class:`FileSystemException` if there 
+    is a problem completing the operation.     
+    """ 
+    def __init__(self, path):
+        """ Initializes a FileSystemTarget instance.
+        
+        Arguments:
+            path {str} -- the path associated with this FileSystemTarget
+        """
+        this.path = path
 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+    @abc.abstractproperty
+    def fs(self):
+        """ 
+        The :py:class`FileSystem` associated with this FileSystemTarget.
+
+        """
+        raise NotImplementedError()
