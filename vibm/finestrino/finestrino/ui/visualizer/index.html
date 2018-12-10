@@ -19,8 +19,16 @@
         <script src="lib/AdminLTE/js/app.min.js"></script>
         <script src="lib/datatables/js/jquery.dataTables.min.js"></script>
         <script src="lib/bootstrap-toggle/js/bootstrap-toggle.min.js"></script>
-        <meta name="viewport" content=
+        <script src="js/visualiserApp.js"></script>
+        <script src="js/finestrino.js"></script>
+        <script src="js/graph.js"></script>
+        <script src="lib/URI/1.18.2/URI.js"></script>
+        
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
     </head>
+
     <body class="skin-green-light fixed">
         <div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         </div>
@@ -38,7 +46,7 @@
                     </a>
                     <div class="container-fluid">
                         <div class="navbar-header">
-                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" role="#bs-example-navbar-collapse-1">
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
                                 <span class="sr-only">Toggle navigation</span>
                                 <span class="icon-bar"></span>
                                 <span class="icon-bar"></span>
@@ -53,61 +61,171 @@
                                 <li><a class="js-nav-limk" href="#tab=workers" data-tab="workerList">Workers</a></li>
                                 <li><a class="js-nav-link" href="#tab=resource" data-tab="resourceList">Resources</a></li>
                             </ul>
-                            <form class="navbar-form navbar-right" id="pause-form"></form>
+                            <form class="navbar-form navbar-right" id="pause-form">
+                            </form>
                         </div>
                     </div>
                 </nav>
             </div>
-        </div>
-        <div class="content-wrapper">
-            <div class="content">
-                <div class="tab-content">
-                    <section id="taskList" class="container-fluid tab-pane active">
-                        <div class="row">
-                            <div class="col-md-3 col-sm-6 col-xs-12">
-                                <div class="info-box status-info" data-color='yellow' data-category='PENDING' id="PENDING_info">
-                                    <span class="info-box-icon bg-yellow"><i class="fa fa-spinner fa-pulse"></i></span>
-                                    <div class="info-box-content">
-                                        <span class="info-box-text">Pending Tasks</span>
-                                        <span class="info-box-number">?</span>
+
+            <div class="main-sidebar">
+                <div class="sidebar">
+                </div>
+            </div>
+            
+            <div class="content-wrapper">
+                <div class="content">
+                    <div class="tab-content">
+                        <section id="taskList" class="container-fluid tab-pane active">
+                            <div class="row">
+                                <div class="col-md-3 col-sm-6 col-xs-12">
+                                    <div class="info-box status-info" data-color='yellow' data-category='PENDING' id="PENDING_info">
+                                        <span class="info-box-icon bg-yellow"><i class="fa fa-spinner fa-pulse"></i></span>
+                                        <div class="info-box-content">
+                                            <span class="info-box-text">Pending Tasks</span>
+                                            <span class="info-box-number">?</span>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <div class="col-md-3 col-sm-6 col-xs-12">
-                                <div class="info-box status-info" data-color="aqua" data-category="RUNNING" id="RUNNING_info">
-                                    <span class="info-box-icon bg-aqua"><i class="fa fa-spinner fa-pulse"></i></span>
-                                    <div class="info-box-content">
-                                        <span class="info-box-text">Running Tasks</span>
-                                        <span class="info-box-number">?</span>
+                                <div class="col-md-3 col-sm-6 col-xs-12">
+                                    <div class="info-box status-info" data-color="aqua" data-category="RUNNING" id="RUNNING_info">
+                                        <span class="info-box-icon bg-aqua"><i class="fa fa-spinner fa-pulse"></i></span>
+                                        <div class="info-box-content">
+                                            <span class="info-box-text">Running Tasks</span>
+                                            <span class="info-box-number">?</span>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <div class="col-md-3 col-sm-6 col-xs-12">
-                                <div class="info-box status-info" data-color="purple" data-category="BATCH_RUNNINGH" id="BATCH_RUNNING_info">
-                                    <span class=""></span>
+                                <div class="col-md-3 col-sm-6 col-xs-12">
+                                    <div class="info-box status-info" data-color="purple" data-category="BATCH_RUNNING" id="BATCH_RUNNING_info">
+                                        <span class="info-box-icon bg-purple"><i class="fa fa-spinner fa-pulse"></i></span>
+                                        <div class="info-box-content">
+                                            <span class="info-box-text">Batch Running Tasks</span>
+                                            <span class="info-box-number">?</span>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                    </section>
 
-                    <section id="dependencyGraph" class="tab-pane">
-                        <div class="container-fluid">
-                            <div class="form-group col-md-6 col-sm-4">
-                                <form class="form-inline" id="loadTaskForm">
-                                    <input id="js-task-id" type="text" class="search-query form-control" placeholder="TaskId">
-                                    <button type="submit" class="btn btn-default form-control">Show task details</button>
+                                <div class="col-md-3 col-sm-6 col-xs-12">
+                                    <div class="info-box status-info" data-color="green" data-category="DONE" id="DONE_info">
+                                        <span class="info-box-icon bg-green"><i class="fa fa-spinner fa-pulse"></i></span>
+                                        <div class="info-box-content">
+                                            <span class="info-box-text">Done Tasks</span>
+                                            <span class="info-box-number">?</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 col-sm-6 col-xs-12">
+                                    <div class="info-box status-info" data-color="red" data-category="FAILED" id="FAILED_info">
+                                        <span class="info-box-icon bg-red"><i class="fa fa-spinner fa-pulse"></i></span>
+                                        <div class="info-box-content">
+                                            <span class="info-box-text">Failed Tasks</span>
+                                            <span class="info-box-number">?</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 col-sm-6 col-xs-12">
+                                    <div class="info-box status-info" data-color="maroon" data-category="UPSTREAM_FAILED" id="UPSTREAM_FAILED_info">
+                                        <span class="info-box-icon bg-maroon"><i class="fa fa-spinner fa-pulse"></i></span>
+                                        <div class="info-box-content">
+                                            <span class="info-box-text">Upstream Failure</span>
+                                            <span class="info-box-number">?</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 col-sm-6 col-xs-12">
+                                    <div class="info-box status-info" data-color="gray" data-category="DISABLED" id="DISABLED_info">
+                                        <span class="info-box-icon bg-gray"><i class="fa fa-spinner fa-pulse"></i></span>
+                                        <div class="info-box-content">
+                                            <span class="info-box-text">Disabled Tasks</span>
+                                            <span class="info-box-number">?</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-3 col-sm-6 col-xs-12">
+                                    <div class="info-box status-info" data-color="gray" data-category="UPSTREAM_DISABLED" id="UPSTREAM_DISABLED_info">
+                                        <span class="info-box-icon bg-gray"><i class="fa fa-spinner fa-pulse"></i></span>
+                                        <div class="info-box-content">
+                                            <span class="info-box-text">Upstream Disabled</span>
+                                            <span class="info-box-number">?</span>
+                                        </div>
+                                    </div>
+                                </div>      
+                            </div>
+
+                            <div class="container-fluid infoBar">
+                                <div id="currentFilter" class="col-md-6 col-sm-12 col-xs-12"></div>
+                                <div id="warnings" class="col-md-6 col-sm-12 col-xs-12"></div>
+                            </div>
+                            <div class="col-md-8 col-md-offset-2">
+                                <div id="checkboxes"></div>
+                            </div>
+
+                            <table id="taskTable" class="table table-striped">
+                                <thead>
+                                    <th><!-- Category --></th>
+                                    <th>Name</th>
+                                    <th>Details</th>
+                                    <th>Priority</th>
+                                    <th>Time</th>
+                                    <th>Actions</th>
+                                </thead>
+                            </table>
+                        </section>
+
+                        <section id="dependencyGraph" class="tab-pane">
+                            <div class="container-fluid">
+                                <div class="form-group col-md-6 col-sm-4">
+                                    <form class="form-inline" id="loadTaskForm">
+                                        <input id="js-task-id" type="text" class="search-query form-control" placeholder="TaskId">
+                                        <button type="submit" class="btn btn-default form-control">Show task details</button>
+                                    </form>
+                                </div>
+                                <form classs="form-inline" id="visForm">
+                                    <div class="form-group col-md-3">
+                                        <label class="btn btn-default" for="invertCheckbox">Show Upstream Dependencies
+                                            <input type="checkbox" id="invertCheckbox">
+                                        </label>
+                                        <label class="btn btn-default" for="hideDoneCheckbox">Fide Done
+                                            <input type="checkbox" id="hideDoneCheckbox"/>
+                                        </label>
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <label>Visualisation Type</label>
+                                        <div id="toggleVisButtons" class="btn-group" data-toggle="buttons">
+                                            <label class="btn btn-default">
+                                                <input type="radio" name="vis-type" value="d3"/> D3 
+                                            </label>
+                                            <label class="btn btn-default">
+                                                <input type="radio" name="vis-type" value="svg"/> SVG
+                                            </label>
+                                        </div>
+                                    </div>
                                 </form>
                             </div>
+
+                            <div id="searchError">
+                            </div>
+
                             <div id="graphContainer" class="container-fluid">
-                            <h4 id="dependencyTitle"></h4>
-                            <h5>Dependency Graph</h5>
-                            <div id="graphPlaceholder"></div>
-                        </div>
-                    </section>
+                                <h4 id="dependencyTitle"></h4>
+                                <h5>Dependency Graph</h5>
+                                <div id="graphPlaceholder"></div>
+                            </div>
+                        </section>
+                    </div>
                 </div>
             </div>
         </div>
+
+        <script>
+            visualiserApp(new LuigiAPI(".../../api"));
+        </script>
     </body>
-</html>
+</html> 

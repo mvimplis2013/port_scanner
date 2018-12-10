@@ -4,8 +4,10 @@
   "vibm/finestrino/test/scheduler_test.py::SchedulerIoTest::test_pretty_id_unicode": true,
   "vibm/finestrino/test/scheduler_test.py::TestCase": true,
   "vibm/finestrino/test/task_status_message_test.py::TaskStatusMessageTest::test_run": true,
+  "vibm/finestrino/test/task_test.py::TaskTest": true,
   "vibm/finestrino/test/task_test.py::TaskTest::test_task_from_str_insignificant": true,
   "vibm/finestrino/test/task_test.py::TaskTest::test_task_to_str_to_task": true,
+  "vibm/finestrino/test/task_test.py::TestCase": true,
   "vibm/finestrino/test/worker_task_test.py::WorkerTaskTest::test_constructor": true,
   "vibm/finestrino/test/worker_test.py::WorkerTest::test_dep": true
 }
