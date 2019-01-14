@@ -25,3 +25,17 @@ RUN set -xe \
     && echo "${VLAB_EXT_SHA} *{VLAB_EXT_FILE}" | shasum -c \
     && tar xzf ${VLAB_EXT_FILE} --strip 1 \
     && pip install -r requirements.txt
+
+FROM python:3.0
+
+RUN mkdir /src
+WORKDIR /src
+
+COPY requirements.txt /src/requirements.txt
+RUN pip install -r requirements.txt
+
+COPY test-requirements.txt /src/test-requirements.txt
+RUN pip insatll -r test-requirements.txt
+
+COPY . /src
+RUN pip install .

@@ -87,7 +87,7 @@ def valid_file(path: str) -> bool:
     """
     path = Path(path).expanduser()
 
-    log.debug("checking if %s is a valid file", path)
+    #log.debug("checking if %s is a valid file", path)
 
     return path.exists() and path.is_file()
 

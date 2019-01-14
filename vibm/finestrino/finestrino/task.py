@@ -4,6 +4,7 @@ See :doc:`/tasks' for an overview.
 """
 import json 
 import hashlib
+import warnings
 
 import re
 
@@ -21,7 +22,7 @@ from finestrino import six
 from finestrino.task_register import Register
 
 from finestrino import parameter
-from finestrino.parameter import ParameterVisibility
+from finestrino.parameter import ParameterVisibility, DuplicateParameterException
 
 Parameter = parameter.Parameter
 logger = logging.getLogger('finestrino-interface')
@@ -286,7 +287,7 @@ class Task(object):
             event {[type]} -- [description]
         """
         for event_class, event_callbacks in six.iteritems(self._event_callbacks):
-            if not isinstance(self.event_class):
+            if not isinstance(self, event_class):
                 continue
             for callback in event_callbacks.get(event, []):
                 try:
@@ -381,7 +382,7 @@ class Task(object):
 
         params_dict = dict(params)
 
-        task_family = cls.get_task_family
+        task_family = cls.get_task_family()
 
         # In case any exceptions are thrown
         exc_desc = '%s[args=%s, kwargs=%s]' % (task_family, args, kwargs)
@@ -475,6 +476,17 @@ class Task(object):
 
         return params_str
 
+    def _get_param_visibilities(self):
+        param_visibilities = {}
+
+        params = dict(self.get_params())
+
+        for param_name, param_value in six.iteritems(self.param_kwargs):
+            if params[param_name].visibility != ParameterVisibility.PRIVATE:
+                param_visibilities[param_name] = params[param_name].visibility.serialize()
+
+        return param_visibilities
+
     def _warn_on_wrong_param_types(self):
         params = dict(self.get_params())
         for param_name, param_value in six.iteritems(self.param_kwargs):
@@ -527,8 +539,82 @@ class Task(object):
 
     @classmethod
     def batch_param_names(cls):
-        return [name for name, p in cls.get_params() if \
-            include_significant or p.significant]
+        return [name for name, p in cls.get_params() if p._is_batchable()]
+
+    def output(self) :
+        """ 
+        The output that this Task produces.
+
+        The output of the Task determines if the Task needs to be run -- the task is considered finished if 
+        the outputs all exist. Subclasses should override this method ti return a single :py:class:`Target` or 
+        a list of :py:class:`Target` instances.
+
+        Implementation note:
+          If running multiple workers, the output must be a resource that is accessible by all workers, such as a 
+          DFS or database. Otherwise, workers might compute the same output since they don't see the work done by 
+          other workers.
+        """
+        return [] # default impl
+
+    def complete(self):
+        """ 
+        If the task has any outputs, return ``True`` if all outputs exist.
+        Otherwise return ``False``.
+        """ 
+        outputs = flatten(self.output())
+
+        if len(outputs) == 0:
+            warnings.warn(
+                "Task %r without outputs has no complete() method" % self,
+                stacklevel=2
+            )
+
+            return False
+
+        return all(map(lambda output: output.exists, outputs))
+
+    def input(self):
+        """
+        Returns the ouputs of the Tasks returned by :py:meth:`requires`.
+
+        :return: a list of :py:class:`Target` objects which are specified as outputs of all required Tasks.
+        """
+        return getpaths(self.requires())
+
+    def on_failure(self, exception):
+        """
+        Override for custom error handling.
+
+        This method gets called if an exception is raised in :py:meth:`run`.
+        The returned value of this method is json encoded and sent to the scheduler
+        as the `expl` argument. Its string representation will be used as the
+        body of the error email sent out if any.
+
+        Default behavior is to return a string representation of the stack trace.
+        """
+
+        traceback_string = traceback.format_exc()
+        return "Runtime error:\n%s" % traceback_string
+
+    def on_success(self):
+        """
+        Override for doing custom completion handling for a larger class of tasks
+
+        This method gets called when :py:meth:`run` completes without raising any exceptions.
+
+        The returned value is json encoded and sent to the scheduler as the `expl` argument.
+
+        Default behavior is to send an None value"""
+        pass
+
+
+class WrapperTask(Task):
+    """
+    Use for tasks that only wrap other tasks and that by definition are done if all their requirements exist.
+    """
+
+    def complete(self):
+        return all(r.complete() for r in flatten(self.requires()))
 
 class Config(Task):
     """Class for configuration
@@ -537,6 +623,23 @@ class Config(Task):
         Task {[type]} -- [description]
     """
     pass
+
+def getpaths(struct):
+    """
+    Maps all Tasks in a structured data object to their .output().
+    """
+    if isinstance(struct, Task):
+        return struct.output()
+    elif isinstance(struct, dict):
+        return struct.__class__((k, getpaths(v)) for k, v in six.iteritems(struct))
+    elif isinstance(struct, (list, tuple)):
+        return struct.__class__(getpaths(r) for r in struct)
+    else:
+        # Remaining case: assume struct is iterable 
+        try:
+            return [getpaths(r) for r in struct]
+        except TypeError:
+            raise Exception("Cannot map %s to Task/dict/list" % str(struct))
 
 class ExternalTask(Task):
     """ Subclass for references to external dependencies.

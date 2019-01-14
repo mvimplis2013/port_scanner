@@ -18,7 +18,8 @@ class TaskClassAmbigiousException(TaskClassException):
     pass
 
 class Register(abc.ABCMeta):
-    """The Metaclass of :py:class:`Task`
+    """
+    The Metaclass of :py:class:`Task`
 
     Acts as a global registry of Tasks with the following properties:
 
@@ -38,8 +39,10 @@ class Register(abc.ABCMeta):
     ambiguous task name (two :py:class:`Task` have the same name). 
     This denotes an error.
     """
+
     def __new__(metacls, classname, bases, classdict):
-        """Custom class creation for namespacing.
+        """
+        Custom class creation for namespacing.
 
         Also register all subclasses.
 
@@ -52,11 +55,146 @@ class Register(abc.ABCMeta):
             bases {[type]} -- [description]
             classdict {[type]} -- [description]
         """
+        #print("^^^^^^^^^^^^^^ ################ Inside __NEW__")
         cls = super(Register, metacls).__new__(metacls, classname, bases, classdict)
         cls._namespace_at_class_time = metacls._get_namespace(cls.__module__)
         metacls._reg.append(cls)
 
         return cls
+
+    def __call__(cls, *args, **kwargs):
+        """ 
+        Custom class instantiation utilizing instance cache.
+
+        If a Task has already been instantiated with the same parameters,
+        the previous instance is returned to reduce number of object instances.
+        """
+        def instantiate():
+            return super(Register, cls).__call__(*args, **kwargs)
+
+        h = cls.__instance_cache
+
+        if h is None:
+            return instantiate()
+
+        params = cls.get_params()
+        param_values = cls.get_param_values(params, args, kwargs)
+
+        k = (cls, tuple(param_values)) 
+
+        try:
+            hash(k)
+        except TypeError:
+            logger.debug("Not all parameter values are hashable so instance isn't coming from the cache")
+            return instantiate()
+
+        if k not in h:
+            h[k] = instantiate()
+
+        return h[k] 
+
+    @classmethod 
+    def clear_instance_cache(cls):
+        """ 
+        Clear/ Reset the instance cache.
+        """
+        cls.__instance_cache = {} 
+
+    @classmethod 
+    def disable_instance_cache(cls):
+        """
+        Disable the instance cache.
+        """
+        cls.__instance_cache = None 
+
+    @property
+    def task_family(cls):
+        if not cls.get_task_namespace():
+            return cls.__name__
+        else:
+            return "{}.{}".format(cls.get_task_namespace(), cls.__name__)
+
+    @classmethod
+    def _get_reg(cls):
+        """ 
+        Return all of the registered classes.
+
+        :return: a ```dict``` of task_family->class
+        """
+        reg = dict()
+        for task_cls in cls._reg:
+            #print("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
+            if not task_cls._visible_in_registry:
+                print("TaskClass is Not Register Visible: %s" % (task_cls))
+                continue
+            
+            name = task_cls.get_task_family()
+            #print("%sFamilyName=%r" % (task_cls, name))
+
+            if name in reg and \
+                (reg[name] == Register.AMBIGUOUS_CLASS or not issubclass(task_cls, reg[name])):
+                # Registering two different classses - this means we can't instantiate them by name.
+                # The only exception is if one class is a subclass of the other. In that case we instantiate 
+                # the most-derived class (fixes issues with decorator wrappers).
+                reg[name] = Register.AMBIGUOUS_CLASS
+            else:
+                reg[name] = task_cls
+
+        #print("TaskClass is Registered .... %r" % (task_cls))
+        return reg
+
+    @classmethod
+    def _set_reg(cls, reg):
+        """ 
+        The writing complement of _get_reg()
+        """
+        cls._reg = [task_cls for task_cls in reg.values() if task_cls is not cls.AMBIGUOUS_CLASS]
+
+    @classmethod
+    def task_names(cls):
+        """ 
+        List of task names as string.
+        """ 
+        return sorted(cls._get_reg().keys())
+
+    @classmethod
+    def tasks_str(cls):
+        """ 
+        Human-readable register contents dump.
+        """ 
+        return ','.join(cls.task_names())
+
+    @classmethod
+    def get_task_cls(cls, name):
+        """ 
+        Returns an unambiguous class or raises an exception.
+        """
+        task_cls = cls._get_reg().get(name)
+
+        if not task_cls:
+            raise TaskClassNotFoundException(cls._missing_task_msg(name))
+
+        if task_cls == cls.AMBIGUOUS_CLASS:
+            raise TaskClassAmbigiousException('Task %r is ambiguous' % name)
+
+        return task_cls
+
+    @classmethod
+    def get_all_params(cls):
+        """ 
+        Compiles and returns all parameters for all :py:class:`Task`.
+
+        :return: a generator of tuples 
+        """
+        for task_name, task_cls in six.iteritems(cls._get_reg()):
+            #print('TaskName=%s && TaskClass=%s' % (task_name, task_cls))
+        
+            if task_cls == cls.AMBIGUOUS_CLASS:
+                continue
+
+            for param_name, param_obj in task_cls.get_params():
+                #print('TaskCls:ParamName=%s , ParamObj=%s' % (param_name, param_obj))
+                yield task_name, (not task_cls.use_cmdline_section), param_name, param_obj
 
     @staticmethod
     def _module_parents(module_name):
@@ -81,56 +219,6 @@ class Register(abc.ABCMeta):
                 return entry
             
         return '' # Default if nothing specified
-
-    @classmethod
-    def _get_reg(cls):
-        """Return all of the registered classes.
-
-        :return: an ``dict`` of task_family -> class
-        """
-        # We have to do this on-demand in case task names have changed later.
-        reg = dict()
-
-        for task_cls in cls._reg:
-            if not task_cls._visible_in_registry:
-                continue
-
-            name = task_cls.get_task_family()
-
-            if name in reg and \
-                (reg[name] == Register.AMBIGUOUS_CLASS or # Check so issubclass doesn't crash
-                not issubclass(task_cls, reg[name])):
-                # Registering two different classes - that means we can't instantiate them by name.
-                # The only exception is if one class is a subclass of the other. In that case, 
-                # we instantiate the most-derived class (fixes some issues with decorator wrappers).
-                reg[name] = Register.AMBIGUOUS_CLASS
-            else:
-                reg[name] = task_cls            
-
-        return reg
-
-    @classmethod
-    def get_task_cls(cls, name):
-        """Returns an unambiguous class or raises an exception.
-        
-        Arguments:
-            name {[type]} -- [description]
-        """
-        task_cls = cls._get_reg().get(name)
-
-        if not task_cls:
-            raise TaskClassNotFoundException(cls._missing_task_msg(name))
-
-        if task_cls == cls.AMBIGUOUS_CLASS:
-            raise TaskClassAmbiguousException('Task %r is ambiguous' % name)
-
-        return task_cls
-
-    @classmethod
-    def task_names(cls):
-        """List of task names as strings
-        """
-        return sorted(cls._get_reg().keys())
 
     @staticmethod
     def _editdistance(a, b):

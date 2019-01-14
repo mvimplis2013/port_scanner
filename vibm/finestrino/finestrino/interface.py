@@ -1,12 +1,42 @@
 import os
 import tempfile
 import logging 
+import sys
+import signal 
+import warnings 
 
 from finestrino import task 
 from finestrino import parameter
 from finestrino.setup_logging import InterfaceLogging 
 from finestrino import rpc 
 from finestrino import lock
+from finestrino import scheduler
+from finestrino import worker
+from finestrino import execution_summary 
+from finestrino.cmdline_parser import CmdlineParser
+
+def setup_interface_logging(conf_file='', level_name='DEBUG'):
+    if getattr(setup_interface_logging, "has_run", False):
+        return 
+
+    if conf_file == '':
+        # no log config given, setup default logging
+        level = getattr(logging, level_name, logging.DEBUG)
+
+        logger = logging.getLogger("finestrino-interface")
+        logger.setLevel(level)
+
+        stream_handler = logging.StreamHandler()
+        stream_handler.setLevel(level)
+
+        formatter = logging.Formatter("%(levelname)s: %(message)s")
+        stream_handler.setFormatter(formatter)
+
+        logger.addHandler(stream_handler)
+    else:
+        logging.config.fileConfig(conf_file, disable_existing_loggers=False)
+
+    setup_interface_logging.has_run = True
 
 class core(task.Config):
     """ 
@@ -50,7 +80,7 @@ class core(task.Config):
 
     no_lock = parameter.BoolParameter(
         default=False,
-        description="Ignore if similar process is already running"
+        description="Ignore if similar process is already running",
     )
 
     lock_pid_dir = parameter.Parameter(
@@ -90,9 +120,9 @@ class core(task.Config):
         description = "Use multiprocessing to do scheduling in parallel.",
     )
 
-    parallel_scheduling_process = parameter.IntParameter(
+    parallel_scheduling_processes = parameter.IntParameter(
         default = 0,
-        description = "The number of processes to use for scheduling in parallel."
+        description = "The number of processes to use for scheduling in parallel. "
             "By default the number of available CPUs will be used.",
     )
 
@@ -122,7 +152,6 @@ class _WorkerSchedulerFactory(object):
         return rpc.RemoteScheduler(url)
 
     def create_worker(self, scheduler, worker_processes, assistant=False):
-        print("Windows7")
         return worker.Worker(
             scheduler=scheduler, worker_processes=worker_processes, assistant=assistant)
 
@@ -168,9 +197,6 @@ def _schedule_and_run(tasks, worker_scheduler_factory=None, override_defaults=No
         scheduler=sch, worker_processes=env_params.workers, 
         assistant=env_params.assistant
     )
-
-    if worker is None:
-        raise Exception()
 
     success = True
     logger = logging.getLogger("finestrino-interface")
@@ -223,9 +249,8 @@ def run(*args, **kwargs):
 def _run(cmdline_args=None, main_task_cls=None, 
         worker_scheduler_factory=None, use_dynamic_argparse=None, local_scheduler=False):
     if use_dynamic_argparse is not None:
-        warnings.warn("use_dynamic_argparse is deprecated. do noy set it !", 
+        warnings.warn("use_dynamic_argparse is deprecated. do not set it !", 
             DeprecationWarning, stacklevel=2)
-
         
     if cmdline_args is None:
         cmdline_args = sys.argv[1:]
@@ -236,5 +261,5 @@ def _run(cmdline_args=None, main_task_cls=None,
     if local_scheduler:
         cmdline_args.append("--local-scheduler")
 
-    with CmdLineParser.global_instance(cmdline_args) as cp:
-        return _schedule_and_run([cp. get_task_obj()], worker_scheduler_factory)
+    with CmdlineParser.global_instance(cmdline_args) as cp:
+        return _schedule_and_run([cp.get_task_obj()], worker_scheduler_factory)

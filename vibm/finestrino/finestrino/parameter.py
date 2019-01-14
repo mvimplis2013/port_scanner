@@ -32,6 +32,12 @@ class ParameterException(Exception):
     """
     pass
 
+class DuplicateParameterException(ParameterException):
+    """
+    Exception signifying that a Parameter was specified multiple times.
+    """
+    pass
+
 class UnknownParameterException(ParameterException):
     """Exception signifying that an unknown Parameter was supplied.
     
@@ -124,25 +130,6 @@ class Parameter(object):
         """
         return x # default impl
 
-    def serialize(self, x):
-        """Converts the cvalue ``x`` to a string
-        
-        Arguments:
-            x {[type]} -- [description]
-        """
-        return str(x)
-
-    def normalize(self, x):
-        """Given a parsed parameter value, normalizes it.
-
-        The value can either be the result of parse(), the default value
-        or arguments passed into the task's constructor.
-        
-        Arguments:
-            x {[type]} -- [description]
-        """
-        return x
-
     def _get_value_from_config(self, section, name):
         """Loads the default from the config. 
         Returns _no_value if it doesn't exist
@@ -197,11 +184,79 @@ class Parameter(object):
     def has_task_value(self, task_name, param_name):
         return self._get_value(task_name, param_name) != _no_value
 
+    def _is_batchable(self):
+        return self._batch_method is not None
+
+    def _parse_list(self, xs):
+        """ 
+        Parse a list of values from the scheduler.
+
+        Only possible if this is_batchable() is True. This function will combine the list into a single 
+        parameter value using batch method.
+
+        :param xs: list of values to parse and combine
+        :return: the combined parsed values
+        """
+        if not self._is_batchable():
+            raise NotImplementedError('No batch method found!')
+        elif not xs:
+            raise ValueError('Empty parameter list passed to parse_list()')
+        else:
+            return self._batch_method(map(self.parse, xs))
+    
+    def serialize(self, x):
+        """
+        Opposite of :py:meth:`parse`.
+
+        :param x: the value to serialize.
+        """
+        return str(x)
+
     def _warn_on_wrong_param_type(self, param_name, param_value):
         if self.__class__ != Parameter:
             return
         if not isinstance(param_value, six.string_types):
-            warning.warn('Parameter "{}" with value "{}" is not of type string.'.format(param_name, param_value))
+            warnings.warn('Parameter "{}" with value "{}" is not of type string.'.format(param_name, param_value))
+
+    def normalize(self, x):
+        """Given a parsed parameter value, normalizes it.
+
+        The value can either be the result of parse(), the default value
+        or arguments passed into the task's constructor.
+        
+        Arguments:
+            x {[type]} -- [description]
+        """
+        return x
+
+    def next_in_enumeration(self, _value):
+        """ 
+        If your Parameter type has an enumerable ordering of values. You can 
+        choose to override this method. This method is used by the 
+        :py:meth:`finestrino.execution_summary` module for pretty printing purposes.
+        Enabling it to pretty print tasks like ``MyTask(num=1), MyTask(num=2), MyTask(num=3)`` to ``MyTask(num=1..3)``.
+
+        :param value: The value 
+        :return: The next value, like "value+1" OR ``None`` if there is no enumerable ordering.
+        """
+        return None
+
+    def _parse_or_no_value(self, x):
+        if not x:
+            return _no_value
+        else:
+            return self.parse(x)
+
+    @staticmethod
+    def _parser_global_dest(param_name, task_name):
+        return task_name + '_' + param_name
+
+    @classmethod
+    def _parser_kwargs(cls, param_name, task_name=None):
+        return {
+            "action": "store",
+            "dest": cls._parser_global_dest(param_name, task_name) if task_name else param_name,
+        }
 
 class IntParameter(Parameter):
     def parse(self, s):
@@ -245,6 +300,25 @@ class BoolParameter(Parameter):
             return False
         else:
             raise ValueError("cannot interpret '{}'".format(val)) 
+
+    def normalize(self, value):
+        try: 
+            return self.parse(value)
+        except ValueError:
+            return None
+
+    def _parser_kwargs(self, *args, **kwargs):
+        parser_kwargs = super(BoolParameter, self)._parser_kwargs(*args, **kwargs)
+
+        if self.parsing == self.IMPLICIT_PARSING:
+            parser_kwargs["action"] = "store_true"
+        elif self.parsing == self.EXPLICIT_PARSING:
+            parser_kwargs["nargs"] = "?"
+            parser_kwargs["const"] = True
+        else:
+            raise ValueError("unknown parsing value '{}'".format(self.parsing))
+
+        return parser_kwargs
 
 class OptionalParameter(Parameter):
     """ A Parameter that treats empty string as None """
@@ -458,3 +532,131 @@ class ChoiceParameter(Parameter):
             raise ValueError("{var} is not a valid choice from {choices}".format(
                 var = var, choices = self._choices                
             ))  
+
+class EnumParameter(Parameter):
+    """
+    A parameter whose value is an :class:`~enum.Enum`.
+
+    In the task definition, use
+
+    .. code-block:: python
+
+        class Model(enum.Enum):
+          Honda = 1
+          Volvo = 2
+
+        class MyTask(luigi.Task):
+          my_param = luigi.EnumParameter(enum=Model)
+
+    At the command line, use,
+
+    .. code-block:: console
+
+        $ luigi --module my_tasks MyTask --my-param Honda
+
+    """
+
+    def __init__(self, *args, **kwargs):
+        if 'enum' not in kwargs:
+            raise ParameterException('An enum class must be specified.')
+        self._enum = kwargs.pop('enum')
+        super(EnumParameter, self).__init__(*args, **kwargs)
+
+    def parse(self, s):
+        try:
+            return self._enum[s]
+        except KeyError:
+            raise ValueError('Invalid enum value - could not be parsed')
+
+    def serialize(self, e):
+        return e.name
+
+class ListParameter(Parameter):
+    """
+    Parameter whose value is a ``list``.
+
+    In the task definition, use
+
+    .. code-block:: python
+
+        class MyTask(luigi.Task):
+          grades = luigi.ListParameter()
+
+            def run(self):
+                sum = 0
+                for element in self.grades:
+                    sum += element
+                avg = sum / len(self.grades)
+
+
+    At the command line, use
+
+    .. code-block:: console
+
+        $ luigi --module my_tasks MyTask --grades <JSON string>
+
+    Simple example with two grades:
+
+    .. code-block:: console
+
+        $ luigi --module my_tasks MyTask --grades '[100,70]'
+    """
+
+    def normalize(self, x):
+        """
+        Ensure that struct is recursively converted to a tuple so it can be hashed.
+
+        :param str x: the value to parse.
+        :return: the normalized (hashable/immutable) value.
+        """
+        return _recursively_freeze(x)
+
+    def parse(self, x):
+        """
+        Parse an individual value from the input.
+
+        :param str x: the value to parse.
+        :return: the parsed value.
+        """
+        return list(json.loads(x, object_pairs_hook=_FrozenOrderedDict))
+
+    def serialize(self, x):
+        """
+        Opposite of :py:meth:`parse`.
+
+        Converts the value ``x`` to a string.
+
+        :param x: the value to serialize.
+        """
+        return json.dumps(x, cls=_DictParamEncoder)
+
+class DateIntervalParameter(Parameter):
+    """
+    A Parameter whose value is a :py:class:`~luigi.date_interval.DateInterval`.
+
+    Date Intervals are specified using the ISO 8601 date notation for dates
+    (eg. "2015-11-04"), months (eg. "2015-05"), years (eg. "2015"), or weeks
+    (eg. "2015-W35"). In addition, it also supports arbitrary date intervals
+    provided as two dates separated with a dash (eg. "2015-11-04-2015-12-04").
+    """
+
+    def parse(self, s):
+        """
+        Parses a :py:class:`~luigi.date_interval.DateInterval` from the input.
+
+        see :py:mod:`luigi.date_interval`
+          for details on the parsing of DateIntervals.
+        """
+        # TODO: can we use xml.utils.iso8601 or something similar?
+
+        from finestrino import date_interval as d
+
+        for cls in [d.Year, d.Month, d.Week, d.Date, d.Custom]:
+            i = cls.parse(s)
+            if i:
+                return i
+
+        raise ValueError('Invalid date interval - could not be parsed')
+
+
+

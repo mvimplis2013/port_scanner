@@ -110,174 +110,168 @@ class RemoteContext(object):
         proc.communicate()
         assert proc.returncode == 0, "Tunnel process did an unclean exit (returncode %s)" % (proc.returncode,)
 
-    class RemoteFileSystem(finestrino.target.FileSystem):
-        def __init__(self, host, **kwargs):
-            self.remote_context = RemoteContext(host, **kwargs)
+class RemoteFileSystem(finestrino.target.FileSystem):
+    def __init__(self, host, **kwargs):
+        self.remote_context = RemoteContext(host, **kwargs)
 
-        def exists(self, path):
-            """ 
-            Return `True` if file or directory at `path` exist, False otherwise.
-            """
-            try:
-                self.remote_context.check_output(["test", "-e", path])
-            except subprocess.CalledProcessError as e:
-                if e.returncode == 1:
-                    return False
-                else:
-                    raise
-
-            return True
-
-        def listdir(self, path):
-            while path.endswith('/'):
-                path = path[:-1]
-
-            path = path or '.'
-
-            listing = self.remote_context.check_output(["find", "-L", path, "-type", "f"]).splitlines() 
-
-            return [v.decode('utf-8') for v in listing]
-
-        def isdir(self, path):
-            """ 
-            Return `True` if directory at `path` exist, False otherwise
-            """
-            try:
-                self.remote_context.check_output(["test", "-d", path])
-            except subprocess.CalledPrcoessError as e:
-                if e.returncode == 1:
-                    return False
-                else:
-                    raise
-            
-            return True
-
-        def remove(self, path, recursive=True):
-            """ 
-            Remove file or directory at location `path`.
-            """
-            if recursive:
-                cmd = ["rm", "-r", path]
+    def exists(self, path):
+        """ 
+        Return `True` if file or directory at `path` exist, False otherwise.
+        """
+        try:
+            self.remote_context.check_output(["test", "-e", path])
+        except subprocess.CalledProcessError as e:
+            if e.returncode == 1:
+                return False
             else:
-                cmd = ["rm", path]
-
-            self.remote_context.check_output(cmd)
-
-        def mkdir(self, path, parents=True, raise_if_exists=False):
-            if self.exists(path):
-                if raise_if_exists:
-                    raise finestrino.target.FileAlreadyExists()
-                elif not self.isdir(path):
-                    raise finestrino.target.NotADirectory()
-                else:
-                    return
-
-            if parents:
-                cmd = ["mkdir", "-p", path]
-            else:
-                cmd = ["mkdir", path] 
-
-            try:
-                self.remote_context.check_output(cmd)
-            except subprocess.CalledProcessError as e:
-                if b'no such file' in e.output.lower():
-                    raise finestrino.target.MissingParentDirectory()
                 raise
 
-        def _scp(self, src, dest):
-            cmd = ["scp", "-q", "-C", "-o", "ControlMaster=no"]
-            if self.remote_context.sshpass:
-                cmd = ["sshpass", "-e"] + cmd
+        return True
+
+    def listdir(self, path):
+        while path.endswith('/'):
+            path = path[:-1]
+
+        path = path or '.'
+
+        listing = self.remote_context.check_output(["find", "-L", path, "-type", "f"]).splitlines() 
+
+        return [v.decode('utf-8') for v in listing]
+
+    def isdir(self, path):
+        """ 
+        return `True` if directory at `path` exist, False otherwise
+        """
+        try:
+            self.remote_context.check_output(["test", "-d", path])
+        except subprocess.CalledPrcoessError as e:
+            if e.returncode == 1:
+                return False
             else:
-                cmd.append("-B")
-
-            if self.remote_context.no_host_key_check:
-                cmd.extend(["-o", "UserKnownHostFile=/dev/null",
-                    "-o", "StrictHostKeyChecking=no"])
-
-            if self.remote_context.key_file:
-                cmd.extend(["-i", self.remote_context.key_file])
-
-            if self.remote_context.port:
-                cmd.extend(["-P", self.remote_context.port])
-
-            if os.path.isdir(src):
-                cmd.extend(["-r"])
-
-            cmd.extend([src, dest])
-
-            p = subprocess.Popen(cmd)
-            output, _ = p.communicate()
-            if p.returncode != 0:
-                raise subprocess.CalledProcessError(p.returncode, cmd, output=output)
-
-        def put(self, local_path, path):
-            # create parent folder if not exists 
-            normpath = posixpath.normpath(path)
-            folder = os.path.dirname(normpath)
-
-            if folder and not self.exists(folder):
-                self.remote_context.check_output(["mkdir", "-p", folder])
-
-            tmp_path = path + '-finestrino-tmp-%09d' % random.randrange(0, 1e10)
-            self._scp(local_path, "%s:%s" % (self.remote_context._host_ref(), tmp_path))
-            self.remote_context.check_output(["mv", tmp_path, path])
-
-        def get(self, path, local_path):
-            # Create folder if it does not exist
-            normpath = os.path.normpath(local_path)
-            folder = os.path.dirname(normpath)
-
-            if folder:
-                try:
-                    os.makedirs(folder)
-                except OSError:
-                    pass
-
-            tmp_local_path = local_path + '-finestrino-tmp-%09d' % random.randrange(0, 1e10)
-            self._scp("%s:%s" % (self.remote_context._host_ref(), path), tmp_local_path)
-            os.rename(tmp_local_path, local_path)
-
-        class RemoteTarget(finestrino.target.FileSystemTarget):
-            """ 
-            Target used for reading from remote files.
-
-            The target is implemented using ssh commands streaming data over the network.
-            """
-            def __init__(self, path, host, format=None, **kwargs):
-                super(RemoteTarget, self).__init__(path)
-                if format is None:
-                    format = finestrino.format.get_default_format()
-                self.format = format
-
-                self._fs = RemoteFileSystem(host, **kwargs)
-
-            @property
-            def fs(self):
-                return self._fs
-
-            def open(self, mode='r'):
-                if mode == 'w':
-                    file_writer = AtomicRemoteFileWriter(self.fs, self.path)
-                    if self.format:
-                        return self.format.pipe_writer(file_writer)
-                    else:
-                        return file_writer
-                elif mode == 'r':
-                    file_reader = finestrino.format.InputPipeProcessWrapper(
-                        self.fs.remote_context._prepare_cmd(["cat", self.path])
-                    )
-                    if self.format:
-                        return self.format.pipe_reader(file_reader)
-                    else:
-                        raise Exception("mode must be `r` or `w` (got: %s)" % mode)
-
-            def put(self, local_path):
-                self.fs.put(local_path, self.path)
-
-            def get(self, local_path):
-                self.fs.get(self.path, local_path)            
-
-
-
+                raise
             
+        return True
+
+    def remove(self, path, recursive=True):
+        """ 
+        Remove file or directory at location `path`.
+        """
+        if recursive:
+            cmd = ["rm", "-r", path]
+        else:
+            cmd = ["rm", path]
+
+        self.remote_context.check_output(cmd)
+
+    def mkdir(self, path, parents=True, raise_if_exists=False):
+        if self.exists(path):
+            if raise_if_exists:
+                raise finestrino.target.FileAlreadyExists()
+            elif not self.isdir(path):
+                raise finestrino.target.NotADirectory()
+            else:
+                return
+
+        if parents:
+            cmd = ["mkdir", "-p", path]
+        else:
+            cmd = ["mkdir", path] 
+
+        try:
+            self.remote_context.check_output(cmd)
+        except subprocess.CalledProcessError as e:
+            if b'no such file' in e.output.lower():
+                raise finestrino.target.MissingParentDirectory()
+            raise
+
+    def _scp(self, src, dest):
+        cmd = ["scp", "-q", "-C", "-o", "ControlMaster=no"]
+        if self.remote_context.sshpass:
+            cmd = ["sshpass", "-e"] + cmd
+        else:
+            cmd.append("-B")
+
+        if self.remote_context.no_host_key_check:
+            cmd.extend(["-o", "UserKnownHostFile=/dev/null", "-o", "StrictHostKeyChecking=no"])
+
+        if self.remote_context.key_file:
+            cmd.extend(["-i", self.remote_context.key_file])
+
+        if self.remote_context.port:
+            cmd.extend(["-P", self.remote_context.port])
+
+        if os.path.isdir(src):
+            cmd.extend(["-r"])
+
+        cmd.extend([src, dest])
+
+        p = subprocess.Popen(cmd)
+        output, _ = p.communicate()
+        if p.returncode != 0:
+            raise subprocess.CalledProcessError(p.returncode, cmd, output=output)
+
+    def put(self, local_path, path):
+        # create parent folder if not exists 
+        normpath = posixpath.normpath(path)
+        folder = os.path.dirname(normpath)
+
+        if folder and not self.exists(folder):
+            self.remote_context.check_output(["mkdir", "-p", folder])
+
+        tmp_path = path + '-finestrino-tmp-%09d' % random.randrange(0, 1e10)
+        self._scp(local_path, "%s:%s" % (self.remote_context._host_ref(), tmp_path))
+        self.remote_context.check_output(["mv", tmp_path, path])
+
+    def get(self, path, local_path):
+        # Create folder if it does not exist
+        normpath = os.path.normpath(local_path)
+        folder = os.path.dirname(normpath)
+
+        if folder:
+            try:
+                os.makedirs(folder)
+            except OSError:
+                pass
+
+        tmp_local_path = local_path + '-finestrino-tmp-%09d' % random.randrange(0, 1e10)
+        self._scp("%s:%s" % (self.remote_context._host_ref(), path), tmp_local_path)
+        os.rename(tmp_local_path, local_path)
+
+class RemoteTarget(finestrino.target.FileSystemTarget):
+    """ 
+    Target used for reading from remote files.
+
+    The target is implemented using ssh commands streaming data over the network.
+    """
+    def __init__(self, path, host, format=None, **kwargs):
+        super(RemoteTarget, self).__init__(path)
+        if format is None:
+            format = finestrino.format.get_default_format()
+            
+        self.format = format
+
+        self._fs = RemoteFileSystem(host, **kwargs)
+
+    @property
+    def fs(self):
+        return self._fs
+
+    def open(self, mode='r'):
+        if mode == 'w':
+            file_writer = AtomicRemoteFileWriter(self.fs, self.path)
+            if self.format:
+                return self.format.pipe_writer(file_writer)
+            else:
+                return file_writer
+        elif mode == 'r':
+            file_reader = finestrino.format.InputPipeProcessWrapper(self.fs.remote_context._prepare_cmd(["cat", self.path]))
+            if self.format:
+                return self.format.pipe_reader(file_reader)
+            else:
+                raise Exception("mode must be `r` or `w` (got: %s)" % mode)
+
+    def put(self, local_path):
+        self.fs.put(local_path, self.path)
+
+    def get(self, local_path):
+        self.fs.get(self.path, local_path)            

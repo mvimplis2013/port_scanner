@@ -32,13 +32,16 @@ from finestrino.task import Task, Config, ExternalTask
 from finestrino import parameter
 from finestrino.parameter import (
     Parameter, BoolParameter, IntParameter, FloatParameter, DateParameter, DateHourParameter,
-    TimeDeltaParameter,
+    TimeDeltaParameter, DateIntervalParameter,
 )
+
+from finestrino import local_target
+from finestrino.local_target import LocalTarget
 
 from finestrino.interface import run, build
 
 __all__ = [
     'task', 'Task', 'Config', 'ExternalTask', 'Parameter', 'BoolParameter', 'IntParameter', 'FloatParameter',
-    'DateParameter', 'DateTimeParameter', 'TimeDeltaParameter',
+    'DateParameter', 'DateTimeParameter', 'TimeDeltaParameter', 'LocalTarget',
     'build', 'run',
 ]

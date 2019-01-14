@@ -41,7 +41,7 @@ class TestNotificationsTask(finestrino.task.Task):
     def run(self):
         raise ValueError("Testing notifications triggering")
 
-    def complete():
+    def complete(self):
         if self.raise_in_complete:
             raise ValueError("Testing notifications triggering")
 
@@ -210,3 +210,48 @@ def wrap_traceback(traceback):
         wrapped = traceback
 
     return wrapped
+
+def _email_disabled_reason():
+    if email().format == 'none':
+        return "email format is 'none'"
+    elif email().force_send:
+        return None
+    elif sys.stdout.isatty():
+        return "running from a tty"
+    else:
+        return None
+
+def _email_recipients(additional_recipients=None):
+    receiver = email().receiver
+    recipients = [receiver] if receiver else []
+
+    if additional_recipients:
+        if isinstance(additional_recipients, str):
+            recipients.append(additional_recipients)
+        else:
+            recipients.extend(additional_recipients)
+        
+    return recipients
+
+def send_error_email(subject, message, additional_recipients=None):
+    recipients = _email_recipients(additional_recipients)
+    sender = email().sender
+    send_email(subject=subject, message=message, sender=sender, recipients=recipients)
+
+def send_email_ses(sender, subject, message, recipients, image_png):
+    pass
+
+def send_email_sendgrid(sender, subject, message, recipients, image_png):
+    pass
+
+def send_email_smtp(sender, subject, message, recipients, image_png):
+    pass
+
+def send_email_sns(sender, subject, message, recipients, image_png):
+    pass
+
+def _prefix(subject):
+    if email().prefix:
+        return "{} {}".format(email().prefix, subject)
+    else:
+        return subject

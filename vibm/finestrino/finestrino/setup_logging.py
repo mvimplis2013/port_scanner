@@ -4,8 +4,9 @@ finestrinod and workers via command-line arguments and
 options from congiguration files.
 """
 import logging
+import os
 
-from finestrino.configuration import get_config
+from finestrino.configuration import get_config, FinestrinoConfigParser
 
 # In Python3 ConfigParser was renamed. 
 try:
@@ -21,6 +22,9 @@ class BaseLogging(object):
         """ 
         Get logging settings from config file "logging".
         """
+        if isinstance(cls.config, FinestrinoConfigParser):
+            return False
+
         try:
             logging_config = cls.config["logging"]
         except (TypeError, KeyError, NoSectionError):
@@ -31,10 +35,18 @@ class BaseLogging(object):
         return True
 
     @classmethod
-    def setup(cls, opts):
+    def setup(cls, opts=type(
+        'opts', (), {
+            'background': None, 
+            'logdir': None, 
+            'logging_conf_file': None, 
+            'log_level': 'DEBUG',
+        }
+    )):
         """ 
         Setup logging via CLI params and config. 
         """
+        print("************************************* HHHHHHHHHHHHHHHHHHHHHHHH")
         logger = logging.getLogger("finestrino")
 
         if cls._configured:
@@ -111,10 +123,60 @@ class InterfaceLogging(BaseLogging):
         stream_handler = logging.StreamHandler()
         stream_handler.setLevel(level)
 
-        formatter = logging.Formatter("%{levelname}s: %{message}s")
+        formatter = logging.Formatter("%(levelname)s: %(message)s")
         stream_handler.setFormatter(formatter)
 
         logger.addHandler(stream_handler)
 
         return True
 
+class DaemonLogging(BaseLogging):
+    """
+    Configure logging for finestrinod
+    """
+    _configured = False
+    _log_format = "%(asctime)s %(name)s[%(process)s]%(levelname)s: %(message)s"
+
+    @classmethod
+    def _cli(cls, opts):
+        """
+        Setup logging via CLI options.
+
+        If `--background` ... set INFO level for root logger.
+        If `--logdir`     ... set logging with next params:
+            default finestrino formatter,
+            INFO level,
+            output in `finestrino-server.log` file
+        """
+        if opts.background:
+            logging.getLogger().setLevel(logging.INFO)
+            return True
+
+        if opts.logdir:
+            logging.basicConfig(
+                level = logging.INFO,
+                format = cls._log_format,
+                filename = os.path.join(opts.logdir, "finestrino-server.log")
+            )
+
+            return True
+
+        return False
+
+    @classmethod
+    def _conf(cls, opts):
+        """
+        Setup logging via ini-file from logging_conf_file option.
+        """
+        logging_conf = cls.config.get("core", "logging_conf_file", None)
+
+        if logging_conf is None:
+            return False 
+
+        if not os.path.exists(logging_conf):
+            # FileNotFoundError added only in Python 3.3
+            raise OSError("Error: Unable to locate specified logging configuration file!")
+
+        logging.config.fileConfig(logging_conf)
+
+        return True
