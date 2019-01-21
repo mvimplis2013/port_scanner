@@ -12,6 +12,7 @@ from finestrino.mock import MockTarget
 
 SSH_HOST = "some.accessible.host"
 
+
 class CreateRemoteData(finestrino.Task):
     """ 
     Dump info on running processes on remote host.

@@ -88,7 +88,7 @@ class KeepAliveThread(threading.Thread):
             with fork_lock:
                 response = None
                 try:
-                    logger.debug("Local Scheduler is %s" % self._scheduler )
+                    # logger.debug("Local Scheduler is %s" % self._scheduler )
                     response = self._scheduler.ping(worker=self._worker_id)
                 except BaseException: # http.BadStatusLine:
                     logger.warning("Failed pinging scheduler")
@@ -131,7 +131,7 @@ def check_complete(task, out_queue):
     Checks if task is complete, puts the result to out_queue 
     """
     #print("CCCCCCCCCCCCCCCCCC %s" % task)
-    logger.debug("Checking if %s is complete" , task)
+    # logger.debug("Checking if %s is complete" , task)
 
     try:
         is_complete = task.complete()
@@ -436,7 +436,7 @@ class Worker(object):
 
         self._scheduler.add_task(*args, **kwargs)
 
-        logger.info('Informed scheduler that task %s has status %s', task_id, status)
+        # logger.info('Informed scheduler that task %s has status %s', task_id, status)
 
     def add(self, task, multiprocess=False, processes=0):
         """ 
@@ -772,11 +772,11 @@ class Worker(object):
             return 
 
         task = self._scheduled_tasks[task_id]
-        print("Run Task ... %s" %task)
+        #print("Run Task ... %s" %task)
         #sys.exit(0)
 
         task_process = self._create_task_process(task)
-        print("Task Process is %s" % task_process)
+        #print("Task Process is %s" % task_process)
         #sys.exit(0)
 
         self._running_tasks[task_id] = task_process
@@ -790,13 +790,13 @@ class Worker(object):
 
     def _create_task_process(self, task):
         message_queue = multiprocessing.Queue() if task.accepts_messages else None
-        print("Message Queue is ...%s" %message_queue)
+        #print("Message Queue is ...%s" %message_queue)
 
         reporter = TaskStatusReporter(self._scheduler, task.task_id, self._id, message_queue)
-        print("Task Status Reporter is ... %s" % reporter)
+        #print("Task Status Reporter is ... %s" % reporter)
 
         use_multiprocessing = self._config.force_multiprocessing or bool(self.worker_processes > 1)
-        print("Use Multiprocessing is ...%s" %use_multiprocessing)
+        #print("Use Multiprocessing is ...%s" %use_multiprocessing)
 
         return ContextManagedTaskProcess(
             self._config.task_process_context,
@@ -810,7 +810,7 @@ class Worker(object):
         """ 
         Returns True if all scheduled tasks were executed successfully.
         """ 
-        print("_________________ ??????????????????????????? +++++++++++++++++++++++")
+        # print("_________________ ??????????????????????????? +++++++++++++++++++++++")
         logger.info("[Running Worker with %d processes", self.worker_processes)
 
         sleeper = self._sleeper()
@@ -824,13 +824,13 @@ class Worker(object):
                 self._handle_next_task()
 
             get_work_response = self._get_work()
-            print("&&&&& Get Work Response ... Worker State is %s +++++++++" % get_work_response.worker_state)
+            # print("&&&&& Get Work Response ... Worker State is %s +++++++++" % get_work_response.worker_state)
             #return
 
             if get_work_response.worker_state == WORKER_STATE_DISABLED:
                 self._start_phasing_out()
 
-            print("&&&&& Get Work Response ... Task ID is %s +++++++++++" % get_work_response.task_id)
+            # print("&&&&& Get Work Response ... Task ID is %s +++++++++++" % get_work_response.task_id)
             if get_work_response.task_id is None:
                 if not self._stop_requesting_work:
                     self._log_remote_tasks(get_work_response)
@@ -845,7 +845,7 @@ class Worker(object):
                     continue
 
             # task_id is not none:
-            logger.debug("Pending tasks: %s", get_work_response.n_pending_tasks)
+            # logger.debug("Pending tasks: %s", get_work_response.n_pending_tasks)
             self._run_task(get_work_response.task_id)
 
         while len(self._running_tasks):
@@ -911,7 +911,7 @@ class Worker(object):
             return GetWorkResponse(None, 0, 0, 0, 0, WORKER_STATE_DISABLED)
 
         if self.worker_processes > 0:
-            logger.debug("Asking scheduler for work ...")
+            # logger.debug("Asking scheduler for work ...")
             r = self._scheduler.get_work(
                 worker = self._id,
                 host = self.host,
@@ -922,7 +922,7 @@ class Worker(object):
             logger.debug("Checking if tasks are still pending")
             r = self._scheduler.count_pending(worker=self._id)
 
-        print("!!!!!!!!!!!!!! Get Work Response is ... %s !!!!!!!!!!!!!!!!!" % r)
+        # print("!!!!!!!!!!!!!! Get Work Response is ... %s !!!!!!!!!!!!!!!!!" % r)
 
         running_tasks = r['running_tasks']
         task_id = self._get_work_task_id(r)

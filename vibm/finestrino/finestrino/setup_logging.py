@@ -46,7 +46,7 @@ class BaseLogging(object):
         """ 
         Setup logging via CLI params and config. 
         """
-        print("************************************* HHHHHHHHHHHHHHHHHHHHHHHH")
+        #print("************************************* HHHHHHHHHHHHHHHHHHHHHHHH")
         logger = logging.getLogger("finestrino")
 
         if cls._configured:

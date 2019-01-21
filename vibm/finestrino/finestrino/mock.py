@@ -7,7 +7,7 @@
 
 import multiprocessing 
 import warnings
-import BytesIO
+from io import BytesIO
 import sys
 
 from finestrino import target

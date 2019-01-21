@@ -18,6 +18,8 @@ from contextlib import contextmanager
 import logging 
 import traceback
 
+import finestrino 
+
 from finestrino import six
 from finestrino.task_register import Register
 
@@ -365,7 +367,7 @@ class Task(object):
         """
         params = []
         for param_name in dir(cls):
-            param_obj = getattr(cls,param_name)
+            param_obj = getattr(cls, param_name)
             if not isinstance(param_obj, Parameter):
                 continue
             
@@ -375,6 +377,14 @@ class Task(object):
         params.sort(key=lambda t: t[1]._counter)
 
         return params
+
+    @classmethod
+    def batch_param_names(cls):
+        return [name for name, p in cls.get_params() if p._is_batchable()]
+
+    @classmethod
+    def get_param_names(cls, include_significant=False):
+        return [name for name, p in cls.get_params() if include_significant or p.significant]
 
     @classmethod
     def get_param_values(cls, params, args, kwargs):
@@ -440,6 +450,22 @@ class Task(object):
         self.set_tracking_url = None
         self.set_status_message = None
         self.set_progress_percentage = None
+    
+    @property
+    def param_args(self):
+        warnings.warn("Use of param_args has been deprecated.", DeprecationWarning)
+        return tuple(self.param_kwargs[k] for k, v in self.get_params())
+
+    def initialized(self):
+        """
+        Returns ``True`` if the Task is initialized and ``False`` otherwise.
+        """
+        return hasattr(self, 'task_id')
+    
+    def _warn_on_wrong_param_types(self):
+        params = dict(self.get_params())
+        for param_name, param_value in six.iteritems(self.param_kwargs):
+            params[param_name]._warn_on_wrong_param_type(param_name, param_value)
 
     @classmethod
     def from_str_params(cls, params_str):
@@ -487,91 +513,133 @@ class Task(object):
 
         return param_visibilities
 
-    def _warn_on_wrong_param_types(self):
-        params = dict(self.get_params())
-        for param_name, param_value in six.iteritems(self.param_kwargs):
-            params[param_name]._warn_on_wrong_param_type(param_name, param_value)
-
-    def initialized(self):
-        """ 
-        Returns `True` if the  Task is initialized or False otherwise.
+    def clone(self, cls=None, **kwargs):
         """
+        Creates a new instance from an existing instance where some of the args have changed.
 
-        return hasattr(self, 'task_id') 
+        There's at least two scenarios where this is useful (see test/clone_test.py):
 
-    def deps(self):
-        """ 
-        Internal method used by the scheduler.
+        * remove a lot of boiler plate when you have recursive dependencies and lots of args
+        * there's task inheritance and some logic is on the base class
 
-        Returns the flattened list of requires.
+        :param cls:
+        :param kwargs:
+        :return:
         """
-        return flatten(self._requires()) 
+        if cls is None:
+            cls = self.__class__
+
+        new_k = {}
+        for param_name, param_class in cls.get_params():
+            if param_name in kwargs:
+                new_k[param_name] = kwargs[param_name]
+            elif hasattr(self, param_name):
+                new_k[param_name] = getattr(self, param_name)
+
+        return cls(**new_k)
+
+    def __hash__(self):
+        return self.__hash
+
+    def __repr__(self):
+        """
+        Build a task representation like `MyTask(param1=1.5, param2='5')`
+        """
+        params = self.get_params()
+        param_values = self.get_param_values(params, [], self.param_kwargs)
+
+        # Build up task id
+        repr_parts = []
+        param_objs = dict(params)
+        for param_name, param_value in param_values:
+            if param_objs[param_name].significant:
+                repr_parts.append('%s=%s' % (param_name, param_objs[param_name].serialize(param_value)))
+
+        task_str = '{}({})'.format(self.get_task_family(), ', '.join(repr_parts))
+
+        return task_str
+
+    def __eq__(self, other):
+        return self.__class__ == other.__class__ and self.task_id == other.task_id
+
+    def complete(self):
+        """
+        If the task has any outputs, return ``True`` if all outputs exist.
+        Otherwise, return ``False``.
+
+        However, you may freely override this method with custom logic.
+        """
+        outputs = flatten(self.output())
+        if len(outputs) == 0:
+            warnings.warn(
+                "Task %r without outputs has no custom complete() method" % self,
+                stacklevel=2
+            )
+            return False
+
+        return all(map(lambda output: output.exists(), outputs))
+
+    @classmethod
+    def bulk_complete(cls, parameter_tuples):
+        """
+        Returns those of parameter_tuples for which this Task is complete.
+
+        Override (with an efficient implementation) for efficient scheduling
+        with range tools. Keep the logic consistent with that of complete().
+        """
+        raise BulkCompleteNotImplementedError()
+
+    def output(self):
+        """
+        The output that this Task produces.
+
+        The output of the Task determines if the Task needs to be run--the task
+        is considered finished iff the outputs all exist. Subclasses should
+        override this method to return a single :py:class:`Target` or a list of
+        :py:class:`Target` instances.
+
+        Implementation note
+          If running multiple workers, the output must be a resource that is accessible
+          by all workers, such as a DFS or database. Otherwise, workers might compute
+          the same output since they don't see the work done by other workers.
+
+        See :ref:`Task.output`
+        """
+        return []  # default impl
 
     def requires(self):
-        """ 
-        The Tasks that this Task depends on. 
+        """
+        The Tasks that this Task depends on.
 
-        A Task will only run if all the Tasks that it requires are completed.
+        A Task will only run if all of the Tasks that it requires are completed.
         If your Task does not require any other Tasks, then you don't need to
         override this method. Otherwise, a subclass can override this method
-        to return a single Task, a list of Task instances, or a dictionary 
-        whose values are Task instances.
-        """ 
-        return [] #default implementation
+        to return a single Task, a list of Task instances, or a dict whose
+        values are Task instances.
+
+        See :ref:`Task.requires`
+        """
+        return []  # default impl
 
     def _requires(self):
-        """ 
-        Override in "template" tasks which themselves are supposed to be 
-        subclassed and thus have their requires() overriden.
-
-        Must return an iterable which among others contains the _requires()
-        of the superclass.
         """
-        return flatten(self.requires()) # base impl
+        Override in "template" tasks which themselves are supposed to be
+        subclassed and thus have their requires() overridden (name preserved to
+        provide consistent end-user experience), yet need to introduce
+        (non-input) dependencies.
+
+        Must return an iterable which among others contains the _requires() of
+        the superclass.
+        """
+        return flatten(self.requires())  # base impl
 
     def process_resources(self):
-        """ 
-        Override in "template" tasks which provide common resources functionality
+        """
+        Override in "template" tasks which provide common resource functionality
         but allow subclasses to specify additional resources while preserving
         the name for consistent end-user experience.
         """
-        return self.resources # default implementation      
-
-    @classmethod
-    def batch_param_names(cls):
-        return [name for name, p in cls.get_params() if p._is_batchable()]
-
-    def output(self) :
-        """ 
-        The output that this Task produces.
-
-        The output of the Task determines if the Task needs to be run -- the task is considered finished if 
-        the outputs all exist. Subclasses should override this method ti return a single :py:class:`Target` or 
-        a list of :py:class:`Target` instances.
-
-        Implementation note:
-          If running multiple workers, the output must be a resource that is accessible by all workers, such as a 
-          DFS or database. Otherwise, workers might compute the same output since they don't see the work done by 
-          other workers.
-        """
-        return [] # default impl
-
-    def complete(self):
-        """ 
-        If the task has any outputs, return ``True`` if all outputs exist.
-        Otherwise return ``False``.
-        """ 
-        outputs = flatten(self.output())
-
-        if len(outputs) == 0:
-            warnings.warn(
-                "Task %r without outputs has no complete() method" % self,
-                stacklevel=2
-            )
-
-            return False
-
-        return all(map(lambda output: output.exists, outputs))
+        return self.resources  # default impl
 
     def input(self):
         """
@@ -580,6 +648,23 @@ class Task(object):
         :return: a list of :py:class:`Target` objects which are specified as outputs of all required Tasks.
         """
         return getpaths(self.requires())
+    
+    def deps(self):
+        """
+        Internal method used by the scheduler.
+
+        Returns the flattened list of requires.
+        """
+        # used by scheduler
+        return flatten(self._requires())
+    
+    def run(self):
+        """
+        The task run method, to be overridden in a subclass.
+
+        See :ref:`Task.run`
+        """
+        pass  # default impl
 
     def on_failure(self, exception):
         """
@@ -607,6 +692,36 @@ class Task(object):
         Default behavior is to send an None value"""
         pass
 
+    @contextmanager
+    def no_unpicklable_properties(self):
+        """
+        Remove unpicklable properties before dump task and resume them after.
+
+        This method could be called in subtask's dump method, to ensure unpicklable
+        properties won't break dump.
+
+        This method is a context-manager which can be called as below:
+
+        .. code-block: python
+
+            class DummyTask(luigi):
+
+                def _dump(self):
+                    with self.no_unpicklable_properties():
+                        pickle.dumps(self)
+
+        """
+        unpicklable_properties = tuple(finestrino.worker.TaskProcess.forward_reporter_attributes.values())
+        reserved_properties = {}
+        for property_name in unpicklable_properties:
+            if hasattr(self, property_name):
+                reserved_properties[property_name] = getattr(self, property_name)
+                setattr(self, property_name, 'placeholder_during_pickling')
+
+        yield
+
+        for property_name, value in six.iteritems(reserved_properties):
+            setattr(self, property_name, value)
 
 class WrapperTask(Task):
     """

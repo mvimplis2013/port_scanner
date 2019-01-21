@@ -403,55 +403,7 @@ class DateParameter(_DateParameterBase):
         delta = (value - self.start).days % self.interval
 
         return value - datetime.timedelta(days=delta)
-
-class _DatetimeParameterBase(Parameter):
-    """Base class Parameter for datetime
     
-    Arguments:
-        Parameter {[type]} -- [description]
-    """
-    def __init__(self, interval=1, start=None, **kwargs):
-        super(_DatetimeParameterBase, self).__init__(**kwargs)
-        self.interval = interval
-        self.start = start if start is not None else _UNIX_EPOCH
-
-    @abc.abstractproperty
-    def _timedelta(self):
-        """How to move one interval of this type forward (i.e. not counting self.interval)
-        """
-        pass
-
-    def parse(self, s):
-        """Parses a string to a :py:class:`~datetime.datetime`
-        
-        Arguments:
-            s {[type]} -- [description]
-        """
-        return datetime.datetime.strptime(s, self.date_format)
-
-    def serialize(self,dt):
-        """Converts the date to a string using the :py:attr:`~_DatetimeParameterBase.date_format`.
-        
-        Arguments:
-            dt {[type]} -- [description]
-        """
-        if dt is None:
-            return str(dt)
-
-        return dt.strftime(self.date_format)
-    
-
-class DateHourParameter(_DatetimeParameterBase):
-    """Parameter whose value is a :py:class:`~datetime.datetime` specified to the hour.
-
-    A DateHourParameter is a ``2013-07-10T19`` specifies a ``July 10, 2013 at 19:00``.
-    
-    Arguments:
-        _DatetimeParameterBase {[type]} -- [description]
-    """
-    date_format = '%Y-%m-%dT%H' # iso 8601 is to use 'T'
-    _timedelta = datetime.timedelta(hours=1)
-
 class TimeDeltaParameter(Parameter):
     """Class that maps to timedelta using strings in any of the following forms:
 
@@ -657,6 +609,124 @@ class DateIntervalParameter(Parameter):
                 return i
 
         raise ValueError('Invalid date interval - could not be parsed')
+
+class _DatetimeParameterBase(Parameter):
+    """
+    Base class Parameter for datetime
+    """
+
+    def __init__(self, interval=1, start=None, **kwargs):
+        super(_DatetimeParameterBase, self).__init__(**kwargs)
+        self.interval = interval
+        self.start = start if start is not None else _UNIX_EPOCH
+
+    @abc.abstractproperty
+    def date_format(self):
+        """
+        Override me with a :py:meth:`~datetime.date.strftime` string.
+        """
+        pass
+
+    @abc.abstractproperty
+    def _timedelta(self):
+        """
+        How to move one interval of this type forward (i.e. not counting self.interval).
+        """
+        pass
+
+    def parse(self, s):
+        """
+        Parses a string to a :py:class:`~datetime.datetime`.
+        """
+        return datetime.datetime.strptime(s, self.date_format)
+
+    def serialize(self, dt):
+        """
+        Converts the date to a string using the :py:attr:`~_DatetimeParameterBase.date_format`.
+        """
+        if dt is None:
+            return str(dt)
+        return dt.strftime(self.date_format)
+
+    @staticmethod
+    def _convert_to_dt(dt):
+        if not isinstance(dt, datetime.datetime):
+            dt = datetime.datetime.combine(dt, datetime.time.min)
+        return dt
+
+    def normalize(self, dt):
+        """
+        Clamp dt to every Nth :py:attr:`~_DatetimeParameterBase.interval` starting at
+        :py:attr:`~_DatetimeParameterBase.start`.
+        """
+        if dt is None:
+            return None
+
+        dt = self._convert_to_dt(dt)
+
+        dt = dt.replace(microsecond=0)  # remove microseconds, to avoid float rounding issues.
+        delta = (dt - self.start).total_seconds()
+        granularity = (self._timedelta * self.interval).total_seconds()
+        return dt - datetime.timedelta(seconds=delta % granularity)
+
+    def next_in_enumeration(self, value):
+        return value + self._timedelta * self.interval
+
+
+class DateHourParameter(_DatetimeParameterBase):
+    """
+    Parameter whose value is a :py:class:`~datetime.datetime` specified to the hour.
+
+    A DateHourParameter is a `ISO 8601 <http://en.wikipedia.org/wiki/ISO_8601>`_ formatted
+    date and time specified to the hour. For example, ``2013-07-10T19`` specifies July 10, 2013 at
+    19:00.
+    """
+
+    date_format = '%Y-%m-%dT%H'  # ISO 8601 is to use 'T'
+    _timedelta = datetime.timedelta(hours=1)
+
+
+class DateMinuteParameter(_DatetimeParameterBase):
+    """
+    Parameter whose value is a :py:class:`~datetime.datetime` specified to the minute.
+
+    A DateMinuteParameter is a `ISO 8601 <http://en.wikipedia.org/wiki/ISO_8601>`_ formatted
+    date and time specified to the minute. For example, ``2013-07-10T1907`` specifies July 10, 2013 at
+    19:07.
+
+    The interval parameter can be used to clamp this parameter to every N minutes, instead of every minute.
+    """
+
+    date_format = '%Y-%m-%dT%H%M'
+    _timedelta = datetime.timedelta(minutes=1)
+    deprecated_date_format = '%Y-%m-%dT%HH%M'
+
+    def parse(self, s):
+        try:
+            value = datetime.datetime.strptime(s, self.deprecated_date_format)
+            warnings.warn(
+                'Using "H" between hours and minutes is deprecated, omit it instead.',
+                DeprecationWarning,
+                stacklevel=2
+            )
+            return value
+        except ValueError:
+            return super(DateMinuteParameter, self).parse(s)
+
+
+class DateSecondParameter(_DatetimeParameterBase):
+    """
+    Parameter whose value is a :py:class:`~datetime.datetime` specified to the second.
+
+    A DateSecondParameter is a `ISO 8601 <http://en.wikipedia.org/wiki/ISO_8601>`_ formatted
+    date and time specified to the second. For example, ``2013-07-10T190738`` specifies July 10, 2013 at
+    19:07:38.
+
+    The interval parameter can be used to clamp this parameter to every N seconds, instead of every second.
+    """
+
+    date_format = '%Y-%m-%dT%H%M%S'
+    _timedelta = datetime.timedelta(seconds=1)
 
 
 

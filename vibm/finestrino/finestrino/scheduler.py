@@ -689,7 +689,7 @@ class Scheduler(object):
         if self._config.batch_emails:
             self._email_batcher = BatchNotifier()
 
-        print("+++++ Metrics Collector %s +++++" % self._config.metrics_collector)
+        # print("+++++ Metrics Collector %s +++++" % self._config.metrics_collector)
         self._state._metrics_collector = MetricsCollectors.get(self._config.metrics_collector)
 
     def load(self):
@@ -761,14 +761,14 @@ class Scheduler(object):
 
             return reply
 
-        print("The Old Man and the Gun")
+        # print("The Old Man and the Gun")
 
         if assistant:
             self.add_worker(worker_id, [('assistant', assistant)])
 
         batched_params, unbatched_params, batched_tasks, max_batch_size = None, None, [], 1
         best_task = None
-        print("Current Tasks are .... %s" % current_tasks)
+        # print("Current Tasks are .... %s" % current_tasks)
 
         if current_tasks is not None:
             ct_set = set(current_tasks)
@@ -784,14 +784,14 @@ class Scheduler(object):
         greedy_resources = collections.defaultdict(int)
 
         worker = self._state.get_worker(worker_id)
-        print("Worker is ... %s" % worker)
-        print("Is Trivial Worker ???? .... %s" % worker.is_trivial_worker(self._state))
+        # print("Worker is ... %s" % worker)
+        # print("Is Trivial Worker ???? .... %s" % worker.is_trivial_worker(self._state))
 
         if self._paused:
             relevant_tasks = []
         elif worker.is_trivial_worker(self._state):
             relevant_tasks = worker.get_tasks(self._state, PENDING, RUNNING)
-            print("Relevant Tasks are ... %s" % relevant_tasks)
+            # print("Relevant Tasks are ... %s" % relevant_tasks)
 
             used_resources = collections.defaultdict(int)
             greedy_workers = dict() # if there is no resources, then they can grab any task
@@ -808,7 +808,7 @@ class Scheduler(object):
         #print("Sorted Tasks are ... %s" %tasks)
 
         for task in tasks:
-            print("******** Pending Tasks in Scheduler Queue are ... %s (%s) , resources &&&&&&&&&&&&&&&&&&&&" % (task.id, task.status))
+            #print("******** Pending Tasks in Scheduler Queue are ... %s (%s) , resources &&&&&&&&&&&&&&&&&&&&" % (task.id, task.status))
 
             if (best_task and batched_params and task.family == best_task.family and 
                 len(batched_tasks) < max_batch_size and task.is_batchable() and all(
@@ -829,14 +829,14 @@ class Scheduler(object):
                 for resource, amount in six.iteritems((getattr(task, 'resources_running', task.resources) or {})):
                     greedy_resources[resource] += amount
 
-            print("Self._Schedulable(task) is .... %s" % self._schedulable(task))
-            print("Task Resources are ... %s (greedy %s)" % (task.resources, greedy_resources))
-            print("self._has_resources ???? %s" % self._has_resources(task.resources, greedy_resources))
+            # print("Self._Schedulable(task) is .... %s" % self._schedulable(task))
+            # print("Task Resources are ... %s (greedy %s)" % (task.resources, greedy_resources))
+            # print("self._has_resources ???? %s" % self._has_resources(task.resources, greedy_resources))
 
             if self._schedulable(task) and self._has_resources(task.resources, greedy_resources):
                 in_workers = (assistant and task.runnable) or worker_id in task.workers
-                print("In Workers ... %d" % in_workers)
-                print( "Has Resources %d" %self._has_resources(task.resources, used_resources))
+                # print("In Workers ... %d" % in_workers)
+                # print( "Has Resources %d" %self._has_resources(task.resources, used_resources))
                 #return
                   
                 if in_workers and self._has_resources(task.resources, used_resources):
@@ -844,7 +844,7 @@ class Scheduler(object):
                     batch_param_names, max_batch_size = self._state.get_batcher(worker_id, task.family)
 
                     if batch_param_names and task.is_batchable():
-                        print("Inside IoTs")
+                        # print("Inside IoTs")
                         #return 
 
                         try:
@@ -859,7 +859,7 @@ class Scheduler(object):
                         except KeyError:
                             batched_params, unbatched_params = None, None
                 else:
-                    print("Run Forest Run ...")
+                    # print("Run Forest Run ...")
                     #return 
 
                     workers = itertools.chain(task.workers, [worker_id]) if assistant else task.workers
@@ -876,10 +876,10 @@ class Scheduler(object):
                             break
 
         reply = self.count_pending(worker_id)
-        print("Reply = %s" % reply)
+        # print("Reply = %s" % reply)
         
-        print("Batched Tasks Length === %d" %(len(batched_tasks)))
-        print("Best Task is === %s" %best_task)
+        # print("Batched Tasks Length === %d" %(len(batched_tasks)))
+        # print("Best Task is === %s" %best_task)
 
         if len(batched_tasks) > 1:
             batch_string = '|'.join(task.id for task in batched_tasks)
@@ -899,8 +899,8 @@ class Scheduler(object):
             reply['batch_task_ids'] = [task.id for task in batched_tasks]
         
         elif best_task:
-            print("Inside Best Task !!!")
-            print("Best Task is ... %s" %best_task)
+            # print("Inside Best Task !!!")
+            # print("Best Task is ... %s" %best_task)
             #return 
 
             self.update_metrics_task_started(best_task)
@@ -918,13 +918,13 @@ class Scheduler(object):
         else:
             reply['task_id'] = None
 
-        print("7777777 Reply is %s" % reply)
+        # print("7777777 Reply is %s" % reply)
         
         return reply 
 
     @rpc_method(attempts=1)
     def ping(self, **kwargs):
-        print("Some one is pinging the scheduler")
+        #print("Some one is pinging the scheduler")
         worker_id = kwargs["worker"]
         worker = self._update_worker(worker_id)
 
@@ -955,7 +955,7 @@ class Scheduler(object):
         retry_policy = self._generate_retry_policy(retry_policy_dict)
         #print("++++++ Retry Policy : %s" % retry_policy)
 
-        print("++++ Is Worker Enabled ? %s ++++" % worker.enabled)
+        # print("++++ Is Worker Enabled ? %s ++++" % worker.enabled)
         if worker.enabled:
             _default_task = self._make_task(
                 task_id=task_id, status=PENDING, deps=deps, resources=resources,
@@ -964,10 +964,10 @@ class Scheduler(object):
         else:
             _default_task = None
 
-        print("++++++ Default Task is %s +++++++++" % _default_task)
+        # print("++++++ Default Task is %s +++++++++" % _default_task)
         task = self._state.get_task(task_id, setdefault=_default_task)
 
-        print("TASK STATUS IS %s" % task.status)
+        # print("TASK STATUS IS %s" % task.status)
         if task is None or (task.status != RUNNING and not worker.enabled):
             return
 
@@ -981,14 +981,14 @@ class Scheduler(object):
         if not task.params:
             task.set_params(params)
 
-        print("&&&& Task Family %s &&&&" % task.family)
-        print("&&&& Task Module %s &&&&" % task.module)
-        print("&&&& Param Visibility is ... %s &&&&&" % task.param_visibilities)
-        print("&&&& Task Params is ... %s &&&&&" % task.params)
+        # print("&&&& Task Family %s &&&&" % task.family)
+        # print("&&&& Task Module %s &&&&" % task.module)
+        # print("&&&& Param Visibility is ... %s &&&&&" % task.param_visibilities)
+        # print("&&&& Task Params is ... %s &&&&&" % task.params)
 
         if batch_id is not None:
             task.batch_id = batch_id
-        print("&&&& Task Batch ID is ... %s &&&&&" % task.batch_id)
+        # print("&&&& Task Batch ID is ... %s &&&&&" % task.batch_id)
         
         if status == RUNNING and not task.worker_running:
             task.worker_running = worker_id
@@ -1006,7 +1006,7 @@ class Scheduler(object):
             if task.batch_id is not None:
                 for batch_task in self._state.get_batch_running_tasks(task.batch_id):
                     batch_task.tracking_url = tracking_url
-        print("&&&& Tracking URL ... %s &&&&&" % task.tracking_url)
+        # print("&&&& Tracking URL ... %s &&&&&" % task.tracking_url)
 
         if batchable is not None:
             task.batchable = batchable
@@ -1031,9 +1031,9 @@ class Scheduler(object):
                 # (so checking for status != task.status woule lie)
                 self._update_task_history(task, status)
 
-            print("_____ Task is   _____ %s" % task)
-            print("_____ Status is _____ %s" % status)
-            print("_____ Config is _____ %s" % self._config)
+            #print("_____ Task is   _____ %s" % task)
+            #print("_____ Status is _____ %s" % status)
+            #print("_____ Config is _____ %s" % self._config)
 
             self._state.set_status(task, PENDING if status == SUSPENDED else status, self._config)
 
@@ -1257,10 +1257,10 @@ class Scheduler(object):
 
     def _generate_retry_policy(self, task_retry_policy_dict):
         retry_policy_dict = self._config._get_retry_policy()._asdict()
-        print("+++ Retry Policy Dict +++ %s" %retry_policy_dict)
+        # print("+++ Retry Policy Dict +++ %s" %retry_policy_dict)
 
         retry_policy_dict.update({k: v for k, v in six.iteritems(task_retry_policy_dict) if v is not None})
-        print("+++ Retry Policy Dict 2 +++ %s" %retry_policy_dict)
+        # print("+++ Retry Policy Dict 2 +++ %s" %retry_policy_dict)
         
         return RetryPolicy(**retry_policy_dict)
 

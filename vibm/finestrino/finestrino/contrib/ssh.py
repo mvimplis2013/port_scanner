@@ -5,12 +5,17 @@ There are some examples in the unittest
 import logging
 import subprocess
 import contextlib
+import os 
+import posixpath
+import random 
 
 logger = logging.getLogger('finestrino-interface')
 
+import finestrino
+
 class RemoteCalledProcessError(subprocess.CalledProcessError):
     def __init__(self, returncode, command, host, output=None):
-        super(RemoteProcessCalledError, self).__init__(returncode, command, output)
+        super(RemoteCalledProcessError, self).__init__(returncode, command, output)
         self.host = host
 
     def __str__(self):
@@ -42,7 +47,7 @@ class RemoteContext(object):
 
     def _host_ref(self):
         if self.username:
-            return "{0}@{1}".format(self.usernam, self.host)
+            return "{0}@{1}".format(self.username, self.host)
         else:
             return self.host
 
@@ -144,7 +149,7 @@ class RemoteFileSystem(finestrino.target.FileSystem):
         """
         try:
             self.remote_context.check_output(["test", "-d", path])
-        except subprocess.CalledPrcoessError as e:
+        except subprocess.CalledProcessError as e:
             if e.returncode == 1:
                 return False
             else:
@@ -275,3 +280,41 @@ class RemoteTarget(finestrino.target.FileSystemTarget):
 
     def get(self, local_path):
         self.fs.get(self.path, local_path)            
+
+class AtomicRemoteFileWriter(finestrino.format.OutputPipeProcessWrapper):
+
+    def __init__(self, fs, path):
+        self._fs = fs
+        self.path = path
+
+        # create parent folder if not exists
+        normpath = os.path.normpath(self.path)
+        folder = os.path.dirname(normpath)
+        if folder:
+            self.fs.mkdir(folder)
+
+        self.__tmp_path = self.path + '-luigi-tmp-%09d' % random.randrange(0, 1e10)
+        super(AtomicRemoteFileWriter, self).__init__(
+            self.fs.remote_context._prepare_cmd(['cat', '>', self.__tmp_path]))
+
+    def __del__(self):
+        super(AtomicRemoteFileWriter, self).__del__()
+
+        try:
+            if self.fs.exists(self.__tmp_path):
+                self.fs.remote_context.check_output(['rm', self.__tmp_path])
+        except Exception:
+            # Don't propagate the exception; bad things can happen.
+            logger.exception('Failed to delete in-flight file')
+
+    def close(self):
+        super(AtomicRemoteFileWriter, self).close()
+        self.fs.remote_context.check_output(['mv', self.__tmp_path, self.path])
+
+    @property
+    def tmp_path(self):
+        return self.__tmp_path
+
+    @property
+    def fs(self):
+        return self._fs
