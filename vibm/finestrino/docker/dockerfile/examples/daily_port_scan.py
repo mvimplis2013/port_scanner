@@ -8,6 +8,7 @@ SCAN_TIME = "14:30"
 
 #: the IP of vlab we want to check if ping-able
 HOST = "vlab1.dyndns.org"
+HOST = "conserver-2.res.training"
 
 logger = logging.getLogger( "finestrino" )
 

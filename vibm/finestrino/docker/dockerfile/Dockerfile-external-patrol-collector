@@ -1,0 +1,11 @@
+FROM python:3
+
+ADD /examples /usr/local/vlab
+
+RUN pip install --upgrade pip
+
+RUN pip install -r /usr/local/vlab/requirements.txt
+
+CMD ["pytest", "./usr/local/vlab/test_db_manager.py"]
+
+#CMD ["/bin/ps"]
