@@ -1,5 +1,7 @@
 import pytest
 
+import nomads.logger 
+
 def test_import_logger_module():
     with pytest.raises(ImportError):
         import logger

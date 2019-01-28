@@ -1,5 +1,21 @@
+import os
+from os import environ
+
 import logging 
 import logging.config
+
+PATH = "NOMADS_PATH"
+
+# Default Logging Full Filename
+if PATH not in os.environ:
+    raise EnvironmentError("NOMADS_PATH Not Set")
+
+# 
+parent = os.environ.get( PATH )
+logs_folder = parent + "/logs/"
+
+if not os._exists( logs_folder ):
+    raise EnvironmentError( "Logs Folder Not Found: %s", logs_folder )  
 
 # Custom Logger Class
 
@@ -46,6 +62,12 @@ LOG_CONFIG = {
 }
 
 def nomads_logger():
-    return my_logger
+    _logger = logging.getLogger()
 
-logger = nomads_logger()
+    config = LOG_CONFIG
+
+    logging.config.dictConfig( config )
+
+    return _logger
+
+my_logger = nomads_logger()

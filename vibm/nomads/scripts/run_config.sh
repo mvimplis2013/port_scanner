@@ -1,2 +1,0 @@
-
-python nomads/config.py
