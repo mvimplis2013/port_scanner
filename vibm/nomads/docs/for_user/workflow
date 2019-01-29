@@ -1,0 +1,14 @@
+Step 1
+------
+Make project folders 
+/opt/vlab/
+
+$> sudo mkdir /opt/vlab
+$> cd /opt/vlab
+
+Step 2
+------
+Download <source-archive.tgz> from GitHub && Extract project python files.
+
+$>sudo wget --no-check-certificate https://github.com/mvimplis2013/port_scanner/tree/master/vibm/nomads/archives/nomads_dev.tgz
+$>tar -xvzf nomads_dev.tgz

@@ -1,0 +1,122 @@
+**************
+ 29/ 01/ 2019
+**************
+'Flask' is pyton web-microframework
+
+Install 'Flask' library/ package
+$> sudo pip install flask
+
+Create Application instance
+---------------------------
+The Web-Server passes all requests it receives from clients to this object for handling, using a protocol called ....
+Web Server Gateway Interface (WSGI)
+
+Routes and View Functions
+-------------------------
+Clients such as web-browsers send requests to the web-server, which in turn sends them to the Flask application instance.
+The Flask application needs to know what code it needs to run for each URL requested ...
+So it keeps a mapping of URLs to Python functions. 
+The association between a URL and a the function that handles it is called a 'route'.
+
+The most convenient way to define a route in Flask application is through the ...
+'app.route' decorator exposed by the application instance.
+
+@app.route('/')
+def index():
+ return '<h1>Hello World</h1>'
+
+ SOS: Embedding response strings with HTML code in Python source files lead to code that is difficult to maintain.
+
+ URLs with variable sections 
+ ---------------------------
+ The portion of the route URL enclosed in angle brackets is the dynamic part.
+ Any URLs that match the static portions will be mapped to this route and, when the view function is invoked ....
+ the dynamic component will be passed as an argument.
+
+ @app.route('/user/<name>')
+ def user(name):
+   return '<h1>Hello, {}!</h1>'.format(name)
+
+Support only integer in the id dynamic segment: '/user/<int:id>'
+
+Development Web Server 
+----------------------
+Flask applications include a DEVELOPMENT web server that can be started with the command ... 
+$> flask run 
+
+SOS: This command looks the name of the Python script that contains the application instance in the ...
+FLASK_APP environment variable 
+
+$> export FLASK_APP=server.py
+$> flask run 
+
+... Running on http://127.0.0.1:5000
+
+SOS: The Flask Development Server is intended only development and testing. Use other for production.
+
+Debug Mode 
+----------
+In this mode, two(2) very convenient modules of the development server called the 'reloader' and 'debugger' are enabled.
+
+When 'reloader' ... Flask watches the all the source files of project and automatically restarts the server when ...
+
+When 'debugger' ... displays Traceback when application raises exception
+
+Application and Request Contexts
+--------------------------------
+Request object ... encapsulates the HTTP request sent by the client.
+Do not overcluttering view functions with lots of arguments.
+
+Flask uses 'contexts' to make certain objects globally accessible.
+There are two(2) contexts in Flask: the 'application' and 'request' context
+
+Templates 
+---------
+A template is a file that contains the text of a response, with placeholder variables for .. dynamic parts 
+The process of replacing the variables with action values during a request .. is called 'rendering'
+
+Template engine used ... Jinja2
+
+templates/index.html
+<h1>Hello World!</h1>
+
+templates/user.html
+<h1>Hello, {{name}}!</h1>
+
+Rendering templates
+-------------------
+By default Flask looks for templates in ... 'templates' subdirectory inside project's main folder
+
+@app.route('/')
+def index():
+  return render_template('index.html')
+
+@app.route('/user/<name>')
+def user(name):
+  return render_template('user.html', name=name)
+
+Variables 
+---------
+{{ name }}  .. the value that goes in that place should be obtained at run-time
+
+Jinja2 recognises variables of complex types:
+<p>A value from a dictionary: {{ my_dict['key'] }}.</p>
+<p>A value from a list: {{ my_list[3] }}.</p>
+<p>A value from an object's method: {{ my_object.somemethod() }}.</p>
+
+Filters
+-------
+Variables can be modified with filters ... are added after the variable name with a pipe: 
+<p>Hello, {{ name|capitalize }} }}
+
+Control Structures
+------------------
+{% if user %}
+  Hello, {{ user }} 
+{% else %}
+  Hello, stanger
+{% endif %}
+
+{% for comment in comments %}
+  <li>{{ comment }}</li>
+{% endfor %}
