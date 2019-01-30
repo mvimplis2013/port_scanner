@@ -13,8 +13,10 @@ ENV NOMADS_TGZ=nomads_devel_config.tgz
 # Make NOMADS folders and download project files
 RUN mkdir -p ${NOMADS_HOME} \
   && cd ${NOMADS_HOME} \
-  && wget ${NOMADS_URL}/${NOMADS_TGZ} -O ${NOMADS_TGZ} \ 
+  && wget ${NOMADS_URL}/${NOMADS_TGZ} -O ./${NOMADS_TGZ} \ 
   && tar -xvzf ${NOMADS_TGZ} \
-  && ls -l . \
-  && pip install -r dev_requirements.txt \
+  && ls -l \
+  && pip install -r dev_requirements.txt \ 
   && pip freeze
+
+#CMD ["python", "/nomads/config.py"]

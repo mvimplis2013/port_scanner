@@ -1,0 +1,3 @@
+# Remove all containers regardless of state ... 
+# Removes all ==> docker build -t <tag> ... my Docker containers
+docker rm -vf $(docker ps -a -q) 2>/dev/null || echo "No more containers to remove!"
