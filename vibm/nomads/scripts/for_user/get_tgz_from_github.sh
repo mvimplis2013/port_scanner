@@ -1,14 +1,18 @@
-set GIT_PROJECT_URL="https://raw.githubusercontent.com/mvimplis2013/port_scanner/master/vibm/nomads"
-set GIT_ARC_FOLDER="archives"
-set GIT_ARC_FILENAME="nomads_devel_source.tgz"
+# Script variables defined first for easy access
+GIT_PROJECT_URL="https://raw.githubusercontent.com/mvimplis2013/port_scanner/master/vibm/nomads"
+GIT_ARC_FOLDER="archives"
+GIT_ARC_FILENAME="nomads_devel_source.tgz"
 
-set LOCAL_VLAB_FOLDER="/opt/vlab/"
-set LOCAL_NOMADS_FILENAME=$GIT_ARC_FILENAME
+LOCAL_VLAB_FOLDER="/opt/vlab/nomads"
+LOCAL_NOMADS_FILENAME=$GIT_ARC_FILENAME
+
+TEST_TAR_1="nomads"
+# EndOdf Script Variables
 
 if [ ! -d $LOCAL_VLAB_FOLDER ]; then
   # Control will enter here if DIRECTORY doesn't exist
   echo "Ready to create the local VLAB folder ...." + $LOCAL_VLAB_FOLDER
-  sudo mkdir $(LOCAL_VLAB_FOLDER)
+  sudo mkdir -p $LOCAL_VLAB_FOLDER
 fi
 
 cd $LOCAL_VLAB_FOLDER
@@ -28,4 +32,11 @@ if [ ! -s $LOCAL_NOMADS_FILENAME ]; then
   exit 1
 fi
 
+# Decompress archive with project source code
 sudo tar xzf ./$GIT_ARC_FILENAME
+
+if [ ! -d $TEST_TAR_1 ]; then 
+  # Problem with source archive decompress
+  echo " Problem with Source Archive Decompress ... Folders are missing"
+  exit 1
+fi
