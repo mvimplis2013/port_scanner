@@ -2,7 +2,7 @@ tool="tar"
 
 flags="-cvzf" 
 
-tgz_name="archives/nomads_dev.tgz"
+tgz_name="archives/nomads_devel_source.tgz"
 
 src_folder="nomads/"
 test_folder="tests"
