@@ -1,6 +1,6 @@
 FROM python:3.6-alpine
 
-ENV FLASK_APP server.py
+ENV FLASK_APP nomads/server.py
 ENV FLASK_CONFIG production
 
 RUN adduser -D vlab
@@ -13,7 +13,12 @@ COPY requirements_gui.txt requirements.txt
 RUN python -m venv venv_vlab
 RUN venv_vlab/bin/pip install -r requirements.txt
 
+#RUN pip install --user -r requirements.txt
+
 COPY nomads nomads
+COPY boot.sh ./
 
 EXPOSE 5000
 ENTRYPOINT ["./boot.sh"]
+#CMD python -m flask run --host=127.0.0.1 --port=5000
+#CMD python -m gunicorn -b :5000 --access-logfile - --error-logfile - server:app
