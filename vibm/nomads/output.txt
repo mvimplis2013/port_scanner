@@ -1,1 +1,41 @@
-Login Succeeded
+Sending build context to Docker daemon  97.79kB
+Step 1/13 : FROM python:3.6-alpine
+ ---> 3fdc2f459181
+Step 2/13 : ENV FLASK_APP nomads/server.py
+ ---> Using cache
+ ---> 519411a44abf
+Step 3/13 : ENV FLASK_CONFIG production
+ ---> Using cache
+ ---> 21740b648da4
+Step 4/13 : RUN adduser -D vlab
+ ---> Using cache
+ ---> 6ab650f8874d
+Step 5/13 : USER vlab
+ ---> Using cache
+ ---> 775205dbf14f
+Step 6/13 : WORKDIR /home/vlab
+ ---> Using cache
+ ---> 4eae330edffe
+Step 7/13 : COPY requirements_gui.txt requirements.txt
+ ---> Using cache
+ ---> 0a698d2fff7d
+Step 8/13 : RUN python -m venv venv_vlab
+ ---> Using cache
+ ---> 4508c1b7977f
+Step 9/13 : RUN venv_vlab/bin/pip install -r requirements.txt
+ ---> Using cache
+ ---> 087f980d5190
+Step 10/13 : COPY nomads nomads
+ ---> 8d666caff9d4
+Step 11/13 : COPY boot.sh ./
+ ---> 810f4827dcb4
+Step 12/13 : EXPOSE 5000
+ ---> Running in 5cea00d474fb
+Removing intermediate container 5cea00d474fb
+ ---> 9db497687a14
+Step 13/13 : ENTRYPOINT ["./boot.sh"]
+ ---> Running in 566ed05bcf89
+Removing intermediate container 566ed05bcf89
+ ---> 6441b6ddc34b
+Successfully built 6441b6ddc34b
+Successfully tagged vlab-gui-image:latest

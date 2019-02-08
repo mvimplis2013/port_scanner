@@ -53,13 +53,40 @@
             <div class="row">
               <nav class="col-md-2 d-none d-md-block bg-light sidebar">
                 <div class="sidebar-sticky">
-                  <ul class="nav flex-column">
-                    <li class="nav-item">
-                      <a class="nav-link active" href="#">
-                        <span data-feather="home"></span>
-                        Dashboard <span class="sr-only">(current)</span>
+                  <ul id="monitoType" class="nav flex-column" myValue="None">
+                    <li class="monitohead">
+                      <!--a class="monitohead" href="#"-->
+                        <!--span data-feather="home"></span-->
+                        Monitoring Type <span class="sr-only">(current)</span>
+                      <!--/a-->
+                    </li>
+                    <li class="externamonit">
+                      <!--a class="nav-link externamonit" href="#"-->
+                      <input type="checkbox" id="extm" style="vertical-align: middle" autocomplete="off">
+                        <!--span data-feather="layers" onclick="play_external_monitoring()"></span-->
+                        <label for="extm" style="padding-left: 8px">External Monitoring</label>
                       </a>
                     </li>
+                    <li class="internamonit">
+                      <!--a class="nav-link internamonit" href="#"-->
+                        <input type="checkbox" id="inerm" style="vertical-align: middle" autocomplete="off">
+                        <!--span data-feather="layers" onclick="play_internal_monitoring()"></span-->
+                        <label for="inerm" style="padding-left: 8px">Internal Monitoring</label>
+                      </a>
+                    </li>
+
+                    <li class="vertical-spacer">
+                      <label></label>
+                    </li>
+
+                    <li class="monitohead">
+                      <!--a class="monitohead" href="#"-->
+                        <!--span data-feather="home"></span-->
+                        Monitored Entities <span class="sr-only">(current)</span>
+                      <!--/a-->
+                    </li>
+                    
+
                     <li class="nav-item">
                       <a class="nav-link" href="#">
                         <span data-feather="file"></span>
@@ -84,13 +111,36 @@
                         Services
                       </a>
                     </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="#">
-                        <span data-feather="layers" onclick="play_external_monitoring()"></span>
-                        External Monitoring
-                      </a>
-                    </li>
                   </ul>
+
+                  <li class="monitohead">
+                    <!--a class="monitohead" href="#"-->
+                      <!--span data-feather="home"></span-->
+                      Administrative Actions <span class="sr-only">(current)</span>
+                    <!--/a-->
+                  </li>
+                  <li class="externamonit">
+                    <!--a class="nav-link externamonit" href="#"-->
+                    <input type="checkbox" id="extm" style="vertical-align: middle" autocomplete="off" onclick="onPingIP()">
+                      <!--span data-feather="layers" onclick="play_external_monitoring()"></span-->
+                      <label for="extm" style="padding-left: 8px">Ping IP</label>
+                    </a>
+                  </li>
+                  <li class="internamonit">
+                    <!--a class="nav-link internamonit" href="#"-->
+                      <input type="checkbox" id="inerm" style="vertical-align: middle" autocomplete="off">
+                      <!--span data-feather="layers" onclick="play_internal_monitoring()"></span-->
+                      <label for="inerm" style="padding-left: 8px">Bring Server Down</label>
+                    </a>
+                  </li>
+                  <li class="internamonit">
+                    <!--a class="nav-link internamonit" href="#"-->
+                      <input type="checkbox" id="inerm" style="vertical-align: middle" autocomplete="off">
+                      <!--span data-feather="layers" onclick="play_internal_monitoring()"></span-->
+                      <label for="inerm" style="padding-left: 8px">Stop Service</label>
+                    </a>
+                  </li>
+
 
                   <h6 id="entitiesL" class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
                     <span>Saved reports</span>
@@ -99,7 +149,7 @@
                     </a>
                   </h6>
                       
-                  <ul class="nav flex-column mb-2">
+                  <ul id="reportFreq" class="nav flex-column mb-2" myValue="">
                     <li class="nav-item">
                         <a class="nav-link" href="#">
                           <span data-feather="file-text"></span>
@@ -116,7 +166,7 @@
                         
                     <li class="nav-item">
                         <a class="nav-link" href="#">
-                            <span data-feather="file-text"></span>
+                            <span data-feather="file-text" onclick="set_daily_frequency()"></span>
                             Last Day
                         </a>
                     </li>
@@ -139,8 +189,8 @@
                   <ul class="nav flex-column mb-2">
                     <li class="nav-item">
                         <a class="nav-link" href="#">
-                            <span data-feather="file-text"></span>
-                            Warnings
+                            <span data-feather="file-text" onclick="display_open_ports()"></span>
+                            Ports
                         </a>
                     </li>
                             
@@ -170,6 +220,9 @@
                     </div>
                 </div>
 
+                <h4 class="header-availability">Availability Over the Past XX Hours</h4>
+                <h1 id="output"></h1>
+                <div id="myTable"></div>
                 <canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas>
 
                 <h2>VLAB Robot Configuration</h2>
@@ -224,6 +277,7 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.8.2/d3.js"></script>
        
-    <script type="text/javascript" src="../gui/js/dashboard.js"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/ports_services_availability_monitor.js') }}"></script>
   </body>
 </html>

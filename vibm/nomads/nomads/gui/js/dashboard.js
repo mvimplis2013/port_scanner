@@ -17,7 +17,8 @@ function list_all_services() {
 }
 
 function play_external_monitoring() {
-  alert("External Monitoring Client Ready !");
+  monitoType.myValue="External";
+  //alert("External Monitoring Client Ready !");
 }
 
 function configure_robot() {
@@ -48,10 +49,24 @@ function configure_robot() {
   robotResponse.style.fontSize="20px";
 }
 
+function set_daily_frequency() {
+  reportFreq.myValue = "Day"
+}
+
+/* Displays 
+*/
+/*(function() {
+  alert("Hello");
+} ()); */
+
+/*
 (function () {
     'use strict'
   
     feather.replace()
+
+    monitoType.myValue = "None"
+    reportFreq.myValue = "None"
   
     // Graphs
     var ctx = document.getElementById('myChart')
@@ -98,4 +113,4 @@ function configure_robot() {
         }
       }
     })
-  }())
+  }())*/

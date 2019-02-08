@@ -1,0 +1,3 @@
+robot,vlabID,port,service,status
+external-monitoring,Roberts-Home,22,tcp/ssh,on
+internal-monitoring,Kostas-Store,110,Email Server, DOWN

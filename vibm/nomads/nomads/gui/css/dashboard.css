@@ -105,3 +105,47 @@ border-color: transparent;
 box-shadow: 0 0 0 3px rgba(255, 255, 255, .25);
 }
 
+.header-availability {
+    color: white;
+    background-color: green;
+    padding-left: 1em;
+}
+
+.aClass {
+    width: 140px;
+    height: 40px;
+}
+
+.monitohead {
+    font-weight: 900;
+    font-size: 120%;
+    letter-spacing: 2px;
+    color: whitesmoke;
+    background-color: green;
+    box-sizing: border-box;
+    display: block;
+    line-height: 35.2px;
+    padding-left: 10px;
+}
+
+.externamonit {
+    line-height: 35.2px;
+    padding-left: 16px;
+    background-color: bisque;
+    vertical-align: middle;
+}
+
+.internamonit {
+    line-height: 35.2px;
+    padding-left: 16px;
+    background-color: bisque;
+}
+
+.vertical-spacer {
+    line-height: 1px;
+    background-color: grey;
+}
+
+.happy {
+    line-height: 2px;
+}
