@@ -1,41 +1,53 @@
-Sending build context to Docker daemon  97.79kB
-Step 1/13 : FROM python:3.6-alpine
+Sending build context to Docker daemon  135.2kB
+Step 1/17 : FROM python:3.6-alpine
  ---> 3fdc2f459181
-Step 2/13 : ENV FLASK_APP nomads/server.py
+Step 2/17 : RUN apk update
  ---> Using cache
- ---> 519411a44abf
-Step 3/13 : ENV FLASK_CONFIG production
+ ---> 898601e3768f
+Step 3/17 : RUN apk add iputils
  ---> Using cache
- ---> 21740b648da4
-Step 4/13 : RUN adduser -D vlab
+ ---> 650343cd192e
+Step 4/17 : RUN apk add nmap
  ---> Using cache
- ---> 6ab650f8874d
-Step 5/13 : USER vlab
+ ---> c8bbce1fb39b
+Step 5/17 : RUN apk add sudo
  ---> Using cache
- ---> 775205dbf14f
-Step 6/13 : WORKDIR /home/vlab
+ ---> 1ab12037d399
+Step 6/17 : ENV FLASK_APP nomads/server.py
  ---> Using cache
- ---> 4eae330edffe
-Step 7/13 : COPY requirements_gui.txt requirements.txt
+ ---> 28bec88f2f4a
+Step 7/17 : ENV FLASK_CONFIG production
  ---> Using cache
- ---> 0a698d2fff7d
-Step 8/13 : RUN python -m venv venv_vlab
+ ---> 34c9c98372e3
+Step 8/17 : RUN adduser -D vlab
  ---> Using cache
- ---> 4508c1b7977f
-Step 9/13 : RUN venv_vlab/bin/pip install -r requirements.txt
+ ---> 30ea4c68fc04
+Step 9/17 : USER vlab
  ---> Using cache
- ---> 087f980d5190
-Step 10/13 : COPY nomads nomads
- ---> 8d666caff9d4
-Step 11/13 : COPY boot.sh ./
- ---> 810f4827dcb4
-Step 12/13 : EXPOSE 5000
- ---> Running in 5cea00d474fb
-Removing intermediate container 5cea00d474fb
- ---> 9db497687a14
-Step 13/13 : ENTRYPOINT ["./boot.sh"]
- ---> Running in 566ed05bcf89
-Removing intermediate container 566ed05bcf89
- ---> 6441b6ddc34b
-Successfully built 6441b6ddc34b
+ ---> e79688d07807
+Step 10/17 : WORKDIR /home/vlab
+ ---> Using cache
+ ---> 29a80676ba01
+Step 11/17 : COPY requirements_gui.txt requirements.txt
+ ---> Using cache
+ ---> 6a571f1523c7
+Step 12/17 : RUN python -m venv venv_vlab
+ ---> Using cache
+ ---> 7ed979a8d077
+Step 13/17 : RUN venv_vlab/bin/pip install -r requirements.txt
+ ---> Using cache
+ ---> 11250d53482c
+Step 14/17 : COPY nomads nomads
+ ---> f44809573fdb
+Step 15/17 : COPY boot.sh ./
+ ---> 03a25f19807b
+Step 16/17 : EXPOSE 5000
+ ---> Running in acdc1a7c5846
+Removing intermediate container acdc1a7c5846
+ ---> 0e2a7597f549
+Step 17/17 : ENTRYPOINT ["./boot.sh"]
+ ---> Running in 25c9e2d12f41
+Removing intermediate container 25c9e2d12f41
+ ---> 306174827512
+Successfully built 306174827512
 Successfully tagged vlab-gui-image:latest

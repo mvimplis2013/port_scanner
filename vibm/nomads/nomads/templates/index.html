@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="icon" href="images/favicon.ico" type="image/ico" />
+	  <link rel="icon" href="images/favicon.ico" type="image/ico" />
 
     <title>VLAB Monitoring GUI</title>
 
@@ -41,7 +41,17 @@
             <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnJgmthvE81Am0O8pEPhMGrlbTV1Tnko7Zk43-PSRBzsRJoMG6" width="30" height="30" class="d-inline" >
             Red Baron
         </a>
-        <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
+        <div class="form-group row robot-select-div">
+          <label for="robot" class="robot-select-label">Server/Robot URL for Requests: </label>
+          <div class="robot-select">
+            <select id="robot-ip">
+              <option value="local" selected="selected">127.0.0.1</option>
+              <option value="vlab1">vlab1.dyndns.org</option>
+              <option value="vlab2">vlab2.dyndns.org</option>
+              <option value="vlab3">vlab3.dyndns.org</option>
+            </select>
+          </div>
+        </div>
         <ul class="navbar-nav px-3">
             <li class="nav-item text-nowrap">
                 <a class="nav-link" href="#">Sign out</a>
@@ -123,9 +133,17 @@
                     <!--a class="nav-link externamonit" href="#"-->
                     <input type="checkbox" id="extm" style="vertical-align: middle" autocomplete="off" onclick="onPingIP()">
                       <!--span data-feather="layers" onclick="play_external_monitoring()"></span-->
-                      <label for="extm" style="padding-left: 8px">Ping IP</label>
+                      <label for="extm" style="padding-left: 8px">Ping Host</label>
                     </a>
                   </li>
+                  <li class="externamonit">
+                    <!--a class="nav-link externamonit" href="#"-->
+                    <input type="checkbox" id="extm" style="vertical-align: middle" autocomplete="off" onclick="onScanPorts()">
+                      <!--span data-feather="layers" onclick="play_external_monitoring()"></span-->
+                      <label for="extm" style="padding-left: 8px">Scan Open Ports</label>
+                    </a>
+                  </li>
+  
                   <li class="internamonit">
                     <!--a class="nav-link internamonit" href="#"-->
                       <input type="checkbox" id="inerm" style="vertical-align: middle" autocomplete="off">
@@ -220,10 +238,11 @@
                     </div>
                 </div>
 
-                <h4 class="header-availability">Availability Over the Past XX Hours</h4>
-                <h1 id="output"></h1>
-                <div id="myTable"></div>
-                <canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas>
+                <div id="wrapper" class="">
+                  <h4 class="header-availability">Availability Over the Past XX Hours</h4>
+                  <div id="myTable" class="form-group my-table"></div>
+                  <canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas>
+                </div>
 
                 <h2>VLAB Robot Configuration</h2>
                 <div class="table-responsive">
@@ -265,8 +284,11 @@
     <!--script>window.jQuery || document.write('<script src="/docs/4.2/assets/js/vendor/jquery-slim.min.js"><\/script>')</script><script src="/docs/4.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-zDnhMsjVZfS3hiP7oCBRmfjkQC4fzxVxFhBx8Hkz2aZX8gEvA/jsP3eXRCvzTofP" crossorigin="anonymous"></script-->
     <script>window.jQuery || document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"><\/script>')</script>
     
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    
     <!--script src="/docs/4.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-zDnhMsjVZfS3hiP7oCBRmfjkQC4fzxVxFhBx8Hkz2aZX8gEvA/jsP3eXRCvzTofP" crossorigin="anonymous"></script-->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <!--script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script-->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>  
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.9.0/feather.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
@@ -279,5 +301,6 @@
        
     <script type="text/javascript" src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/ports_services_availability_monitor.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/scan_vlab_open_ports.js') }}"></script>
   </body>
 </html>

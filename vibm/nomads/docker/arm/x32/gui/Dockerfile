@@ -1,5 +1,10 @@
 FROM python:3.6-alpine
 
+RUN apk update 
+RUN apk add iputils
+RUN apk add nmap
+RUN apk add sudo
+
 ENV FLASK_APP nomads/server.py
 ENV FLASK_CONFIG production
 

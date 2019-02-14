@@ -1,3 +1,5 @@
+source ./scripts/for_housekeeping/containers_remove_all_regardless_state.sh
+
 SCRIPTS_LOCATION="./scripts/for_deployment/"
 
 OUTPUT="output.txt"
@@ -18,7 +20,7 @@ PORT_CONTAINER=5000
 # ***********************
 
 GUI_CONTAINER="vlab_gui_container"
-DOCKER_RUN_FLAGS="--name $GUI_CONTAINER -it -d -p $PORT_LOCAL:$PORT_CONTAINER -t $GUI_IMAGE"
+DOCKER_RUN_FLAGS="--name $GUI_CONTAINER -it --privileged -d -p $PORT_LOCAL:$PORT_CONTAINER -t $GUI_IMAGE"
 
 # Bring forward the GUI-container dockerfile
 source "$SCRIPTS_LOCATION"/prepare_context_of_build.sh arm x32 gui | tee "$OUTPUT"
