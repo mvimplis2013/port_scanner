@@ -59,6 +59,7 @@ function callRobot4PortScan() {
                 render_results_table();
 
                 //response = $.parseJSON(data);
+                console.log( data );
                 
                 $(function() {
                     $.each(data, function(i, item) {

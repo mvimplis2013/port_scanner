@@ -39,11 +39,13 @@ def ping_host_full_response(hostname):
 
         # print( "***** : %s", total )
         packets_transm_recv = lines[-2]
-        transmitted = packets_transm_recv.split(",")[0].strip()
-        received    = packets_transm_recv.split(",")[1].strip()
-        loss = packets_transm_recv.split(",")[2].strip()
+        print( "***** : %s", packets_transm_recv )
+        transmitted = packets_transm_recv.split(",")[0].split()[0].strip() + " p"
+        received    = packets_transm_recv.split(",")[1].split()[0].strip() + " p"
+        loss        = packets_transm_recv.split(",")[2].split()[0].strip() 
+        
         time_spent  = packets_transm_recv.split(",")[3].strip()
-        # print("Packets Transmitted = %s ... Received = %s ... Loss = %s ... Time = %s" %(transmitted, received, loss, time_spent))
+        print("Packets Transmitted = %s ... Received = %s ... Loss = %s ... Time = %s" % (transmitted, received, loss, time_spent))
 
         data = { 
             "bytes": bytes_, "icmp_seq": icmp_seq, "ttl": ttl, "time_ms": time_ms,
@@ -68,13 +70,65 @@ def ping_host(hostname):
         return "Down?"
 
 def scan_vlab_open_ports_now( hostname ):
-    cmd = "sudo nmap -sU -sT " + hostname
-
+    # cmd = "nmap -sU -sT " + hostname
+    cmd = "nmap -sT " + hostname
+    
     response = subprocess.check_output( cmd, shell=True )
+    
+    response_utf8 = response.decode('utf-8').strip()
+    
+    print("Open Ports NMAP Response ... %s" % response_utf8)
 
-    response_utf8 = response.decode('utf-8')
+    lines = response_utf8.split("\n")
 
-    return response_utf8
+    if "down" in lines[1]:
+        print("Specific Host seems to be Down!")
+        return [{"Port": "None", "State": "Server Down", "Service": "None"}]
+
+    target = lines[1].split()[-2:]
+    target = '-'.join( target )
+
+    # print("Target is ... %s" % (target))
+    
+    num_filtered_ports = lines[4].split(":")[1].strip().split()[0].strip()
+    
+    # print("Number of Filtered Ports ... %s" % (num_filtered_ports))
+    open_ports = []
+
+    a = 6
+    for i in range(20):
+        b = a + i
+
+        if not lines[ b ]:
+            a = b+1
+            break
+
+        #print("Port is ... %s" % lines[b] )
+        
+        op_dict = {
+            "Port": lines[b].split()[0].strip(),
+            "State": lines[b].split()[1].strip(),
+            "Service": lines[b].split()[2].strip(),
+        }
+
+        open_ports.append( op_dict )
+    
+    done_resp = lines[a].split(":")[1].strip()
+    host_is_up = done_resp[
+        done_resp.find("(") + 1: 
+        done_resp.find(")")]
+
+    scan_time  = done_resp.split()[-2:]
+
+    #print("*** %s\n+++ %s" % (response_utf8, scan_time))
+
+    data = {
+        "target": target, "num-filtered-ports": num_filtered_ports, "open-ports": open_ports,
+        "host-is-up": host_is_up, "scan-time": scan_time, 
+    }
+
+    #return data
+    return open_ports
 
 def write_tsv_file():
     import csv

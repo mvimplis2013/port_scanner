@@ -35,30 +35,27 @@
     <!-- Custom Theme Style -->
   </head>
 
-  <body class="nav-md">
-    <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
-        <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnJgmthvE81Am0O8pEPhMGrlbTV1Tnko7Zk43-PSRBzsRJoMG6" width="30" height="30" class="d-inline" >
-            Red Baron
-        </a>
-        <div class="form-group row robot-select-div">
-          <label for="robot" class="robot-select-label">Server/Robot URL for Requests: </label>
-          <div class="robot-select">
-            <select id="robot-ip">
-              <option value="local" selected="selected">127.0.0.1</option>
-              <option value="vlab1">vlab1.dyndns.org</option>
-              <option value="vlab2">vlab2.dyndns.org</option>
-              <option value="vlab3">vlab3.dyndns.org</option>
-            </select>
-          </div>
-        </div>
-        <ul class="navbar-nav px-3">
-            <li class="nav-item text-nowrap">
-                <a class="nav-link" href="#">Sign out</a>
-            </li>
-        </ul>
-    </nav>
+  <body class="container">
+            
+    <div class="container">
+      <h1><span class="badge badge-pill badge-primary">Server-URL</span></h1>
 
+      <div class="form-inline col-md-6 row">
+        <select class="form-control col-md-4" id="robot-ip">
+          <option value="local" selected="selected">127.0.0.1</option>
+          <option value="vlab1">vlab1.dyndns.org</option>
+          <option value="vlab2">vlab2.dyndns.org</option>
+          <option value="vlab3">vlab3.dyndns.org</option>
+          <option value="other">Other</option>
+        </select>
+              
+        <h2><label class="text-warning" style="padding-left: 5px;">If other, enter server-ip:</label></h1>
+      </div>
+      
+      <input id = "other-ip" type="text" class="form-control col-md-2" placeholder="Server-IP" aria-label="server ip" aria-describedby="basic-addon2">            
+    </div>
+    
+    
     <div class="container-fluid">
             <div class="row">
               <nav class="col-md-2 d-none d-md-block bg-light sidebar">
@@ -238,9 +235,9 @@
                     </div>
                 </div>
 
-                <div id="wrapper" class="">
+                <div id="wrapper" class="container">
                   <h4 class="header-availability">Availability Over the Past XX Hours</h4>
-                  <div id="myTable" class="form-group my-table"></div>
+                  <div id="myTable" class="form-group"></div>
                   <canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas>
                 </div>
 

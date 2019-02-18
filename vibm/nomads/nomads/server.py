@@ -34,9 +34,10 @@ def get_ports():
 @app.route('/ping_ip_or_dns', methods=['GET'])
 def ping_ip_or_dns():
     ip = request.args.get("ping-ip")
-
+    #print("!!! WELCOME ROBERT BERGER ING ... YOU JUST SEND ME A PING REQUEST FOR VLAB ... %s" % ip)
+    
     simple_ping = ping_host(ip).upper()
-    print("Server Simple Ping -> %s" % simple_ping )
+    #print("Server Simple Ping -> %s" % simple_ping )
 
     if (  simple_ping.upper() == "UP!" ):
         data = ping_host_full_response(ip)
@@ -51,15 +52,17 @@ def ping_ip_or_dns():
 def scan_ports():
     vlab_target = request.args.get("vlab-target")
 
-    #return scan_vlab_open_ports_now( vlab_target )
+    response = scan_vlab_open_ports_now( vlab_target )
 
-    response = [{ 
-        "Port": "22/tcp", "State": "open", "Service":"ssh"}, { 
-        "Port": "443/tcp", "State": "open", "Service": "https"}, { 
-        "Port": "5555/tcp", "State": "open", "Service": "freeciv"}]
+    #response = [{ 
+    #    "Port": "22/tcp", "State": "open", "Service":"ssh"}, { 
+    #    "Port": "443/tcp", "State": "open", "Service": "https"}, { 
+    #    "Port": "5555/tcp", "State": "open", "Service": "freeciv"}]
 
-    return jsonify(response)
-
+    #print( "--> %s" % response["open-ports"])
+    #return jsonify( response["open-ports"] )
+    return jsonify( response )
+    
 @app.route('/alarms-outages-nodes', methods=['GET'])
 def get_alarms_outages_nodes_graphs():
     return render_template("alarms_outages_nodes.html")
