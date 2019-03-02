@@ -1,23 +1,13 @@
 import os
 from os import environ
+from os import path
 
 import logging 
 import logging.config
 
-PATH = "NOMADS_PATH"
-
-# Default Logging Full Filename
-if PATH not in os.environ:
-    raise EnvironmentError("NOMADS_PATH Not Set")
-
-parent = os.environ.get( PATH )
-logs_folder = parent + "/logs/"
-
-if not os._exists( logs_folder ):
-    raise EnvironmentError( "Logs Folder Not Found: %s", logs_folder )  
-
-# Custom Logger Class
-
+"""
+IMPORTANT --- Docker Container always: Make sure "logs/" folder exists & touch "logs/back-robot.log"
+"""
 LOG_CONFIG = {
     'version': 1.0,
     'disable_existing_loggers': False,
@@ -44,7 +34,7 @@ LOG_CONFIG = {
             'level': 'DEBUG',
             'formatter': 'standard',
             'class': 'logging.handlers.RotatingFileHandler',
-            'filename': LOG_FILENAME
+            'filename': 'logs/back-robot.log',
         },
         'console': {
             'level': 'DEBUG',
@@ -53,20 +43,20 @@ LOG_CONFIG = {
         },
     },
     'loggers': {
-        'finestrino': {
-            'handlers': ['console'],
+        'nomad': {
+            'handlers': ['file', 'console'],
             'level': 'DEBUG',
         },
     },
 }
 
-def nomads_logger():
-    _logger = logging.getLogger()
-
+def get_nomads_logger():
     config = LOG_CONFIG
 
     logging.config.dictConfig( config )
 
+    _logger = logging.getLogger("nomad")
+
     return _logger
 
-my_logger = nomads_logger()
+nomads_logger = get_nomads_logger()

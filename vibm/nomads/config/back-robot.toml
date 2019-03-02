@@ -1,0 +1,12 @@
+###############################################################
+## External monitoring using ping IPs, port scans and GeoIP 
+###############################################################
+title = "TOML Configuration File for Backend Monitoring Robot"
+
+[external-monitoring]
+vlabs = [ "vlab1", "vlab2" ]
+ip-ping-freq = "10-msec"
+port-scan-freq = "2-min"
+
+[database]
+server = "192.168.1.100"

@@ -1,8 +1,8 @@
 function render_results_table() {
-    var output = $("#myTable");
+    var ref = $("#myTable");
 
-    output.append('<div id="table-ports" class="container"> \
-        <table class="table table-dark table-striped table-bordered" id="my_table"> \
+    ref.append(//'<div id="table-ports" class="container"> \
+        '<table class="table table-dark table-striped table-bordered" id="my_table"> \
             <thead class="thead-light"> \
             <tr> \
                 <th scope="col">Port</th> \
@@ -17,21 +17,32 @@ function render_results_table() {
                     <td>Default</td> \
                 </tr> \
             </tbody> \
-        </table> \
-    </div>');
+        </table>' //  \</div>'
+        );
 }
 
-function prepare_vlab_select_input() {
-    $(".header-availability").empty().text("External Monitoring for Open Ports & Available Services");
+function onScanPorts() {
+    $("#header-availability").empty().text("External Monitoring for Open Ports");
   
     var output = $("#myTable");
     output.empty();
 
-    output.append("<p class='happy'>Select VLAB that Robot will Perform Ports Scan:</p>");
-    output.append('<div class="wall">');
-    output.append('<input type="text" id="vlab-target" class="cip" value="vlab1.dyndns.org">');
-    output.append('<label id="try" class="button-ready" for="ping-ip">Scan Now!</label>');
-    output.append("</div>");  
+    output.append("<p class='happy'>Select VLAB for Scanning:</p>");
+    
+    output.append(
+        '<div class="input-group input-group-sm mb-2">\
+            <input type="text" id="vlab-target" class="form-control" value="vlab1.dyndns.org">\
+            <div class="input-group-append">\
+                <button id="try" class="btn btn-primary">Try</button>\
+            </div>\
+        </div>');  
+
+    $( "#try" ).click( function() {
+        $("#try").empty().text("OK!");
+        $("#try").addClass("btn-success")
+        
+        callRobot4PortScan();
+    }); 
 }
 
 function callRobot4PortScan() {
@@ -76,16 +87,4 @@ function callRobot4PortScan() {
             }
         }
     );
-}
-
-function onScanPorts() {
-    prepare_vlab_select_input();
-
-    $( "#try" ).click(function() {
-        $("#try").empty().text("Wait Lab");
-        $("#try").addClass("button-wait")
-    
-        callRobot4PortScan();
-  }); 
-
 }

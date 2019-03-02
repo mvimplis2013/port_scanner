@@ -230,3 +230,25 @@ box-shadow: 0 0 0 3px rgba(255, 255, 255, .25);
 .badge {
     color: green;
 }
+
+.sidebar-separator-title {
+    background-color: green;
+    height: 35px;
+
+    font-weight: 900;
+    font-size: 120%;
+    letter-spacing: 2px;
+    color: whitesmoke;
+    background-color: green;
+    box-sizing: border-box;
+    display: block;
+    line-height: 35.2px;
+}
+.sidebar-expanded {
+    width: 160px;
+}
+
+#sidebar-container .list-group a {
+    height: 50px;
+    color: white;
+} 

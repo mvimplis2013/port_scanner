@@ -5,7 +5,7 @@ DOCKER_HUB_PASS=firewind
 LOCAL_IMAGE_TAG=vlab-gui-image
 
 TARGET_NAME=vlab-gui
-TARGET_VERSION=20.0
+TARGET_VERSION=23.0
 
 OUTPUT=output.txt
 FAILURE_KEY=Error

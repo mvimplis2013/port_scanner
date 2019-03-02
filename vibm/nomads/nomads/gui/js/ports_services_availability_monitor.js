@@ -61,10 +61,14 @@ function callRobot4PingIP(ping_ip) {
   }
   
   url = robot_ip + "ping_ip_or_dns";
+  console.log("Robot IP ... " + url);
 
   ping_ip = $("#ping-ip").val();
   //alert( ping_ip );
   console.log("Ping-IP is ..." + ping_ip);
+  console.log(' href => ' + window.location.href);
+  console.log(' host => ' + window.location.host);
+  console.log(' hostname => ' + window.location.hostname);
 
   data = { "ping-ip": ping_ip }
 
@@ -86,30 +90,40 @@ function callRobot4PingIP(ping_ip) {
 function onPingIP() {
   // Find the main-division and clear the current contents 
   // Use jquery framework ... 
-  $(".header-availability").empty().text("Ping IP Request/ Response Preview Screen");
+  $("#header-availability").empty().text("External Monitoring of VLAB");
   
   var output = $("#myTable");
   output.empty();
 
-  output.append("<p class='happy'>Enter Open-DNS name to ping server for external monitoring:</p>");
+  output.append(
+    '<h6><span class="label label-info">Enter name of server to ping:</span></h6>');
   
   output.append(
-    '<div class="form-inline">\
-      <input type="text" id="ping-ip" class="form-control input-lg ml-2" placeholder="which-vlab" data-toggle="tooltip" data-placement="bottom" title="vlabX.dyndns.org">\
-      <button id="try" class="btn btn-primary ml-1 pl-2" for="ping-ip" data-toggle="tooltip" data-placement="right" title="Send request to server">Try Me !</label>\
+    '<div class="input-group input-group-sm mb-2">\
+      <input type="text" id="ping-ip" class="form-control" value="vlab1.dyndns.org">\
+      <div class="input-group-append mb-4">\
+        <button id="try-ping" class="btn btn-primary ml-1 mr-2">Try</button>\
+        <input id="reset-ping" class="btn btn-danger" type="reset" value="Reset" disabled>\
+      </div>\
     </div>');
   
-  $( "#try" ).click(function() {
-    $("#try").empty().text("Wait Lab").css({ 
-      "padding-left": "4px", 
-      "font-size": "1.4em",
-      "color": "yellow"
-     });
-    //alert( "Handler for .click() called." );
+  $( "#try-ping" ).click(function() {
+    $("#try-ping").empty().text("OK!");
+    $("#try-ping").addClass("btn-success");
+
+    $("#reset-ping").removeAttr("disabled");
 
     callRobot4PingIP();
-  }); 
+  });
+
+  $( "#reset-ping" ).click( function() {
+    $("#myTable").empty();
+    $("#try-ping").text("Try");
+
+    $("#ping-host").prop("checked", false);
+  });
 }
+
 
 /*
 Display Available Ports/ Services Over the Past XX Hours. 

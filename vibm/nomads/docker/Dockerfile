@@ -1,9 +1,23 @@
-FROM python:3
+# Back-Robot
+FROM python:3.7-alpine3.8
 
-RUN apt-get update 
+WORKDIR /usr/src/app
 
-ADD ../test /usr/local/vlab
+COPY requirements-back-robot.txt ./
 
-RUN pip install -r requirements.txt
+# Alpine Package Manager
+RUN apk update 
+RUN apk add mysql-client
 
-CMD ["pytest", "./tests/*"]
+ADD nomads/backend ./nomads/
+ADD config ./config
+
+ENV PYTHONPATH "${PYTHONPATH}:/usr/src/app"
+
+RUN pip install -r requirements-back-robot.txt
+
+RUN mkdir logs && touch logs/back-robot.log
+
+RUN ls ./
+
+CMD ["python", "-m", "nomads.engine"]

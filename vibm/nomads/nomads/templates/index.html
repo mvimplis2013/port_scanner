@@ -6,7 +6,8 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-	  <link rel="icon" href="images/favicon.ico" type="image/ico" />
+    
+    <!--link rel="icon" href="images/favicon.ico" type="image/ico" /-->
 
     <title>VLAB Monitoring GUI</title>
 
@@ -17,7 +18,7 @@
 
     <!-- Font Awesome -->
     <!-- link href="../vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet" -->
-    <!-- link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous" -->
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
     
     <!-- NProgress -->
     <!-- link href="../vendors/nprogress/nprogress.css" rel="stylesheet" -->
@@ -36,268 +37,249 @@
   </head>
 
   <body class="container">
-            
-    <div class="container">
-      <h1><span class="badge badge-pill badge-primary">Server-URL</span></h1>
+    
+    <nav class="navbar navbar-expand-md navbar-light">
+      <a class="navbar-brand" href="#">
+        <img src="https://v4-alpha.getbootstrap.com/assets/brand/bootstrap-solid.svg" width="30" height="30" class="d-inline-block align-top" alt="">
+      </a>
 
-      <div class="form-inline col-md-6 row">
-        <select class="form-control col-md-4" id="robot-ip">
-          <option value="local" selected="selected">127.0.0.1</option>
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="#">Home<span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Info</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Status</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Reports</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Dashboards</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Maps</a>
+          </li>
+            
+          <li class="nav-item dropdown"> <!-- d-sm-block d-md-none"-->
+            <a class="nav-link dropdown-toggle" href="#" id="smallerscreenmenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              More ...
+            </a>
+            <div class="dropdown-menu" aria-labelled-by="smallerscreenmenu">
+              <a class="dropdown-item" href="#">Notices</a>
+              <a class="dropdown-item" href="#">Change Password</a>
+              <a class="dropdown-item" href="#">Log Out</a>
+              <a class="dropdown-item" href="#">Etc ...</a>
+            </div>
+          </li>
+        </ul>
+
+        <form class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-2 border border-primary" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+      </div>
+    </nav>
+
+    <div class="row" id="body-row">
+      <div class="col-7 col-sm-6 col-md-3 col-lg-2">
+        <div id="sidebar-container" class="sidebar-expanded"> <!--d-none d-sm-block"-->
+          <ul id="monitoType" class="list-group" myValue="None">
+            <li class="list-group-item text-muted d-flex align-items-center menu-collapsed">
+              <!--a class="monitohead" href="#"-->
+              <!--span data-feather="home"></span-->
+              <small>Monitoring Type</small>
+              <!--/a-->
+            </li>
+            
+            <a href="#submenu1" data-toggle="collapse" aria-expanded="false" class="bg-dark list-group-item list-group-item-action flex-column align-items-start">
+              <div class="d-flex justify-content-start align-items-center">
+                <span class="fa fa-dashboard fa-fw mr-3"></span>
+                <span class="menu-collapsed">Dashboard</span>
+                <span class="submenu-icon ml-auto"></span>
+              </div>
+            </a>
+
+            <div id="submenu1" class="collapse sidebar-submenu">
+              
+              <a href="#" class="list-group-item list-group-item-action bg-warning text-primary">
+                <!--a class="nav-link externamonit" href="#"-->
+                <input type="checkbox" class="menu-collapsed" id="extm" autocomplete="off">
+                <label for="extm" class="menu-collapsed">External M</label>
+                  <!--span data-feather="layers" onclick="play_external_monitoring()"></span-->
+                  <!--label for="extm" style="padding-left: 8px">External Monitoring</label-->
+                  <!--/a-->
+              </a>
+                      
+              <a href="#" class="list-group-item list-group-item-action bg-warning text-primary">
+                <!--a class="nav-link internamonit" href="#"-->
+                <input type="checkbox" id="inerm" class="menu-collapsed" autocomplete="off">
+                <!--span data-feather="layers" onclick="play_internal_monitoring()"></span-->
+                <label for="inerm" class="menu-collapsed">Internal M</label>
+              </a>
+            </div>
+
+            <a href="#submenu2" data-toggle="collapse" aria-expanded="false" class="bg-dark list-group-item list-group-item-action flex-column align-items-start">
+                <div class="d-flex justify-content-start align-items-center">
+                  <span class="fa fa-fighter-jet fa-fw mr-3"></span>
+                  <span class="menu-collapsed">Actions</span>
+                  <span class="submenu-icon ml-auto"></span>
+                </div>
+            </a>
+  
+            <div id="submenu2" class="collapse sidebar-submenu d-flex-column align-items-center">
+                <a href="#" class="list-group-item list-group-item-action bg-warning text-primary">
+                    <!--a class="nav-link externamonit" href="#"-->
+                    <input type="checkbox" id="ping-host" class="menu-collapsed" autocomplete="off" onclick="onPingIP()">
+                    <!--span data-feather="layers" onclick="play_external_monitoring()"></span-->
+                    <label for="ping-host" class="munu-collapsed">Ping Host</label>
+                    <!--/a-->
+                </a>
+
+                <a href="#" class="list-group-item list-group-item-action bg-warning text-primary">
+                    <!--a class="nav-link externamonit" href="#"-->
+                    <input type="checkbox" id="extm" class="menu-collapsed" autocomplete="off" onclick="onScanPorts()">
+                    <!--span data-feather="layers" onclick="play_external_monitoring()"></span-->
+                    <span for="extm" class="menu-collapsed">Scan Ports</span>
+                    <!--/a-->
+                </a>
+
+                <a href="#" class="list-group-item list-group-item-action bg-warning text-primary border-bottom">
+                    <!--a class="nav-link internamonit" href="#"-->
+                    <input type="checkbox" id="inerm" class="menu-collapsed" autocomplete="off">
+                    <!--span data-feather="layers" onclick="play_internal_monitoring()"></span-->
+                    <label for="inerm" class="menu-collapsed">Server Down</label>
+                    <!--/a-->
+                </a>
+
+                <a href="#" class="list-group-item list-group-item-action bg-warning text-primary">
+                  <!--a class="nav-link internamonit" href="#"-->
+                  <input type="checkbox" id="inerm" class="menu-collapsed" autocomplete="off">
+                  <!--span data-feather="layers" onclick="play_internal_monitoring()"></span-->
+                  <label for="inerm" class="menu-collapsed">Stop Service</label>
+                  <!--/a-->
+                </a>
+            </div>
+            
+            <a href="#" data-toggle="sidebar-colapse" class="bg-dark list-group-item list-group-item-action d-flex align-items-center">
+              <div class="d-flex justify-content-start align-items-center">
+                <span id="collapse-icon" class="fa fa-angle-double-right fa-2x mr-3"></span>
+                <span id="collapse-text" class="menu-collapsed">Collapse</span>
+              </div>
+            </a>
+            
+            <li class="list-group-item logo-separator d-flex justify-content-start align-items-center">
+              <img src="https://v4-alpha.getbootstrap.com/assets/brand/bootstrap-solid.svg" width="30" height="30">
+            </li>
+          </ul>        
+        </div>
+      </div> <!-- COL -->
+    
+    <div class="col">
+      <h3><span class="badge badge-pill badge-primary text-white">Server-URL</span></h3>
+
+      <div class="form-inline row col-md-12 col-lg-7">
+        <select class="form-control form-control-sm col-md-4 col-lg-4" id="robot-ip">
+          <option value="local">127.0.0.1</option>
           <option value="vlab1">vlab1.dyndns.org</option>
           <option value="vlab2">vlab2.dyndns.org</option>
-          <option value="vlab3">vlab3.dyndns.org</option>
+          <option value="vlab3" selected="selected">vlab3.dyndns.org</option>
           <option value="other">Other</option>
         </select>
-              
-        <h2><label class="text-warning" style="padding-left: 5px;">If other, enter server-ip:</label></h1>
-      </div>
-      
-      <input id = "other-ip" type="text" class="form-control col-md-2" placeholder="Server-IP" aria-label="server ip" aria-describedby="basic-addon2">            
-    </div>
-    
-    
-    <div class="container-fluid">
-            <div class="row">
-              <nav class="col-md-2 d-none d-md-block bg-light sidebar">
-                <div class="sidebar-sticky">
-                  <ul id="monitoType" class="nav flex-column" myValue="None">
-                    <li class="monitohead">
-                      <!--a class="monitohead" href="#"-->
-                        <!--span data-feather="home"></span-->
-                        Monitoring Type <span class="sr-only">(current)</span>
-                      <!--/a-->
-                    </li>
-                    <li class="externamonit">
-                      <!--a class="nav-link externamonit" href="#"-->
-                      <input type="checkbox" id="extm" style="vertical-align: middle" autocomplete="off">
-                        <!--span data-feather="layers" onclick="play_external_monitoring()"></span-->
-                        <label for="extm" style="padding-left: 8px">External Monitoring</label>
-                      </a>
-                    </li>
-                    <li class="internamonit">
-                      <!--a class="nav-link internamonit" href="#"-->
-                        <input type="checkbox" id="inerm" style="vertical-align: middle" autocomplete="off">
-                        <!--span data-feather="layers" onclick="play_internal_monitoring()"></span-->
-                        <label for="inerm" style="padding-left: 8px">Internal Monitoring</label>
-                      </a>
-                    </li>
-
-                    <li class="vertical-spacer">
-                      <label></label>
-                    </li>
-
-                    <li class="monitohead">
-                      <!--a class="monitohead" href="#"-->
-                        <!--span data-feather="home"></span-->
-                        Monitored Entities <span class="sr-only">(current)</span>
-                      <!--/a-->
-                    </li>
-                    
-
-                    <li class="nav-item">
-                      <a class="nav-link" href="#">
-                        <span data-feather="file"></span>
-                        Servers
-                      </a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="#">
-                        <span data-feather="shopping-cart" onclick="hide()">Boards</span>
-                        Boards
-                      </a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="#">
-                        <span data-feather="users" onclick="list_all_vms()">VMs</span>
-                        VMs
-                      </a>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link" href="#">
-                        <span data-feather="bar-chart-2" onclick="list_all_services()"></span>
-                        Services
-                      </a>
-                    </li>
-                  </ul>
-
-                  <li class="monitohead">
-                    <!--a class="monitohead" href="#"-->
-                      <!--span data-feather="home"></span-->
-                      Administrative Actions <span class="sr-only">(current)</span>
-                    <!--/a-->
-                  </li>
-                  <li class="externamonit">
-                    <!--a class="nav-link externamonit" href="#"-->
-                    <input type="checkbox" id="extm" style="vertical-align: middle" autocomplete="off" onclick="onPingIP()">
-                      <!--span data-feather="layers" onclick="play_external_monitoring()"></span-->
-                      <label for="extm" style="padding-left: 8px">Ping Host</label>
-                    </a>
-                  </li>
-                  <li class="externamonit">
-                    <!--a class="nav-link externamonit" href="#"-->
-                    <input type="checkbox" id="extm" style="vertical-align: middle" autocomplete="off" onclick="onScanPorts()">
-                      <!--span data-feather="layers" onclick="play_external_monitoring()"></span-->
-                      <label for="extm" style="padding-left: 8px">Scan Open Ports</label>
-                    </a>
-                  </li>
   
-                  <li class="internamonit">
-                    <!--a class="nav-link internamonit" href="#"-->
-                      <input type="checkbox" id="inerm" style="vertical-align: middle" autocomplete="off">
-                      <!--span data-feather="layers" onclick="play_internal_monitoring()"></span-->
-                      <label for="inerm" style="padding-left: 8px">Bring Server Down</label>
-                    </a>
-                  </li>
-                  <li class="internamonit">
-                    <!--a class="nav-link internamonit" href="#"-->
-                      <input type="checkbox" id="inerm" style="vertical-align: middle" autocomplete="off">
-                      <!--span data-feather="layers" onclick="play_internal_monitoring()"></span-->
-                      <label for="inerm" style="padding-left: 8px">Stop Service</label>
-                    </a>
-                  </li>
-
-
-                  <h6 id="entitiesL" class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-                    <span>Saved reports</span>
-                    <a class="d-flex align-items-center text-muted" href="#">
-                        <span data-feather="plus-circle"></span>
-                    </a>
-                  </h6>
-                      
-                  <ul id="reportFreq" class="nav flex-column mb-2" myValue="">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                          <span data-feather="file-text"></span>
-                          Current month
-                        </a>
-                    </li>
+        <h4><label class="text-warning ml-2">If other:</label></h4>
+  
+        <input id = "other-ip" type="text" class="form-control form-control-sm col-md-4 col-lg-3 ml-2" placeholder="Server-IP" aria-label="server ip" aria-describedby="basic-addon2">            
+      </div>
+    </div> <!-- COL-->
+  </div> <!-- ROW -->
+    
+  <div class="row">
+      <div role="main" class="col-md-12 ml-sm-auto col-lg-12 px-4">
+        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-1 pb-2 mb-3 border-bottom">
+          <h1 class="h2">Dashboard</h1>
+                    
+          <div class="btn-toolbar mb-2 mb-md-0">
+            <div class="btn-group mr-2">
+              <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
+              <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
+            </div>
                         
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <span data-feather="file-text"></span>
-                            Last week
-                        </a>
-                    </li>
-                        
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <span data-feather="file-text" onclick="set_daily_frequency()"></span>
-                            Last Day
-                        </a>
-                    </li>
-                        
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <span data-feather="file-text"></span>
-                            Last Quarter
-                        </a>
-                    </li>
-                  </ul>
-
-                  <h6 id="anotherL" class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-                    <span>Events</span>
-                    <a class="d-flex align-items-center text-muted" href="#">
-                        <span data-feather="plus-circle"></span>
-                    </a>
-                  </h6>
-
-                  <ul class="nav flex-column mb-2">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <span data-feather="file-text" onclick="display_open_ports()"></span>
-                            Ports
-                        </a>
-                    </li>
-                            
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <span data-feather="file-text"></span>
-                            Errors
-                        </a>
-                    </li>
-                  </ul>
-                </div>
-            </nav>
-
-            <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
-                <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                    <h1 class="h2">Dashboard</h1>
-                    <div class="btn-toolbar mb-2 mb-md-0">
-                      <div class="btn-group mr-2">
-                        <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
-                        <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
-                      </div>
-                        
-                      <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
-                        <span data-feather="calendar"></span>
-                        This week
-                      </button>
-                    </div>
-                </div>
-
-                <div id="wrapper" class="container">
-                  <h4 class="header-availability">Availability Over the Past XX Hours</h4>
-                  <div id="myTable" class="form-group"></div>
-                  <canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas>
-                </div>
-
-                <h2>VLAB Robot Configuration</h2>
-                <div class="table-responsive">
-                  <table class="table table-striped table-sm">
-                    <thead>
-                      <tr>
-                        <th>Apply</th>
-                        <th>Property</th>
-                        <th>Current Value</th>
-                        <th>New Value</th>
-                        <th>Response</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>                          
-                          <input type="checkbox" name="applyNow" value="apply" onclick="configure_robot()" autocomplete="off"> Now<br>
-                        </td>
-                        <td>Port-Scan</td>
-                        <td>0-1000</td>
-                        <td>
-                          <form>
-                            <input type="text" name="newConfig" autocomplete="off"><br>
-                          </form>
-                        </td>
-                        <td>
-                          <input type="text" id="robotResponse" value="" disabled style="border: none; border-color: transparent; width: 280px;" autocomplete="off">
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-            </main>
+            <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
+              <span data-feather="calendar"></span>
+              This week
+            </button>
+          </div>
         </div>
-    </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    
-    <!--script>window.jQuery || document.write('<script src="/docs/4.2/assets/js/vendor/jquery-slim.min.js"><\/script>')</script><script src="/docs/4.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-zDnhMsjVZfS3hiP7oCBRmfjkQC4fzxVxFhBx8Hkz2aZX8gEvA/jsP3eXRCvzTofP" crossorigin="anonymous"></script-->
-    <script>window.jQuery || document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"><\/script>')</script>
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    
-    <!--script src="/docs/4.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-zDnhMsjVZfS3hiP7oCBRmfjkQC4fzxVxFhBx8Hkz2aZX8gEvA/jsP3eXRCvzTofP" crossorigin="anonymous"></script-->
-    <!--script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script-->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>  
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.9.0/feather.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
-       
-    <!--script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.16.0/feather.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.js"></script-->
+        <div id="wrapper" class="container">
+          <h4>
+            <span id="header-availability" class="badge badge-success">Availability Over the Past XX Hours</span>
+          </h4>
+                      
+          <div id="myTable" class="form-group"></div>
+                      
+          <canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas>              
+        </div>
+                    
+        <h2>VLAB Robot Configuration</h2>
+                    
+        <div class="table-responsive">
+          <table class="table table-striped table-sm">
+            <thead>
+              <tr>
+                <th>Apply</th>
+                <th>Property</th>
+                <th>Current Value</th>
+                <th>New Value</th>
+                <th>Response</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <input type="checkbox" name="applyNow" value="apply" onclick="configure_robot()" autocomplete="off"> Now<br>
+                </td>
+                
+                <td>Port-Scan</td>
+                <td>0-1000</td>
+                
+                <td>
+                  <form>
+                    <input type="text" name="newConfig" autocomplete="off"><br>
+                  </form>
+                </td>
+                  
+                <td>
+                  <input type="text" id="robotResponse" value="" disabled style="border: none; border-color: transparent; width: 280px;" autocomplete="off">
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div> <!-- Table-Responsive -->
+    </div> <!-- MAIN -->
+  </div> <!-- class-ROW -->
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  
+  <script>window.jQuery || document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"><\/script>')</script>
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>  
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.9.0/feather.min.js"></script>
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.8.2/d3.js"></script>
+  
+  <script type="text/javascript" src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='js/ports_services_availability_monitor.js') }}"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='js/scan_vlab_open_ports.js') }}"></script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.8.2/d3.js"></script>
-       
-    <script type="text/javascript" src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='js/ports_services_availability_monitor.js') }}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='js/scan_vlab_open_ports.js') }}"></script>
-  </body>
+</body>
 </html>

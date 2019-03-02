@@ -114,3 +114,23 @@ function set_daily_frequency() {
       }
     })
   }())*/
+
+  $("#body-row .collapse").collapse("hide");
+
+  $("#collapse-icon").addClass("fa-angle-double-left");
+
+  $("[data-toggle=sidebar-colapse]").click( function() {
+    SidebarCollapse();
+  });
+
+  function SidebarCollapse() {
+    console.log("Netflix !!!");
+
+    $(".menu-collapsed").toggleClass("d-none");
+    $(".sidebar-submenu").toggleClass("d-none");
+    $(".submenu-icon").toggleClass("d-none");
+
+    $("#sidebar-container").toggleClass("sidebar-expanded sidebar-collapsed");
+
+    $("#collapse-icon").toggleClass("fa-angle-double-left fa-angle-double-right")
+  }
