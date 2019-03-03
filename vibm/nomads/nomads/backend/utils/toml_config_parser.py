@@ -19,7 +19,7 @@ class TomlParser(BaseParser):
 
     _instance = None
     _config_paths = [
-        'config/back-robot.toml'
+        'config/backend/back-robot.toml'
     ]    
 
     @staticmethod
