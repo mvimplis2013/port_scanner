@@ -7,7 +7,7 @@ from sqlalchemy import insert
 class DatabaseManager(object):
     def __init__(self):
         engine = create_engine( 
-            "mysql+pymysql://root@172.19.0.2/cookies", 
+            "mysql+pymysql://root@172.18.0.2/cookies", 
             pool_recycle=3600)
 
         connection = engine.connect()
