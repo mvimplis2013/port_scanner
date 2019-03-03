@@ -30,6 +30,8 @@ test_folder="$test_folder""$appname""/"
 conf_folder="config/"
 conf_folder="$conf_folder""$appname""/"
 
+requirements_txt="./requirements-back-robot.txt"
+
 exclude_folder="__pycache__"
 
-$tool $flags $tgz_name $src_folder $test_folder $conf_folder --exclude=$exclude_folder
+$tool $flags $tgz_name $src_folder $test_folder $conf_folder $requirements_txt --exclude=$exclude_folder
