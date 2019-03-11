@@ -2,7 +2,7 @@ import schedule
 import time
 import datetime
 
-from daily_port_scan import handle_port_scan
+#from daily_port_scan import handle_port_scan
 
 from . import nomads_logger
 
@@ -35,7 +35,7 @@ class Scheduler(object):
 
     def scheduleExternalServersPing(self):
         nomads_logger.debug("Ready to Start Scheduling of External Servers Monitoring ...")
-        
+        pass
 
     def schedulePortScanInMins(self):
         pass
