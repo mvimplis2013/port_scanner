@@ -16,7 +16,7 @@ print( toml_parser.get("external-monitoring", "vlabs"))
 robot = BackRobot()
 
 database_manager = DatabaseManager()
-database_manager.select_external_targets()
+#database_manager.select_external_targets()
 
 # schedule_monitoring_for_every_external_server()
 scheduler = Scheduler()
