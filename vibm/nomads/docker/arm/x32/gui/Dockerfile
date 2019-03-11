@@ -5,6 +5,8 @@ RUN apk add iputils
 RUN apk add nmap
 RUN apk add sudo
 
+RUN apk add mysql-client
+
 ENV FLASK_APP nomads/server.py
 ENV FLASK_CONFIG production
 
@@ -22,6 +24,8 @@ RUN venv_vlab/bin/pip install -r requirements.txt
 
 COPY nomads nomads
 COPY boot.sh ./
+
+ENV PYTHONPATH "${PYTHONPATH}:/home/vlab/"
 
 EXPOSE 5000
 ENTRYPOINT ["./boot.sh"]

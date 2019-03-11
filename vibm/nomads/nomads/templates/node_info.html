@@ -1,0 +1,294 @@
+<div class="container-fluid m-2 border" role="main">
+
+    <div class="container m-0 p-0 pt-2 pb-2">
+        <p class="d-inline col-1 col-lg-1 p-0 m-0 text-left">Node:</p>
+        <p class="d-inline-block col-1 col-lg-1 p-0 m-0 font-weight-bold text-right" id="myNode">172.20.1.18</p>
+    </div>
+
+    <div class="container row m-0 p-0 pt-2 pb-2 border-top border-danger" role="node-green-red">
+        <p class="p-0 m-0 text-success bg-success border-right" id="node-color">DD</p>
+        <p class="col-6 col-lg-6 p-0 pl-2 m-0 font-weight-bold" role="descr">Node has no problems.</p>
+    </div>
+
+    <div class="container m-0 p-0 pt-2 pb-2" role="asset-info">
+        <p class="d-inline-block col-12 col-lg-12 p-0 pl-2 m-0 text-white font-weight-bold align-middle border" role="header">Asset Information</p>
+        <div class="row m-0 p-0">
+            <p class="col-4 col-lg-4 p-0 pl-2 m-0 font-weight-bold" role="asset-descr">Description:</p>
+            <p class="col-8 col-lg-8 p-0 pl-2 m-0" id="asset-descr">Database Stress Test</p>
+        </div>
+
+        <div class="row m-0 p-0">
+            <p class="col-4 col-lg-4 p-0 pl-2 m-0 font-weight-bold" role="asset-comments">Comments:</p>
+            <p class="col-8 col-lg-8 p-0 pl-2 m-0" id="asset-comments">Concurrent and Sequential Mode</p>
+        </div>
+    </div>
+
+    <div class="container m-0 p-0 pt-2 pb-2" role="availability-last24">
+        <p class="d-inline-block col-12 col-lg-12 p-0 pl-2 m-0 text-white font-weight-bold align-middle border" role="header">Availability</p>
+
+        <div class="row m-0 p-0">
+            <p class="col-10 col-lg-10 p-0 pl-2 m-0 text-black font-weight-normal align-middle border" role="header2">Availability (last 24 hrs)</p>
+            <p class="col-2 col-lg-2 p-0 m-0 border border-danger text-center font-weight-bold" role="header2" id="total-percentage">90.2%</p>
+        </div>
+
+        <div class="row m-0 p-0" role="time-line">
+            <p class="col-2 col-lg-2 p-0 pl-2 m-0 text-success text-center pt-1" id="tl-asset-ip">172.10.1.18</p>
+            
+            <div class="row col-8 col-lg-8 p-0 m-0">
+                <!-- Time Line from 03:00 in the morning -->
+                <div class="col-1 col-lg-1 p-0 m-0 pb-1 pt-1">
+                    <p class="col-8 col-lg-8 p-0 m-0 text-info text-left" id="tl-time-x">03</p>
+                </div>
+                <div class="col-1 col-lg-1 p-0 m-0 pb-1 pt-1">
+                    <p class="col-8 col-lg-8 p-0 m-0 text-info text-left" id="tl-time-x">05</p>
+                </div>
+                <div class="col-1 col-lg-1 p-0 m-0 pb-1 pt-1">
+                    <p class="col-8 col-lg-8 p-0 m-0 text-info text-left" id="tl-time-x">07</p>
+                </div>
+                <div class="col-1 col-lg-1 p-0 m-0 pb-1 pt-1">
+                    <p class="col-8 col-lg-8 p-0 m-0 text-info text-left" id="tl-time-x">09</p>
+                </div>
+                
+                <div class="col-1 col-lg-1 p-0 m-0 pb-1 pt-1">
+                    <p class="col-8 col-lg-8 p-0 m-0 text-info text-left" id="tl-time-x">11</p>
+                </div>
+                <div class="col-1 col-lg-1 p-0 m-0 pb-1 pt-1">
+                    <p class="col-8 col-lg-8 p-0 m-0 text-info text-left" id="tl-time-x">13</p>
+                </div>
+                <div class="col-1 col-lg-1 p-0 m-0 pb-1 pt-1">
+                    <p class="col-8 col-lg-8 p-0 m-0 text-info text-left" id="tl-time-x">15</p>
+                </div>
+                <div class="col-1 col-lg-1 p-0 m-0 pb-1 pt-1">
+                    <p class="col-8 col-lg-8 p-0 m-0 text-info text-left" id="tl-time-x">17</p>
+                </div>
+                <div class="col-1 col-lg-1 p-0 m-0 pb-1 pt-1">
+                    <p class="col-8 col-lg-8 p-0 m-0 text-info text-left" id="tl-time-x">19</p>
+                </div>
+                <div class="col-1 col-lg-1 p-0 m-0 pb-1 pt-1">
+                    <p class="col-8 col-lg-8 p-0 m-0 text-info text-left" id="tl-time-x">21</p>
+                </div>
+                <div class="col-1 col-lg-1 p-0 m-0 pb-1 pt-1">
+                    <p class="col-8 col-lg-8 p-0 m-0 text-info text-left" id="tl-time-x">23</p>
+                </div>
+                <div class="col-1 col-lg-1 p-0 m-0 pb-1 pt-1">
+                    <p class="col-8 col-lg-8 p-0 m-0 text-info text-left" id="tl-time-x">01</p>
+                </div>
+                <!--div class="col-1 col-lg-1 p-0 m-0 pl-1 pb-1 pt-1 border-right border-info">
+                    <p class="col-8 col-lg-8 p-0 pl-2 m-0 border" id="tl-time-x">03</p>
+                </div-->
+            </div>
+        
+            <!--p class="col-2 col-lg-2 p-0 m-0 border border-danger text-center font-weight-bold" role="header2" id="total-percentage">...</p-->
+            <p class="col-2 col-lg-2 p-0 m-0 border border-danger text-center font-weight-bold pt-1" role="header2" id="total-percentage">90.2%</p>
+        </div>
+        
+        <div class="row m-0 p-0" role="service-status-line">
+            <div class="d-flex justify-content-center col-2 col-lg-2 m-0 p-0" role="service-status-column">
+                <div class="d-inline-flex col-xs-2 col-lg-2 m-0 p-0">
+                    <span class="col-xs-1 col-sm-1 col-lg-2 border-bottom border-info" role="ssl-flag">d</span>
+                </div>
+                <span class="d-flex justify-content-center align-items-center p-0 m-0 ml-sm-2 font-weight-bold col-xs-2 col-lg-4" role="ssl-name">HTTP</span>
+            </div>
+
+            <div class="row col-8 col-lg-8 p-0 m-0 pr-1">
+                <!-- Time Bar for 03:00 in the morning -->
+                <div class="col-1 col-lg-1 p-0 m-0 pl-1 pb-1 pt-1 border-right border-info">
+                    <p class="col-12 col-lg-12 p-0 p-0 m-0" id="asset-comments" role="ssl-progress-bar">.</p>
+                </div>
+                <div class="col-1 col-lg-1 p-0 m-0 pb-1 pt-1 border-left border-right border-info">
+                    <p class="col-12 col-lg-12 p-0 p-0 m-0" id="asset-comments" role="ssl-progress-bar">.</p>
+                </div>
+                <div class="col-1 col-lg-1 p-0 m-0 pb-1 pt-1 border-left border-right border-info">
+                    <p class="col-12 col-lg-12 p-0 p-0 m-0" id="asset-comments" role="ssl-progress-bar">.</p>
+                </div>
+                <div class="col-1 col-lg-1 p-0 m-0 pb-1 pt-1 border-left border-right border-info">
+                    <p class="col-12 col-lg-12 p-0 p-0 m-0" id="asset-comments" role="ssl-progress-bar">.</p>
+                </div>
+                <div class="col-1 col-lg-1 p-0 m-0 pb-1 pt-1 border-left border-right border-info">
+                    <p class="col-12 col-lg-12 p-0 p-0 m-0" id="asset-comments" role="ssl-progress-bar">.</p>
+                </div>
+                <div class="col-1 col-lg-1 p-0 m-0 pb-1 pt-1 border-left border-right border-info">
+                    <p class="col-12 col-lg-12 p-0 p-0 m-0" id="asset-comments" role="ssl-progress-bar">.</p>
+                </div>
+                <div class="col-1 col-lg-1 p-0 m-0 pb-1 pt-1 border-left border-right border-info">
+                    <p class="col-12 col-lg-12 p-0 p-0 m-0" id="asset-comments" role="ssl-progress-bar">.</p>
+                </div>
+                <div class="col-1 col-lg-1 p-0 m-0 pb-1 pt-1 border-left border-right border-info">
+                    <p class="col-12 col-lg-12 p-0 p-0 m-0" id="asset-comments" role="ssl-progress-bar">.</p>
+                </div>
+                <div class="col-1 col-lg-1 p-0 m-0 pb-1 pt-1 border-left border-right border-info">
+                    <p class="col-12 col-lg-12 p-0 p-0 m-0" id="asset-comments" role="ssl-progress-bar">.</p>
+                </div>
+                 <div class="col-1 col-lg-1 p-0 m-0 pb-1 pt-1 border-left border-right border-info">
+                    <p class="col-12 col-lg-12 p-0 p-0 m-0" id="asset-comments" role="ssl-progress-bar">.</p>
+                </div>
+                <div class="col-1 col-lg-1 p-0 m-0 pb-1 pt-1 border-left border-right border-info">
+                    <p class="col-12 col-lg-12 p-0 p-0 m-0" id="asset-comments" role="ssl-progress-bar">.</p>
+                </div>
+                <div class="col-1 col-lg-1 p-0 m-0 pb-1 pt-1 border-left border-right border-info">
+                    <p class="col-12 col-lg-12 p-0 p-0 m-0" id="asset-comments" role="ssl-progress-bar">.</p>
+                </div>
+            </div>
+            
+            <!--p class="col-2 col-lg-2 p-0 pl-2 m-0"></p-->
+            
+            <p class="col-2 col-lg-2 p-0 m-0 border border-danger text-center font-weight-bold pt-1" role="header2" id="total-percentage">90.2%</p>
+        </div>
+
+        <div class="row m-0 p-0" role="service-status-line">
+            <div class="d-flex justify-content-center col-2 col-lg-2 m-0 p-0" role="service-status-column">
+                <div class="d-inline-flex col-xs-2 col-lg-2 m-0 p-0">
+                    <span class="col-xs-1 col-sm-1 col-lg-2 border-bottom border-info" role="ssl-flag">d</span>
+                </div>
+                <span class="d-flex justify-content-center align-items-center p-0 m-0 ml-sm-2 font-weight-bold col-xs-2 col-lg-4" role="ssl-name">HTTPS</span>
+            </div>
+
+            <div class="row col-8 col-lg-8 p-0 m-0 pr-1">
+                <!-- Time Bar for 03:00 in the morning -->
+                <div class="col-1 col-lg-1 p-0 m-0 pl-1 pb-1 pt-1 border-right border-info">
+                    <p class="col-12 col-lg-12 p-0 p-0 m-0" id="asset-comments" role="ssl-progress-bar">.</p>
+                </div>
+                <div class="col-1 col-lg-1 p-0 m-0 pb-1 pt-1 border-left border-right border-info">
+                    <p class="col-12 col-lg-12 p-0 p-0 m-0" id="asset-comments" role="ssl-progress-bar">.</p>
+                </div>
+                <div class="col-1 col-lg-1 p-0 m-0 pb-1 pt-1 border-left border-right border-info">
+                    <p class="col-12 col-lg-12 p-0 p-0 m-0" id="asset-comments" role="ssl-progress-bar">.</p>
+                </div>
+                <div class="col-1 col-lg-1 p-0 m-0 pb-1 pt-1 border-left border-right border-info">
+                    <p class="col-12 col-lg-12 p-0 p-0 m-0" id="asset-comments" role="ssl-progress-bar">.</p>
+                </div>
+                <div class="col-1 col-lg-1 p-0 m-0 pb-1 pt-1 border-left border-right border-info">
+                    <p class="col-12 col-lg-12 p-0 p-0 m-0" id="asset-comments" role="ssl-progress-bar">.</p>
+                </div>
+                <div class="col-1 col-lg-1 p-0 m-0 pb-1 pt-1 border-left border-right border-info">
+                    <p class="col-12 col-lg-12 p-0 p-0 m-0" id="asset-comments" role="ssl-progress-bar">.</p>
+                </div>
+                <div class="col-1 col-lg-1 p-0 m-0 pb-1 pt-1 border-left border-right border-info">
+                    <p class="col-12 col-lg-12 p-0 p-0 m-0" id="asset-comments" role="ssl-progress-bar">.</p>
+                </div>
+                <div class="col-1 col-lg-1 p-0 m-0 pb-1 pt-1 border-left border-right border-info">
+                    <p class="col-12 col-lg-12 p-0 p-0 m-0" id="asset-comments" role="ssl-progress-bar">.</p>
+                </div>
+                <div class="col-1 col-lg-1 p-0 m-0 pb-1 pt-1 border-left border-right border-info">
+                    <p class="col-12 col-lg-12 p-0 p-0 m-0" id="asset-comments" role="ssl-progress-bar">.</p>
+                </div>
+                 <div class="col-1 col-lg-1 p-0 m-0 pb-1 pt-1 border-left border-right border-info">
+                    <p class="col-12 col-lg-12 p-0 p-0 m-0" id="asset-comments" role="ssl-progress-bar">.</p>
+                </div>
+                <div class="col-1 col-lg-1 p-0 m-0 pb-1 pt-1 border-left border-right border-info">
+                    <p class="col-12 col-lg-12 p-0 p-0 m-0" id="asset-comments" role="ssl-progress-bar">.</p>
+                </div>
+                <div class="col-1 col-lg-1 p-0 m-0 pb-1 pt-1 border-left border-right border-info">
+                    <p class="col-12 col-lg-12 p-0 p-0 m-0" id="asset-comments" role="ssl-progress-bar">.</p>
+                </div>
+            </div>
+            <!--p class="col-2 col-lg-2 p-0 pl-2 m-0"></p-->
+            
+            <p class="col-2 col-lg-2 p-0 m-0 border border-danger text-center font-weight-bold" role="header2" id="total-percentage">90.2%</p>
+        </div>
+
+        <div class="row m-0 p-0" role="service-status-line">
+            <div class="d-flex justify-content-center col-2 col-lg-2 m-0 p-0" role="service-status-column">
+                <div class="d-inline-flex col-xs-2 col-lg-2 m-0 p-0">
+                    <span class="col-xs-1 col-sm-1 col-lg-2 b-2 border-bottom border-info" role="ssl-flag">d</span>
+                </div>
+                <span class="d-flex justify-content-center align-items-center p-0 m-0 ml-sm-2 font-weight-bold col-xs-2 col-lg-4" role="ssl-name">ICMP</span>
+            </div>
+
+            <div class="row col-8 col-lg-8 p-0 m-0 pr-1">
+                <!-- Time Bar for 03:00 in the morning -->
+                <div class="col-1 col-lg-1 p-0 m-0 pl-1 pb-1 pt-1 border-right border-info">
+                    <p class="col-12 col-lg-12 p-0 p-0 m-0" id="asset-comments" role="ssl-progress-bar">.</p>
+                </div>
+                <div class="col-1 col-lg-1 p-0 m-0 pb-1 pt-1 border-left border-right border-info">
+                    <p class="col-12 col-lg-12 p-0 p-0 m-0" id="asset-comments" role="ssl-progress-bar">.</p>
+                </div>
+                <div class="col-1 col-lg-1 p-0 m-0 pb-1 pt-1 border-left border-right border-info">
+                    <p class="col-12 col-lg-12 p-0 p-0 m-0" id="asset-comments" role="ssl-progress-bar">.</p>
+                </div>
+                <div class="col-1 col-lg-1 p-0 m-0 pb-1 pt-1 border-left border-right border-info">
+                    <p class="col-12 col-lg-12 p-0 p-0 m-0" id="asset-comments" role="ssl-progress-bar">.</p>
+                </div>
+                <div class="col-1 col-lg-1 p-0 m-0 pb-1 pt-1 border-left border-right border-info">
+                    <p class="col-12 col-lg-12 p-0 p-0 m-0" id="asset-comments" role="ssl-progress-bar">.</p>
+                </div>
+                <div class="col-1 col-lg-1 p-0 m-0 pb-1 pt-1 border-left border-right border-info">
+                    <p class="col-12 col-lg-12 p-0 p-0 m-0" id="asset-comments" role="ssl-progress-bar">.</p>
+                </div>
+                <div class="col-1 col-lg-1 p-0 m-0 pb-1 pt-1 border-left border-right border-info">
+                    <p class="col-12 col-lg-12 p-0 p-0 m-0" id="asset-comments" role="ssl-progress-bar">.</p>
+                </div>
+                <div class="col-1 col-lg-1 p-0 m-0 pb-1 pt-1 border-left border-right border-info">
+                    <p class="col-12 col-lg-12 p-0 p-0 m-0" id="asset-comments" role="ssl-progress-bar">.</p>
+                </div>
+                <div class="col-1 col-lg-1 p-0 m-0 pb-1 pt-1 border-left border-right border-info">
+                    <p class="col-12 col-lg-12 p-0 p-0 m-0" id="asset-comments" role="ssl-progress-bar">.</p>
+                </div>
+                 <div class="col-1 col-lg-1 p-0 m-0 pb-1 pt-1 border-left border-right border-info">
+                    <p class="col-12 col-lg-12 p-0 p-0 m-0" id="asset-comments" role="ssl-progress-bar">.</p>
+                </div>
+                <div class="col-1 col-lg-1 p-0 m-0 pb-1 pt-1 border-left border-right border-info">
+                    <p class="col-12 col-lg-12 p-0 p-0 m-0" id="asset-comments" role="ssl-progress-bar">.</p>
+                </div>
+                <div class="col-1 col-lg-1 p-0 m-0 pb-1 pt-1 border-left border-right border-info">
+                    <p class="col-12 col-lg-12 p-0 p-0 m-0" id="asset-comments" role="ssl-progress-bar">.</p>
+                </div>
+            </div>
+            <!--p class="col-2 col-lg-2 p-0 pl-2 m-0"></p-->
+            
+            <p class="col-2 col-lg-2 p-0 m-0 border border-danger text-center font-weight-bold" role="header2" id="total-percentage">90.2%</p>
+        </div>
+
+        <div class="row m-0 p-0" role="service-status-line">
+            <div class="d-flex justify-content-center col-2 col-lg-2 m-0 p-0" role="service-status-column">
+                <div class="d-inline-flex col-xs-2 col-lg-2 m-0 p-0">
+                    <span class="col-xs-1 col-sm-1 col-lg-2 border-bottom border-info" role="ssl-flag">d</span>
+                </div>
+                <span class="d-flex justify-content-center align-items-center p-0 m-0 ml-sm-2 font-weight-bold col-xs-2 col-lg-4" role="ssl-name">SSH</span>
+            </div>
+
+            <div class="row col-8 col-lg-8 p-0 m-0 pr-1">
+                <!-- Time Bar for 03:00 in the morning -->
+                <div class="col-1 col-lg-1 p-0 m-0 pl-1 pb-1 pt-1 border-right border-info">
+                    <p class="col-12 col-lg-12 p-0 p-0 m-0" id="asset-comments" role="ssl-progress-bar">.</p>
+                </div>
+                <div class="col-1 col-lg-1 p-0 m-0 pb-1 pt-1 border-left border-right border-info">
+                    <p class="col-12 col-lg-12 p-0 p-0 m-0" id="asset-comments" role="ssl-progress-bar">.</p>
+                </div>
+                <div class="col-1 col-lg-1 p-0 m-0 pb-1 pt-1 border-left border-right border-info">
+                    <p class="col-12 col-lg-12 p-0 p-0 m-0" id="asset-comments" role="ssl-progress-bar">.</p>
+                </div>
+                <div class="col-1 col-lg-1 p-0 m-0 pb-1 pt-1 border-left border-right border-info">
+                    <p class="col-12 col-lg-12 p-0 p-0 m-0" id="asset-comments" role="ssl-progress-bar">.</p>
+                </div>
+                <div class="col-1 col-lg-1 p-0 m-0 pb-1 pt-1 border-left border-right border-info">
+                    <p class="col-12 col-lg-12 p-0 p-0 m-0" id="asset-comments" role="ssl-progress-bar">.</p>
+                </div>
+                <div class="col-1 col-lg-1 p-0 m-0 pb-1 pt-1 border-left border-right border-info">
+                    <p class="col-12 col-lg-12 p-0 p-0 m-0" id="asset-comments" role="ssl-progress-bar">.</p>
+                </div>
+                <div class="col-1 col-lg-1 p-0 m-0 pb-1 pt-1 border-left border-right border-info">
+                    <p class="col-12 col-lg-12 p-0 p-0 m-0" id="asset-comments" role="ssl-progress-bar">.</p>
+                </div>
+                <div class="col-1 col-lg-1 p-0 m-0 pb-1 pt-1 border-left border-right border-info">
+                    <p class="col-12 col-lg-12 p-0 p-0 m-0" id="asset-comments" role="ssl-progress-bar">.</p>
+                </div>
+                <div class="col-1 col-lg-1 p-0 m-0 pb-1 pt-1 border-left border-right border-info">
+                    <p class="col-12 col-lg-12 p-0 p-0 m-0" id="asset-comments" role="ssl-progress-bar">.</p>
+                </div>
+                 <div class="col-1 col-lg-1 p-0 m-0 pb-1 pt-1 border-left border-right border-info">
+                    <p class="col-12 col-lg-12 p-0 p-0 m-0" id="asset-comments" role="ssl-progress-bar">.</p>
+                </div>
+                <div class="col-1 col-lg-1 p-0 m-0 pb-1 pt-1 border-left border-right border-info">
+                    <p class="col-12 col-lg-12 p-0 p-0 m-0" id="asset-comments" role="ssl-progress-bar">.</p>
+                </div>
+                <div class="col-1 col-lg-1 p-0 m-0 pb-1 pt-1 border-left border-right border-info">
+                    <p class="col-12 col-lg-12 p-0 p-0 m-0" id="asset-comments" role="ssl-progress-bar">.</p>
+                </div>
+            </div>
+            <!--p class="col-2 col-lg-2 p-0 pl-2 m-0"></p-->
+            
+            <p class="col-2 col-lg-2 p-0 m-0 border border-danger text-center font-weight-bold" role="header2" id="total-percentage">90.2%</p>
+        </div>
+    </div>
+</div>

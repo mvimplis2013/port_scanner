@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<!-- saved from url=(0031)https://www.codeply.com/api/run -->
+<html <meta="" name="viewport" content="width=device-width, initial-scale=1.0">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+
+<body>&gt;
+
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <title>Edit Configuration</title>
+
+        <!--<base target="_self">-->
+        <base href="." target="_self">
+        <meta name="description" content="Hokai is a fast and reliable monitoring tool for virtual and real data centers.">
+        <meta name="google" value="notranslate">
+        <link rel="shortcut icon" href="https://www.codeply.com/images/cp_ico.png">
+
+
+        <!--stylesheets / link tags loaded here-->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/css/bootstrap.min.css"
+            integrity="sha384-PDle/QlgIONtM1aqA2Qemk5gPOE7wFq8+Em+G/hmo5Iq0CCmYZLv3fVRDJ4MMwEA" crossorigin="anonymous">
+        <link href="../gui/css/edit_config.css" rel="stylesheet">
+
+
+        <!--link rel="stylesheet" href="./bootstrap.min(1).css"-->
+        <!--link href="./all.css" rel="stylesheet"-->
+    </head>
+
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
+            <h5><a class="nav-brand" href="#">Company name</a></h5>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">Search</a>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="dropdown1" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">Info</a>
+                        <div class="dropdown-menu" aria-labelledby="dropdown1">
+                            <a class="dropdown-item" href="#">Nodes</a>
+                            <a class="dropdown-item" href="#">Assets</a>
+                            <a class="dropdown-item" href="#">Path Outages</a>
+                        </div>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="dropdown2" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">Status</a>
+                        <div class="dropdown-menu" aria-labelledby="dropdown2">
+                            <a class="dropdown-item" href="#">Events</a>
+                            <a class="dropdown-item" href="#">Alarms</a>
+                            <a class="dropdown-item" href="#">Notifications</a>
+                            <a class="dropdown-item" href="#">Outages</a>
+                        </div>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="dropdown3" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">Reports</a>
+                        <div class="dropdown-menu" aria-labelledby="dropdown3">
+                            <a class="dropdown-item" href="#">Charts</a>
+                            <a class="dropdown-item" href="#">Resource Graphs</a>
+                            <a class="dropdown-item" href="#">Database Reports</a>
+                            <a class="dropdown-item" href="#">Statistics</a>
+                        </div>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="dropdown4" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">Dashboards</a>
+                        <div class="dropdown-menu" aria-labelledby="dropdown4">
+                            <a class="dropdown-item" href="#">Dashboards</a>
+                            <a class="dropdown-item" href="#">Ops Board</a>
+                        </div>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="dropdown5" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">Maps</a>
+                        <div class="dropdown-menu" aria-labelledby="dropdown5">
+                            <a class="dropdown-item" href="#">Distributed</a>
+                            <a class="dropdown-item" href="#">Topology</a>
+                            <a class="dropdown-item" href="#">Geographical</a>
+                        </div>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-outline-primary" href="#">Sign up</a>
+                    </li>
+                </ul>
+
+                <!--ul class="navbar-nav">
+                <form class="form-inline my-2 my-lg-0">
+                    <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                </form>
+            </ul-->
+            </div>
+        </nav>
+
+        <!-- MAIN section -->
+        <div class="container-fluid" role="main">
+
+            <!-- Top Line Hyperlinks ... Home / Admin -->
+            <div class="row pl-3 pt-2" role="top-hypers">
+                <h6 class="font-weight-bold"><a class="text-success" href="#"> Home </a> / <a class="text-success" href="#">
+                        Admin </a> / <a class="text-success" href="#"> Discovery </a> / <a class="text-dark"> Modify
+                        Configuration</a>
+                </h6>
+            </div>
+
+            <!-- Top Button Save New Configuration -->
+            <div class="row">
+                <button class="m-3 btn btn-secondary btn-sm" type="submit" id="btn-send-to-server">Save and Restart Discovery</button>
+            </div>
+
+            <!-- GENERAL SETTINGS section -->
+            <div class="pt-2 pb-2 mb-3" role="general-settings">
+                <div class="bg-white pb-3">
+                    <p class="p-1 font-weight-bold text-white bg-success rounded">General Settings</p>
+
+                    <label class="control-label font-weight-bold pl-2" for="initial-sleepT">Initial Sleep Time
+                        (seconds):</label>
+                    <div class="input-group d-flex flex-row bd-hh">
+                        <div class="input-group-prepend bd-hh align-items-center">
+                            <i class="input-group-item fas fa-bed fa-1x pl-1 pr-2"></i>
+                        </div>
+                        <select class="form-control bd-hh mr-2" id="initial-sleepT">
+                            <option selected="">30</option>
+                            <option>60</option>
+                            <option>90</option>
+                            <option>120</option>
+                            <option>150</option>
+                        </select>
+                    </div>
+
+                    <label class="control-label font-weight-bold pt-2 pl-2" for="restart-sleepT">Restart Sleep Time
+                        (hours):</label>
+                    <div class="input-group d-flex flex-row bd-hh">
+                        <div class="input-group-prepend bd-hh align-items-center">
+                            <i class="input-group-item fas fa-power-off fa-1x pl-1 pr-2"></i>
+                        </div>
+                        <!--input type="text" class="form-control" id="initial-sleepT" aria-describedby="basic-addon3"-->
+                        <select class="form-control bd-hh mr-2" id="restart-sleepT">
+                            <option>4</option>
+                            <option>5</option>
+                            <option>6</option>
+                            <option>12</option>
+                            <option selected="">24</option>
+                            <option>36</option>
+                            <option>72</option>
+                        </select>
+                    </div>
+
+                    <label class="control-label font-weight-bold pt-2 pl-2" for="timeout">Timeout (milliseconds):</label>
+                    <div class="input-group d-flex flex-row bd-hh">
+                        <div class="input-group-prepend bd-hh align-items-center">
+                            <i class="input-group-item fas fa-clock fa-1x pl-1 pr-2"></i>
+                        </div>
+                        <input type="text" class="form-control bd-hh mr-2" id="timeout" aria-describedby="basic-addon3"
+                            value="2000">
+                    </div>
+
+                    <label class="control-label font-weight-bold pt-2 pl-2" for="retries">Retries:</label>
+                    <div class="input-group d-flex flex-row bd-hh">
+                        <div class="input-group-prepend bd-hh align-items-center">
+                            <i class="input-group-item fas fa-redo-alt fa-1x pl-1 pr-2"></i>
+                        </div>
+                        <input type="text" class="form-control bd-hh mr-2" id="retries" aria-describedby="basic-addon3"
+                            value="1">
+                    </div>
+
+                    <label class="control-label font-weight-bold pt-2 pl-2" for="foreign">Foreign Source:</label>
+                    <div class="input-group d-flex flex-row bd-hh">
+                        <div class="input-group-prepend bd-hh align-items-center">
+                            <i class="input-group-item fas fa-folder fa-1x pl-1 pr-2"></i>
+                        </div>
+                        <input type="text" class="form-control bd-hh mr-2" id="foerign" aria-describedby="basic-addon3"
+                            placeholder="None Selected">
+                    </div>
+
+                    <label class="control-label font-weight-bold pt-2 pl-2" for="location">Location:</label>
+                    <div class="input-group d-flex flex-row bd-hh">
+                        <div class="input-group-prepend bd-hh align-items-center">
+                            <i class="input-group-item fas fa-redo-alt fa-1x pl-1 pr-2"></i>
+                        </div>
+                        <select class="form-control bd-hh mr-2" id="location" aria-describedby="basic-addon3">
+                            <option selected="">Default</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Specific Addresses -->
+            <div class="container-flex mb-3" role="specific-addresses">
+            
+                <span class="d-flex p-1 bg-success font-weight-bold text-white rounded">
+                    Specific Addresses
+                </span>
+            
+                <div class="d-flex flex-row bd-highlight border border-success">
+                    <span class="col-2 border border-danger align-self-start bg-white font-weight-bold p-2">
+                        No specifics found.
+                    </span>
+            
+                    <div class="d-flex col-2">
+                        <table class="table table-striped" id="tbl-ips">
+                            <thead class="thead-dark">
+                                <tr class="d-flex">
+                                    <th class="" scope="col">#</th>
+                                    <th class="d-flex flex-fill justify-content-center" scope="col">IP</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="d-flex">
+                                    <th class="" scope="col">1</th>
+                                    <th class="d-flex flex-fill justify-content-center" scope="col" id="ip-one">...</th>
+                                </tr>
+                    
+                                <tr class="d-flex">
+                                    <th class="" scope="col">2</th>
+                                    <th class="d-flex flex-fill justify-content-center" scope="col" id="ip-two">...</th>
+                                </tr>
+                    
+                                <tr class="d-flex">
+                                    <th class="" scope="col">3</th>
+                                    <th class="d-flex flex-fill justify-content-center" role="col" id="ip-three">...</th>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="p-2" role="button-bg">
+                    <button type="button" class="btn-primary text-black font-weight-normal p-1" data-toggle="modal" data-target="#myIPModal">Add New</button>
+                </div>
+
+                <!-- Modal: Add Specific IP -->
+                <div id="myIPModal" class="modal fade">
+                    <div class="modal-dialog">
+                        
+                        <!-- Modal Content -->
+                        <div class="modal-content">
+                            <!-- Modal Header -->
+                            <div class="modal-header">
+                                <h4 class="modal-title">Insert Specific IP</h4> 
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+
+                            <!-- Modal Header -->
+                            <div class="modal-body">
+                                <!--p>Some text in the modal.</p-->
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">vlab://</span>
+                                    </div>
+                                    <input type="text" class="form-control" placeholder="XXX.XXX.XXX.XXX" id="new-ip">
+                                </div>
+                            </div>
+
+                            <!-- Modal Footer -->
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary" id="btn-ip-save">Save changes</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- End of SPECIFIC-ADDRESSES -->
+
+            <!-- Include URLs -->
+            <div class="container-flex mb-3" role="specific-addresses">
+            
+                <span class="d-flex p-1 bg-success font-weight-bold text-white rounded">
+                    Include URLs
+                </span>
+            
+                <div class="d-flex flex-row bd-highlight border border-success">
+                    <span class="col-2 border border-danger align-self-start bg-white font-weight-bold p-2">
+                        No include URLs found.
+                    </span>
+            
+                    <div class="d-flex col-2">
+                        <table class="table table-striped" id="tbl-names">
+                            <thead class="thead-dark">
+                                <tr class="d-flex">
+                                    <th class="" scope="col">#</th>
+                                    <th class="d-flex flex-fill justify-content-center" scope="col">Name</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="d-flex">
+                                    <th class="" scope="col">1</th>
+                                    <th class="d-flex flex-fill justify-content-center" scope="col" id="ip-one">...</th>
+                                </tr>
+            
+                                <tr class="d-flex">
+                                    <th class="" scope="col">2</th>
+                                    <th class="d-flex flex-fill justify-content-center" scope="col" id="ip-two">...</th>
+                                </tr>
+            
+                                <tr class="d-flex">
+                                    <th class="" scope="col">3</th>
+                                    <th class="d-flex flex-fill justify-content-center" role="col" id="ip-three">...</th>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            
+                <div class="p-2" role="button-bg">
+                    <button type="button" class="btn-primary text-black font-weight-normal p-1" data-toggle="modal" data-target="#myNameModal">Add
+                        New</button>
+                </div>
+            
+                <!-- Modal: Add URL/Name -->
+                <div id="myNameModal" class="modal fade">
+                    <div class="modal-dialog">
+            
+                        <!-- Modal Content -->
+                        <div class="modal-content">
+                            <!-- Modal Header -->
+                            <div class="modal-header">
+                                <h4 class="modal-title">Insert URL/ Name</h4>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+            
+                            <!-- Modal Header -->
+                            <div class="modal-body">
+                                <!--p>Some text in the modal.</p-->
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">http://</span>
+                                    </div>
+                                    
+                                    <input type="text" class="form-control" placeholder="vlabXX" id="new-name">
+
+                                    <div class="input-group-append">
+                                            <span class="input-group-text">dyndns.org</span>
+                                        </div>
+                                </div>
+                            </div>
+            
+                            <!-- Modal Footer -->
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary" id="btn-name-save">Save changes</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- End of INCLUDE-URLs -->
+
+            <!--Include-Ranges -->
+            <div class="container-flex mb-3" role="specific-addresses">
+                <span class="d-block p-1 bg-success font-weight-bold text-white rounded">
+                    Include Ranges
+                </span>
+
+                <span class="d-block bg-white font-weight-bold pt-2 pb-2 pl-1" for="add-new">
+                    No include Ranges found.
+                </span>
+
+                <div class="p-2" role="button-bg">
+                    <button type="button" class="btn-primary text-black font-weight-normal p-1" id="add-new">Add New</button>
+                </div>
+            </div><!-- End of INCLUDE-URLs -->
+
+        </div>
+        <!-- End of MAIN -->
+
+        <script>
+            // sandbox disable popups
+            if (window.self !== window.top && window.name != "view1") {
+                ;
+                window.alert = function () {/*disable alert*/ };
+                window.confirm = function () {/*disable confirm*/ };
+                window.prompt = function () {/*disable prompt*/ };
+                window.open = function () {/*disable open*/ };
+            }
+
+            // prevent href=# click jump
+            document.addEventListener("DOMContentLoaded", function () {
+                var links = document.getElementsByTagName("A");
+                for (var i = 0; i < links.length; i++) {
+                    if (links[i].href.indexOf('#') != -1) {
+                        links[i].addEventListener("click", function (e) {
+                            console.debug("prevent href=# click");
+                            if (this.hash) {
+                                if (this.hash == "#") {
+                                    e.preventDefault();
+                                    return false;
+                                }
+                                else {
+                                    /*
+                                    var el = document.getElementById(this.hash.replace(/#/, ""));
+                                    if (el) {
+                                      el.scrollIntoView(true);
+                                    }
+                                    */
+                                }
+                            }
+                            return false;
+                        })
+                    }
+                }
+            }, false);
+        </script>
+
+        <!--scripts loaded here-->
+        <!-- Bootstrap core JavaScript
+    ================================================== -->
+        <!-- Placed at the end of the document so the pages load faster -->
+        <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ"
+            crossorigin="anonymous"></script>
+
+        <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+
+        <!--script src="../../dist/js/bootstrap.min.js"></script-->
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+            crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/js/bootstrap.min.js" integrity="sha384-7aThvCh9TypR7fIc2HV4O/nFMVCBwyIUKL8XCtKE+8xgCgl/PQGuFsvShjr74PBp"
+            crossorigin="anonymous"></script>
+
+        <script src="https://d3js.org/d3.v4.min.js"></script>
+
+        <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+        <!--script src="../../assets/js/ie10-viewport-bug-workaround.js"></script-->
+
+        <script type="text/javascript" src="{{ url_for('static', filename='js/edit_config.js') }}"></script>
+
+
+        <!--script src="./jquery.min.js(1).download"></script>
+        <script src="./popper.min.js.download"></script>
+        <script src="./bootstrap.min.js(1).download"></script-->
+
+        <script>
+
+        </script>
+
+
+
+    </body>
+
+</html>

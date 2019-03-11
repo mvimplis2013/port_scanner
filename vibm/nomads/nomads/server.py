@@ -3,6 +3,8 @@ import os
 
 from nomads.utils import ping_host, ping_host_full_response, scan_vlab_open_ports_now
 
+from nomads.config_data_taxi import ConfigDataTaxi
+
 project_root = os.path.dirname(__file__)
 template_path = os.path.join(project_root, "templates")
 static_path = os.path.join(project_root, "gui")
@@ -66,3 +68,22 @@ def scan_ports():
 @app.route('/alarms-outages-nodes', methods=['GET'])
 def get_alarms_outages_nodes_graphs():
     return render_template("alarms_outages_nodes.html")
+
+@app.route('/admin/edit_config', methods=['GET', 'POST'])
+def edit_monitoring_configuration():
+    return render_template("edit_config.html")
+
+@app.route('/admin/post_new_config_data', methods=['POST'])
+def handle_new_config_data():
+    new_ips = request.get_json().get("new-ips")
+    new_names = request.get_json().get("new-names")
+    new_range = request.get_json().get("new-range")
+
+    print( "new-ips = %s ... new-names = %s ... new-range = %s" % (new_ips, new_names, new_range) )
+
+    taxi = ConfigDataTaxi( new_ips, new_names, new_range )
+    taxi.take_new_data_to_store()
+    
+    print("Message Received from Capital")
+    return "123"
+

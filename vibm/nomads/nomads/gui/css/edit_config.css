@@ -1,0 +1,12 @@
+body {
+    font-family: Sans-Serif;
+    font-size: 0.8rem;
+}
+    
+div[role="main"] {
+    background-color: powderblue;
+}
+
+div[role="button-bg"] {
+    background-color: papayawhip;
+}

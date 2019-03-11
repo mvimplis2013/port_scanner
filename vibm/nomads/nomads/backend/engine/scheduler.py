@@ -4,6 +4,8 @@ import datetime
 
 from daily_port_scan import handle_port_scan
 
+from . import nomads_logger
+
 # ****************************
 PORT_SCAN_TIME = "20:17"
 PING_FREQ_MINS = 2
@@ -28,8 +30,12 @@ def check_all():
         time.sleep(1)
     
 class Scheduler(object):
-    def schedulePingInMillis(self):
-        pass
+    def __init__(self, ping_freq_mins=8):
+        self.external_servers_ping_freq = ping_freq_mins
+
+    def scheduleExternalServersPing(self):
+        nomads_logger.debug("Ready to Start Scheduling of External Servers Monitoring ...")
+        
 
     def schedulePortScanInMins(self):
         pass

@@ -6,3 +6,4 @@ from ..config.message_queue_config_data import MessageQueueConfigData
 from ..datastore.database_manager import DatabaseManager 
  
 from .configurator import Configurator
+from .scheduler import Scheduler

@@ -1,0 +1,86 @@
+body {
+    font-family: Sans-Serif;
+    font-size: 0.8rem;
+}
+    
+@include media-breakpoint-up(sm) {
+    body {
+        font-size: 1.2rem;
+    }
+}
+    
+@include media-breakpoint-up(md) {
+    body {
+        font-size: 1.4rem;
+    }
+}
+
+@include media-breakpoint-up(lg) {
+    body { 
+        font-size: 2rem;
+    }
+}
+
+@include media-breakpoint-up(xl) {
+    body {
+        font-size: 3rem;
+    }
+}
+
+div[role="main"] {
+    background-color: powderblue;
+}
+
+p[role="descr"] {
+    opacity: 0.4;
+    background-color: turquoise;
+}
+
+p[role="header"] {
+    background-color: cadetblue;
+}
+
+p[role="header2"] {
+    background-color: lightyellow;
+}
+
+h6 span {
+    background-color: cadetblue;
+}
+
+p[role="asset-descr"], p[role="asset-comments"] {
+    background-color: slategrey;
+}
+
+p[id="asset-descr"], p[id="asset-comments"] {
+    opacity: 0.5;
+    background-color: greenyellow;
+}
+
+p[role="ssl-spacer"] {
+    color: powderblue;
+}
+
+span[role="ssl-flag"] , p[role="ssl-flag"] {
+    background-color: limegreen;
+    color: limegreen;
+}
+
+span[role="ssl-name"] , p[role="ssl-name"] {
+    background-color: slategrey;
+    color: black;
+}
+
+div[role="service-status-column"] {
+    background-color: mediumaquamarine;
+    color: black;
+}
+
+p[role="ssl-progress-bar"] {
+    background-image: linear-gradient( green, green );
+    color: green;
+}
+
+div[role="service-status-column-2"] {
+    background-image: linear-gradient( blue, magenta );
+}
