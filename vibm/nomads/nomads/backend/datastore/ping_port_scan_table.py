@@ -29,11 +29,13 @@ class PingPortScanTable(object):
     """
     def check_table_exists(self):
         result_proxy = self.engine.execute(
-            "SHOW TABLES LIKE 'ping-port-scans'"
+            "SHOW TABLES LIKE 'ping_port_scans'"
         )
 
-        for record in result_proxy:
-            print( "record is ... %s" % record )
+        records = result_proxy.fecthall()
+        
+        if len(records) == 0:
+            print("Table Does Not Exists")
 
 
 
