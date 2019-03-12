@@ -52,7 +52,7 @@ class NMapNative(object):
     Use NMAP to Ping an External Server and Check if Responding.
     """ 
     def ping_external_server(self):
-        self.run( PING_SERVER + " " + self.target_ip )
+        self.run( PING_SERVER + " " )
 
     def run(self, command_type=SCAN_TCP_UDP):
         result = subprocess.run([command_type + self.target_ip], shell=True, stdout=subprocess.PIPE)
