@@ -49,7 +49,7 @@ class TomlParser(BaseParser):
 
     def get(self, section, option, default=NO_DEFAULT, **kwargs):
         try:
-            print("Data is ...\n%s" % str(data))
+            print("Data is ...\n%s" % str(self.data))
             return self.data[section][option]
         except KeyError:
             if default is self.NO_DEFAULT:
