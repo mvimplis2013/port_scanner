@@ -155,8 +155,7 @@ class DatabaseManager(object):
 
         return result
 
-    @property
-    def ping_ports_found_tbl(self):
+    def get_ping_ports_found_tbl(self):
         return self.ping_ports_found_tbl
 
 """
