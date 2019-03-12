@@ -35,7 +35,6 @@ class Scheduler(object):
 
     def scheduleExternalServersPing(self):
         nomads_logger.debug("Ready to Start Scheduling of External Servers Monitoring ...")
-        pass
 
     def schedulePortScanInMins(self):
         pass

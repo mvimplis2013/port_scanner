@@ -14,7 +14,7 @@ class BackRobot(object):
         self.toml_parser = TomlParser.instance()
 
         self.db_manager = DatabaseManager()
-        self.scheduler = Scheduler
+        self.scheduler = Scheduler()
 
     """
     Starts all monitoring mechanisms external and internal.
