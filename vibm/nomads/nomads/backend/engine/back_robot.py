@@ -26,10 +26,12 @@ class BackRobot(object):
     Watch external servers like a server that is not responding now ... waiting when will be alive again.
     """
     def watch_external_servers(self):
+        # How Often the Scheduler will Run the External Servers Alive Test 
         freq_mins = self.toml_parser.get("external-monitoring", "ip-ping-freq-mins")
-        nomads_logger.debug( "Frequency Minutes ... %d" % int(freq_mins))
+        freq_mins = int( freq_mins )
+        
 
-        self.scheduler.scheduleExternalServersPing()
+        self.scheduler.scheduleExternalServersPing( freq_mins )
 
 
 
