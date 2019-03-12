@@ -32,7 +32,7 @@ class PingPortScanTable(object):
             "SHOW TABLES LIKE 'ping_port_scans'"
         )
 
-        records = result_proxy.fecthall()
+        records = result_proxy.fetchall()
         
         if len(records) == 0:
             print("Table Does Not Exists")
