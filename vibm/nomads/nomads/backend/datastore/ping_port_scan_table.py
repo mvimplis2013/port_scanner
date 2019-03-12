@@ -32,6 +32,8 @@ class PingPortScanTable(object):
             "SHOW TABLES LIKE 'ping-port-scans'"
         )
 
-        print( "Result is ... %s" % result_proxy.fetchall() )
+        for record in result_proxy:
+            print( "record is ... %s" % record )
+
 
 
