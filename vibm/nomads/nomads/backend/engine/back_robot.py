@@ -1,6 +1,5 @@
 from . import nomads_logger
 from . import TomlParser
-from . import DatabaseManager
 from . import Scheduler
 
 class BackRobot(object):
@@ -12,7 +11,6 @@ class BackRobot(object):
     """
     def __init__(self):
         self.toml_parser = TomlParser.instance()
-        self.db_manager = DatabaseManager()
         self.scheduler = Scheduler()
 
     """
@@ -31,7 +29,6 @@ class BackRobot(object):
 
         print( "Scheduler will Ping External Servers Every '%d' minutes" % freq_mins )
         
-
         self.scheduler.scheduleExternalServersPing( freq_mins )
 
 
