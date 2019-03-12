@@ -59,7 +59,7 @@ class ConfigDataTaxi(object):
     In order to start transactions with NOMADS database a connection is needed.
     """
     def gate_open(self):
-        self.db_manager.esatblish_connection()
+        self.db_manager.establish_connection()
 
     """
     Eveythingt is ready {database + connection} proceed with tables creation

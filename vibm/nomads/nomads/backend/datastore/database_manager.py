@@ -85,8 +85,14 @@ class DatabaseManager(object):
     """
     Connect to database before start saving new data and querying old one.
     """ 
-    def esatblish_connection(self):
+    def establish_connection(self):
         self.connection = self.engine.connect()
+
+    """
+    Disconnect to database and free-up used resources.
+    """
+    def close_connection(self):
+        self.connection.close()
 
     """
     Create the necessary tables for storing configuration data of vlab-monitoring.
@@ -140,9 +146,9 @@ class DatabaseManager(object):
         result_proxy = self.connection.execute(selection)
         result = result_proxy.fetchall()
         
-        print( result )
-
         #assert list(result_proxy) == []
+
+        return result
 
 """
 #PROTOCOL = "mysql+pymysql://"
