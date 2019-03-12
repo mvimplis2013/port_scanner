@@ -33,6 +33,31 @@ class DatabaseManager(object):
         # SQLAlchemy engine knows the SQL-dialect for used datastore
         self.engine = create_engine( connection_str, pool_recycle = 3600)
 
+        self.metadata = MetaData()
+        
+        # TABLE --> Ping_Targets
+        self.external_servers_tbl = Table( 'external_servers', self.metadata, 
+            Column('id', Integer(), primary_key=True),
+            Column('dns_name', String(255), index=True),
+            Column('ip', String(55)),
+            Column('mac_addr', String(255), unique=True),
+            Column('is_interesting', Boolean),
+            Column('is_up', Boolean),
+            Column('last_obesrvation_datetime', DateTime)
+        )
+
+        # TABLE --> Scan_Ports
+        self.open_ports_tbl = Table( 'open_ports', metadata, 
+            Column('port_id', Integer, primary_key=True),
+            Column('server_id', Integer, ForeignKey('external_servers.id')),
+            Column('port_num', Integer),
+            Column('protocol', String(3), CheckConstraint("protocol='tcp' OR protocol='udp'")),
+            Column('service_name', String(55)),
+            Column('is_interesting', Boolean),
+            Column('is_up', Boolean),
+            Column('last_obesrvation_datetime', DateTime)
+        )
+
     """
     Continue with a fresh copy of NOMADS database.
     """
@@ -71,32 +96,7 @@ class DatabaseManager(object):
         self.engine.connect()
         print( "DBManager Connected to database ... Ready to start transactions" )
 
-        metadata = MetaData()
-        
-        # TABLE --> Ping_Targets
-        self.external_servers_tbl = Table( 'external_servers', metadata, 
-            Column('id', Integer(), primary_key=True),
-            Column('dns_name', String(255), index=True),
-            Column('ip', String(55)),
-            Column('mac_addr', String(255), unique=True),
-            Column('is_interesting', Boolean),
-            Column('is_up', Boolean),
-            Column('last_obesrvation_datetime', DateTime)
-        )
-
-        # TABLE --> Scan_Ports
-        self.open_ports_tbl = Table( 'open_ports', metadata, 
-            Column('port_id', Integer, primary_key=True),
-            Column('server_id', Integer, ForeignKey('external_servers.id')),
-            Column('port_num', Integer),
-            Column('protocol', String(3), CheckConstraint("protocol='tcp' OR protocol='udp'")),
-            Column('service_name', String(55)),
-            Column('is_interesting', Boolean),
-            Column('is_up', Boolean),
-            Column('last_obesrvation_datetime', DateTime)
-        )
-
-        metadata.create_all( self.connection )
+        self.metadata.create_all( self.connection )
 
     """
     Populate database tables with data.
