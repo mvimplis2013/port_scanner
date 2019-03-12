@@ -8,6 +8,7 @@ COPY requirements-back-robot.txt ./
 # Alpine Package Manager
 RUN apk update 
 RUN apk add mysql-client
+RUN apk add nmap
 
 ADD nomads/backend ./nomads/
 ADD config ./config
