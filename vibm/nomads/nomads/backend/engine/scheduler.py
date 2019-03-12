@@ -3,6 +3,8 @@ import time
 import datetime
 
 from . import DatabaseManager
+from . import PingPortScanTable
+
 from . import nomads_logger
 from . import NMapNative
 
@@ -31,10 +33,14 @@ class Scheduler(object):
         # Which External Servers Should the Monitoring Tool Ping ?
         self.db_manager.establish_connection()
         print( self.db_manager.select_external_targets() )
+        pps = self.db_manager.ping_port_scan()
+        pps.check_table_exists()
         self.db_manager.close_connection()
 
         nmap_native = NMapNative( "www.google.com" )
         nmap_native.ping_external_server()
+
+
 
 
 

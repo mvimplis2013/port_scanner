@@ -12,6 +12,8 @@ from sqlalchemy_utils import database_exists, create_database, drop_database
 
 import pymysql 
 
+from .ping_port_scan_table import PingPortScanTable
+
 DB_USER = "root"
 DB_NAME = "nomads"
 
@@ -149,6 +151,10 @@ class DatabaseManager(object):
         #assert list(result_proxy) == []
 
         return result
+
+    @property
+    def ping_port_scan(self):
+        return PingPortScanTable( self.engine )
 
 """
 #PROTOCOL = "mysql+pymysql://"

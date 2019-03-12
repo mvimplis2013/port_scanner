@@ -5,7 +5,9 @@ from ..utils.nmap_native import NMapNative
 from ..config.external_monitoring_config_data import ExternalMonitoringConfigData
 from ..config.database_config_data import DatabaseConfigData
 from ..config.message_queue_config_data import MessageQueueConfigData
+
 from ..datastore.database_manager import DatabaseManager 
+from ..datastore.ping_port_scan_table import PingPortScanTable
  
 from .configurator import Configurator
 from .scheduler import Scheduler
