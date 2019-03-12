@@ -1,8 +1,10 @@
 import schedule
 import time
 import datetime
+
 from . import DatabaseManager
 from . import nomads_logger
+from . import NMapNative
 
 import schedule
 import time
@@ -10,7 +12,7 @@ import time
 class Scheduler(object):
     def __init__(self):
         self.db_manager = DatabaseManager()
-
+        
     def scheduleExternalServersPing(self, ping_freq_mins):
         self.external_servers_ping_freq_mins = ping_freq_mins
 
@@ -29,6 +31,11 @@ class Scheduler(object):
         # Which External Servers Should the Monitoring Tool Ping ?
         self.db_manager.establish_connection()
         print( self.db_manager.select_external_targets() )
-        self.db_manager.check_and_create_db 
+        self.db_manager.close_connection()
+
+        nmap_native = NMapNative( "www.google.com" )
+        nmap_native.ping_external_server()
+
+
 
 
