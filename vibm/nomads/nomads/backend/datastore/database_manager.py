@@ -47,7 +47,7 @@ class DatabaseManager(object):
         )
 
         # TABLE --> Scan_Ports
-        self.open_ports_tbl = Table( 'open_ports', metadata, 
+        self.open_ports_tbl = Table( 'open_ports', self.metadata, 
             Column('port_id', Integer, primary_key=True),
             Column('server_id', Integer, ForeignKey('external_servers.id')),
             Column('port_num', Integer),
