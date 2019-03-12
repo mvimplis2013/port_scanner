@@ -5,8 +5,8 @@ title = "TOML Configuration File for Backend Monitoring Robot"
 
 [external-monitoring]
 vlabs = [ "vlab3" ]
-ip-ping-freq-min = "2"
-port-scan-freq-min = "2"
+ip-ping-freq-mins = "2"
+port-scan-freq-mins = "2"
 
 [internal-monitoring]
 vlab-underneath = "vlab3"
