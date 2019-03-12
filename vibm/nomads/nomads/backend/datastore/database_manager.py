@@ -60,6 +60,9 @@ class DatabaseManager(object):
             Column('last_obesrvation_datetime', DateTime)
         )
 
+        # TABLE -> PING_PORTS_FOUND
+        self.ping_ports_found_tbl = PingPortScanTable( self.engine )
+
     """
     Continue with a fresh copy of NOMADS database.
     """
@@ -153,8 +156,8 @@ class DatabaseManager(object):
         return result
 
     @property
-    def ping_port_scan(self):
-        return PingPortScanTable( self.engine )
+    def ping_ports_found_tbl(self):
+        return self.ping_ports_found_tbl
 
 """
 #PROTOCOL = "mysql+pymysql://"
