@@ -26,7 +26,7 @@ class BackRobot(object):
     """
     def watch_external_servers(self):
         freq_mins = self.toml_parser.get("external-monitoring", "ip-ping-freq-mins")
-        nomads_logger.debug( "Frequency Minutes ... %d" int(freq_mins))
+        nomads_logger.debug( "Frequency Minutes ... %d" % int(freq_mins))
 
         self.scheduler.scheduleExternalServersPing()
 
