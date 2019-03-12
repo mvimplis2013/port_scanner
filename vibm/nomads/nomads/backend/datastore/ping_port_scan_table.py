@@ -28,10 +28,10 @@ class PingPortScanTable(object):
     Table already created and ready for records saving ?
     """
     def check_table_exists(self):
-        result = self.engine.execute(
+        result_proxy = self.engine.execute(
             "SHOW TABLES LIKE 'ping-port-scans'"
         )
 
-        print( "Result is ... %s" % result )
+        print( "Result is ... %s" % result_proxy.fetchall() )
 
 
