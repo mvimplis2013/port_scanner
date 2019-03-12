@@ -10,10 +10,10 @@ class DatabaseConfigurator(object):
 class ExternalMonitoringConfigurator(object):
     def __init__(self, toml_parser):
         self.toml_parser = toml_parser
-        self.external_monitoring_configD = ExternalMonitoringConfigData()
+        #self.external_monitoring_configD = ExternalMonitoringConfigData()
 
     def configure(self):
-        vlabs = self.toml_parser.get("external-monitoring", "vlabs")
+        self.vlab = self.toml_parser.get("external-monitoring", "vlabs")
         self.external_monitoring_configD.set_watch_vlabs( vlabs )
 
         ip_ping_freq = self.toml_parser.get("external-monitoring", "ip-ping-freq")
@@ -24,12 +24,11 @@ class ExternalMonitoringConfigurator(object):
 
 class Configurator(object):
     def __init__(self, tomlParser):
-        self.tomlParser = tomlParser 
+        self.external_monitoring_configurator = ExternalMonitoringConfigurator(self.tomlParser)
         
     def configureAll(self):
-        self.external_monitoring_configurator = ExternalMonitoringConfigurator(self.tomlParser)
+        
         
     @property
     def external_monitoring(self):
-        pass
-        #return self.extMonitConfigData
+        return self.extMonitConfigData

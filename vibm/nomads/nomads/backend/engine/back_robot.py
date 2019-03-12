@@ -11,7 +11,8 @@ class BackRobot(object):
      scheduler for actions timing. 
     """
     def __init__(self):
-        self.toml_parser = TomlParser()
+        self.toml_parser = TomlParser.instance()
+
         self.db_manager = DatabaseManager()
         self.scheduler = Scheduler
 
