@@ -9,7 +9,7 @@ import time
 
 def job():
     print( "Wake up from scheduler" )
-    
+
 class Scheduler(object):
     def __init__(self):
         self.db_manager = DatabaseManager()
@@ -24,6 +24,10 @@ class Scheduler(object):
         nomads_logger.debug("Ready to Start Scheduling of External Servers Monitoring ...")
 
         schedule.every(2).minutes.do(job)
+
+        while True:
+            schedule.run_pending()
+            time.sleep(1)
 
     def schedulePortScanInMins(self):
         pass
