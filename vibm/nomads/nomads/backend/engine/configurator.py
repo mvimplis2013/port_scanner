@@ -27,8 +27,8 @@ class Configurator(object):
         self.external_monitoring_configurator = ExternalMonitoringConfigurator(self.tomlParser)
         
     def configureAll(self):
-        
+        pass
         
     @property
     def external_monitoring(self):
-        return self.extMonitConfigData
+        pass
