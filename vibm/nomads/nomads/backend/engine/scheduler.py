@@ -33,7 +33,9 @@ class Scheduler(object):
 
     def job(self):
         job_follow_external = FollowExternalServer()
+        job_follow_external.prepare()
         job_follow_external.start()
+        job_follow_external.stop()
 
         # "www.google.com"
         nmap_native = NMapNative( "mail.cbt-training.de" )
