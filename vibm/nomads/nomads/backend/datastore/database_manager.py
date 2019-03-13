@@ -162,9 +162,9 @@ class DatabaseManager(object):
             #print("Result 2 is %s" % extServersDAO)
 
         #assert list(result_proxy) == []
-        print( "Found \"%d\" External Servers" % len(external_servers_array))
+        #print( "Found \"%d\" External Servers" % len(external_servers_array))
 
-        return results
+        return external_servers_array
 
     def get_ping_ports_found_tbl(self):
         return self.ping_ports_found_tbl

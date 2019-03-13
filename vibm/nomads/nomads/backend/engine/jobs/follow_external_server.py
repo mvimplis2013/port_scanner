@@ -19,13 +19,17 @@ class FollowExternalServer(BaseJob):
     def prepare(self):
         # Which External Servers Should the Monitoring Tool Ping ?
         self.db_manager.establish_connection()
-        self.db_manager.select_external_targets()
+        
+        self.external_servers_arr = self.db_manager.select_external_targets()
+        
         ping_ports_found_tbl = self.db_manager.get_ping_ports_found_tbl()
         ping_ports_found_tbl.check_table_exists()
+        
         self.db_manager.close_connection()
 
     def start(self):
-        pass
+        for server in self.external_servers_arr:
+            print("Ready to Ping External Server ... %s" % server)
 
     def stop(self):
         pass
