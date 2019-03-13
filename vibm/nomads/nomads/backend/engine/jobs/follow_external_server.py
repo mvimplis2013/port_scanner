@@ -34,7 +34,7 @@ class FollowExternalServer(BaseJob):
             print("Ready to Ping External Server ... %s" % server)
 
             # "www.google.com"
-            nmap_native = NMapNative( server.name )
+            nmap_native = NMapNative( server.dns_name )
             nmap_native.ping_external_server()
 
 
