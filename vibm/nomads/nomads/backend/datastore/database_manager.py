@@ -47,7 +47,7 @@ class DatabaseManager(object):
             Column('mac_addr', String(255), unique=True),
             Column('is_interesting', Boolean),
             Column('is_up', Boolean),
-            Column('last_obesrvation_datetime', DateTime)
+            Column('last_observation_datetime', DateTime)
         )
 
         # TABLE --> Scan_Ports
