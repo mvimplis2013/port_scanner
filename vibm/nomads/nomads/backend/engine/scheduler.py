@@ -15,8 +15,8 @@ import time
 
 class Scheduler(object):
     def __init__(self):
-        self.db_manager = DatabaseManager()
-        
+        pass
+
     def scheduleExternalServersPing(self, ping_freq_mins):
         self.external_servers_ping_freq_mins = ping_freq_mins
 
@@ -32,15 +32,8 @@ class Scheduler(object):
         pass
 
     def job(self):
-        # Which External Servers Should the Monitoring Tool Ping ?
-        self.db_manager.establish_connection()
-        print( self.db_manager.select_external_targets() )
-        ping_ports_found_tbl = self.db_manager.get_ping_ports_found_tbl()
-        ping_ports_found_tbl.check_table_exists()
-        self.db_manager.close_connection()
-
-        #job_follow_external = FollowExternalServer( "mail.cbt-training.de" )
-        #job_follow_external.start()
+        job_follow_external = FollowExternalServer()
+        job_follow_external.start()
 
         # "www.google.com"
         nmap_native = NMapNative( "mail.cbt-training.de" )

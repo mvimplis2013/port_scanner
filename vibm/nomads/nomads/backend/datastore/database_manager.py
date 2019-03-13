@@ -147,13 +147,16 @@ class DatabaseManager(object):
     def select_external_targets(self):
         print( "Ready to read all external targets for monitoring ..." )
         
-        selection = select([self.external_servers_tbl, self.open_ports_tbl])
-        result_proxy = self.connection.execute(selection)
-        result = result_proxy.fetchall()
+        selection = select([self.external_servers_tbl])
+        result_proxy = self.connection.execute( selection )
+        results = result_proxy.fetchall()
         
+        for result in results:
+            print("Result is %s" % result)
+            
         #assert list(result_proxy) == []
 
-        return result
+        return results
 
     def get_ping_ports_found_tbl(self):
         return self.ping_ports_found_tbl
