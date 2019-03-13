@@ -6,7 +6,6 @@ from . import DatabaseManager
 from . import PingPortScanTable
 
 from . import nomads_logger
-from . import NMapNative
 
 from . import FollowExternalServer
 
@@ -36,10 +35,6 @@ class Scheduler(object):
         job_follow_external.prepare()
         job_follow_external.start()
         job_follow_external.stop()
-
-        # "www.google.com"
-        nmap_native = NMapNative( "mail.cbt-training.de" )
-        nmap_native.ping_external_server()
 
 
 

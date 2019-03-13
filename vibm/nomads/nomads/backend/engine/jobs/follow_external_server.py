@@ -1,5 +1,7 @@
 from .. import DatabaseManager
 
+from .. import NMapNative
+
 from .base_job import BaseJob
 
 """
@@ -30,6 +32,11 @@ class FollowExternalServer(BaseJob):
     def start(self):
         for server in self.external_servers_arr:
             print("Ready to Ping External Server ... %s" % server)
+
+            # "www.google.com"
+            nmap_native = NMapNative( server.name )
+            nmap_native.ping_external_server()
+
 
     def stop(self):
         pass
