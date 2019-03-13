@@ -153,12 +153,16 @@ class DatabaseManager(object):
         result_proxy = self.connection.execute( selection )
         results = result_proxy.fetchall()
         
+        external_servers_array = []
         for result in results:
             extServersDAO = ExternalServersTable( result )
-            print("Result is %d , %s, %s" % (extServersDAO.id, extServersDAO.dns_name, extServersDAO.ip))
-            print("Result 2 is %s" % extServersDAO)
+            external_servers_array.append( extServersDAO )
+            
+            #print("Result is %d , %s, %s" % (extServersDAO.id, extServersDAO.dns_name, extServersDAO.ip))
+            #print("Result 2 is %s" % extServersDAO)
 
         #assert list(result_proxy) == []
+        print( "Found \"%d\" External Servers" % len(external_servers_array))
 
         return results
 
