@@ -156,7 +156,7 @@ class DatabaseManager(object):
         for result in results:
             extServersDAO = ExternalServersTable( result )
             print("Result is %d , %s, %s" % (extServersDAO.id, extServersDAO.dns_name, extServersDAO.ip))
-            print("Result 2 is %d" % extServersDAO)
+            print("Result 2 is %s" % extServersDAO)
 
         #assert list(result_proxy) == []
 
