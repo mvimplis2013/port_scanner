@@ -53,7 +53,7 @@ class NMapNative(object):
     """ 
     def ping_external_server(self):
         self.run( PING_SERVER + " " )
-        reurn self.result_utf8
+        return self.result_utf8
 
     def run(self, command_type=SCAN_TCP_UDP):
         result = subprocess.run([command_type + self.target_ip], shell=True, stdout=subprocess.PIPE)

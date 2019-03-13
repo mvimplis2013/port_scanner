@@ -39,7 +39,7 @@ class FollowExternalServer(BaseJob):
             nmap_native = NMapNative( server.dns_name )
             ping_response = nmap_native.ping_external_server()
 
-            nomads_logger.debug( "*** Ping Reponse ***" )
+            nomads_logger.debug( "*** Ping Reponse ***\n%s", ping_response)
 
     def stop(self):
         pass
