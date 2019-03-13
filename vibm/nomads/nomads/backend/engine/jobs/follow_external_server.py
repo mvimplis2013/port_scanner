@@ -1,4 +1,4 @@
-from . import DatabaseManager
+from .. import DatabaseManager
 
 from .base_job import BaseJob
 
