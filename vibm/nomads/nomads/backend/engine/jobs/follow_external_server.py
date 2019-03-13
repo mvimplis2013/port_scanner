@@ -24,3 +24,10 @@ class FollowExternalServer(BaseJob):
         ping_ports_found_tbl.check_table_exists()
         self.db_manager.close_connection()
 
+    def start(self):
+        pass
+
+    def stop(self):
+        pass
+
+
