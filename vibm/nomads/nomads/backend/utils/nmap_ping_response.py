@@ -3,7 +3,7 @@ class NMapPingResponse(object):
         self.response_text = response_text
 
     def is_server_running(self):
-        pass
+        return True
 
 
 class NMapPingResponseWithPortsScan(NMapPingResponse):

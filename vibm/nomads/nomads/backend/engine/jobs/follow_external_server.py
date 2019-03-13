@@ -1,6 +1,6 @@
 from .. import DatabaseManager
-
 from .. import NMapNative
+from .. import NMapPingResponse
 
 from .. import nomads_logger
 
@@ -40,6 +40,9 @@ class FollowExternalServer(BaseJob):
             ping_response = nmap_native.ping_external_server()
 
             nomads_logger.debug( "*** Ping Reponse ***\n%s", ping_response)
+
+            obj_repsonse = NMapPingResponse( ping_response )
+            obj_repsonse.is_server_running()
 
     def stop(self):
         pass
