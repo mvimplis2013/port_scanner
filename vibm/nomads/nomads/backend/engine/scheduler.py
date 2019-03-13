@@ -39,8 +39,8 @@ class Scheduler(object):
         ping_ports_found_tbl.check_table_exists()
         self.db_manager.close_connection()
 
-        job_follow_external = FollowExternalServer( "mail.cbt-training.de" )
-        job_follow_external.start()
+        #job_follow_external = FollowExternalServer( "mail.cbt-training.de" )
+        #job_follow_external.start()
 
         # "www.google.com"
         nmap_native = NMapNative( "mail.cbt-training.de" )
