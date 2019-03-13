@@ -1,8 +1,8 @@
+import abc
+
 """
 Abstract base class that containes only most interesting functionality.
 """
-import abc
-
 class BaseJob(object, metaclass=abc.ABCMeta):
     @abc.abstractmethod
     def start(self):
