@@ -152,8 +152,8 @@ class DatabaseManager(object):
         results = result_proxy.fetchall()
         
         for result in results:
-            print("Result is %s" % result)
-            
+            print("Result is %d , %s, %s" % (result.id, result.dns_name, result.ip))
+
         #assert list(result_proxy) == []
 
         return results
