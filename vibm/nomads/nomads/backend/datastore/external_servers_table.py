@@ -37,5 +37,5 @@ class ExternalServersTable(object):
         return self._last_observation_datetime
 
     def __str__(self):
-        return "Externa Servers Table Record with {id=%d, dns=%s, ip=%s, \n mac=%s, is_intersting=%r, is_up=%r, last_observation_dateT=%r}" % 
-            (self._id, self._dns_name, self._ip, self._mac, self._is_interesting, self._is_up, self._last_observation_datetime)
+        return "Externa Servers Table Record with {id=%d, dns=%s, ip=%s, \n mac=%s, is_intersting=%r, is_up=%r, last_observation_dateT=%r}" \ 
+            % (self._id, self._dns_name, self._ip, self._mac, self._is_interesting, self._is_up, self._last_observation_datetime)
