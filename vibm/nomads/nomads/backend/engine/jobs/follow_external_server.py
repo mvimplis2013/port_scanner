@@ -2,6 +2,8 @@ from .. import DatabaseManager
 
 from .. import NMapNative
 
+from .. import nomads_logger
+
 from .base_job import BaseJob
 
 """
@@ -35,8 +37,9 @@ class FollowExternalServer(BaseJob):
 
             # "www.google.com"
             nmap_native = NMapNative( server.dns_name )
-            nmap_native.ping_external_server()
+            ping_response = nmap_native.ping_external_server()
 
+            nomads_logger.debug( "*** Ping Reponse ***" )
 
     def stop(self):
         pass
