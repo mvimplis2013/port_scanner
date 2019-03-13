@@ -14,6 +14,8 @@ import pymysql
 
 from .ping_port_scan_table import PingPortScanTable
 
+from .external_servers_table import ExternalServersTable
+
 DB_USER = "root"
 DB_NAME = "nomads"
 
@@ -152,7 +154,9 @@ class DatabaseManager(object):
         results = result_proxy.fetchall()
         
         for result in results:
-            print("Result is %d , %s, %s" % (result.id, result.dns_name, result.ip))
+            extServersDAO = ExternalServersTable( result )
+            print("Result is %d , %s, %s" % (extServersDAO.id, extServersDAO.dns_name, extServersDAO.ip))
+            print("Result 2 is %d" % extServersDAO)
 
         #assert list(result_proxy) == []
 

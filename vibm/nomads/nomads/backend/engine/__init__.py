@@ -8,6 +8,7 @@ from ..config.message_queue_config_data import MessageQueueConfigData
 
 from ..datastore.database_manager import DatabaseManager 
 from ..datastore.ping_port_scan_table import PingPortScanTable
+from ..datastore.external_servers_table import ExternalServersTable
 
 from .jobs.follow_external_server import FollowExternalServer
 
