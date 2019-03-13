@@ -8,6 +8,8 @@ from . import PingPortScanTable
 from . import nomads_logger
 from . import NMapNative
 
+from . import FollowExternalServer
+
 import schedule
 import time
 
@@ -36,6 +38,9 @@ class Scheduler(object):
         ping_ports_found_tbl = self.db_manager.get_ping_ports_found_tbl()
         ping_ports_found_tbl.check_table_exists()
         self.db_manager.close_connection()
+
+        job_follow_external = FollowExternalServer()
+        job_follow_external.start()
 
         nmap_native = NMapNative( "www.google.com" )
         nmap_native.ping_external_server()

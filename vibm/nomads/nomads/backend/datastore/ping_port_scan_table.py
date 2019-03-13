@@ -2,6 +2,8 @@ from sqlalchemy import engine
 from sqlalchemy import Table, MetaData, Column, Integer, String, Boolean, DateTime
 from sqlalchemy import ForeignKey, CheckConstraint
 
+TABLE_NAME = "ping_ports_scan"
+
 """
 NMAP-ping runs a ports scan after host-discovery.
 This table contains records of listening ports and available services per server.
@@ -15,7 +17,7 @@ class PingPortScanTable(object):
 
         self.metadata = MetaData()
         
-        self.table = Table( 'ping_port_scans', self.metadata, 
+        self.table = Table( TABLE_NAME, self.metadata, 
             Column('id', Integer(), primary_key=True),
             Column('server_id', Integer(), ForeignKey('external_servers.id')),
             Column('port', Integer(), index=True),
@@ -29,13 +31,17 @@ class PingPortScanTable(object):
     """
     def check_table_exists(self):
         result_proxy = self.engine.execute(
-            "SHOW TABLES LIKE 'ping_port_scans'"
+            "SHOW TABLES LIKE '" + TABLE_NAME + "'"
         )
 
-        records = result_proxy.fetchall()
+        records_found = result_proxy.fetchall()
         
-        if len(records) == 0:
-            print("Table Does Not Exists")
+        if len(records_found) == 0:
+            # Table Not Yet Defined
+            return 0
+        else:
+            # Table Alread Defined
+            return 1
 
 
 

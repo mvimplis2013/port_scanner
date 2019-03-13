@@ -11,3 +11,5 @@ from ..datastore.ping_port_scan_table import PingPortScanTable
  
 from .configurator import Configurator
 from .scheduler import Scheduler
+
+from .jobs.follow_external_server import FollowExternalServer
