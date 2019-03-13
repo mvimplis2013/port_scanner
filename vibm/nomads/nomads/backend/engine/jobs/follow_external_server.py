@@ -1,5 +1,5 @@
 from .base_job import BaseJob
 
-class FollowExternalServer(object, BaseJob):
+class FollowExternalServer(BaseJob):
     def __init__(self):
         pass
