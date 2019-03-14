@@ -42,7 +42,7 @@ class FollowExternalServer(BaseJob):
             nomads_logger.debug( "*** Ping Reponse ***\n%s", ping_response)
 
             obj_repsonse = NMapPingResponse( ping_response )
-            nomads_logger.debug( "Is Host Up ... %b" % obj_repsonse.is_host_up() )
+            nomads_logger.debug( "Is Host Up ... %r" % obj_repsonse.is_host_up() )
 
     def stop(self):
         pass
