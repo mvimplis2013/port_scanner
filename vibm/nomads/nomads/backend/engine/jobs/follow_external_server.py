@@ -46,6 +46,9 @@ class FollowExternalServer(BaseJob):
             _is_host_up = obj_repsonse.is_host_up()
             nomads_logger.debug( "Is Host Up ... %s" % str(_is_host_up) )
 
+            # Datetime of host ping
+            _now =  
+
     def stop(self):
         pass
 

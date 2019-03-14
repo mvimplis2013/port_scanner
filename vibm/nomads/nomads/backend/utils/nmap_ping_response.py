@@ -11,7 +11,7 @@ class NMapPingResponse(object):
         lines = self.response_text.split("\n")
         host_status_line = lines[ _HOST_LINE ].strip()
 
-        _host_is_up = re.search(host_status_line, "host is up", re.IGNORECASE)
+        _host_is_up = re.search("host is up", host_status_line, re.IGNORECASE)
 
         if _host_is_up:
             return True
