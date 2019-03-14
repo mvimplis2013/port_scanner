@@ -1,10 +1,12 @@
 from sqlalchemy import Table, MetaData, Column, Integer, String, Boolean, DateTime
 from sqlalchemy import ForeignKey
-from sqlalchemy import insert
+from sqlalchemy import insert, select
 
 from ..engine import DatabaseManager
 
 from ..engine import nomads_logger
+
+import datetime
 
 """
 Table to store responses of mmap ping to external servers.
@@ -65,6 +67,15 @@ class PingResponseTable(object):
     def create_table(self, _connection):
         self.metadata.create_all( _connection )
         nomads_logger.debug("Table PING_RESPONSES is Created")
+
+    def collect_data_for_period(self, _from, _to):
+        nomads_logger.debug("Select Ping Responses for Period ... %s - %s" % (_from, _to))
+        result_proxy = select( [self.table] ).where( self.table.c.observation_datetime < datetime.datetime.now() )
+
+        nomads_logger.debug( "Records Found in PING_RESPONSES ... %d" % ( len(result_proxy.fetchall()) ))
+
+
+
 
 
 

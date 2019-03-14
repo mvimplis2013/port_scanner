@@ -58,6 +58,8 @@ class FollowExternalServer(BaseJob):
             out_table = PingResponseTable( server.id, _is_host_up, _now )
             out_table.save_record()
 
+            out_table.collect_data_for_period( _now, _now )
+
     def stop(self):
         pass
 
