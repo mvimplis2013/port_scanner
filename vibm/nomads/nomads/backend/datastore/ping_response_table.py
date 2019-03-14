@@ -35,12 +35,13 @@ class PingResponseTable(object):
         db_manager = DatabaseManager()
         db_manager.establish_connection()
 
-        if not self.check_table_exists(db_manager._connection ):
-            nomads_logger.debug("PING_RESPONSES table not found ... Aborting Insert")
-            return
-        
         table_exists = self.check_table_exists( db_manager._connection )
 
+        if not table_exists:
+            # Table Not Found ... create it 
+            nomads_logger.debug("PING_RESPONSES table not found ... Ready to create it")
+            self.create_table( db_manager._connection )
+            
         result = db_manager._connection.execute( ins )
         db_manager.close_connection()
 
@@ -51,10 +52,19 @@ class PingResponseTable(object):
             "SELECT COUNT(*) FROM information_schema.tables WHERE table_name='ping_responses'"
         )
 
-        nomads_logger.debug( "Result-Proxy = %s" % result_proxy.fetchone() )
+        select_count = result_proxy.fetchone()
 
-        return False
+        count = select_count[0]
 
+        if count == 1:
+            # Table Found
+            return True
+        else:
+            return False
+
+    def create_table(self, _connection):
+        self.metadata.create_all( _connection )
+        nomads_logger.debug("Table PING_RESPONSES is Created")
 
 
 
