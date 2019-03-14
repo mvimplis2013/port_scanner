@@ -55,8 +55,8 @@ class FollowExternalServer(BaseJob):
             nomads_logger.debug( "Is Host Up ... %s - %s" % (str(_is_host_up), _now) )
 
             # Save ping-output to database
-            
-
+            out_table = PingResponseTable( server.id, _is_host_up, _now )
+            out_table.save_record()
 
     def stop(self):
         pass
