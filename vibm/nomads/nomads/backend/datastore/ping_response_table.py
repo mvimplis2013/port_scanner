@@ -35,7 +35,7 @@ class PingResponseTable(object):
         db_manager = DatabaseManager()
         db_manager.establish_connection()
 
-        if !self.check_table_exists(db_manager._connection ):
+        if not self.check_table_exists(db_manager._connection ):
             nomads_logger.debug("PING_RESPONSES table not found ... Aborting Insert")
             return
         
