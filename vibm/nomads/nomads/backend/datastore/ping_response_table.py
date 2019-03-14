@@ -46,7 +46,7 @@ class PingResponseTable(object):
             nomads_logger.debug("PING_RESPONSES table not found ... Ready to create it")
             self.create_table()
             
-        result = self.execute( ins )
+        result = self._connection.execute( ins )
         db_manager.close_connection()
 
         nomads_logger.debug( result )
