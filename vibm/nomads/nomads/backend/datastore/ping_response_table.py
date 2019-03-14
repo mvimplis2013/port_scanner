@@ -2,7 +2,7 @@ from sqlalchemy import Table, MetaData, Column, Integer, String, Boolean, DateTi
 from sqlalchemy import ForeignKey
 from sqlalchemy import insert
 
-from .. import nomads_logger
+from ..datastore import nomads_logger
 
 """
 Table to store responses of mmap ping to external servers.
