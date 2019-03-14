@@ -33,7 +33,6 @@ class FollowExternalServer(BaseJob):
         ping_ports_found_tbl = self.db_manager.get_ping_ports_found_tbl()
         ping_ports_found_tbl.check_table_exists()
         
-        self.db_manager.close_connection()
 
     def start(self):
         for server in self.external_servers_arr:
@@ -58,7 +57,9 @@ class FollowExternalServer(BaseJob):
             out_table = PingResponseTable( server.id, _is_host_up, _now )
             out_table.save_record()
 
-            out_table.collect_data_for_period( _now, _now )
+            out_table.collect_data_for_period( self.db_manager._connection, _now, _now )
+
+            self.db_manager.close_connection()
 
     def stop(self):
         pass

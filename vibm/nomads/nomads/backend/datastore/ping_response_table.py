@@ -70,11 +70,11 @@ class PingResponseTable(object):
         self.metadata.create_all( self._connection )
         nomads_logger.debug("Table PING_RESPONSES is Created")
 
-    def collect_data_for_period(self, _from, _to):
+    def collect_data_for_period(self, _connection, _from, _to):
         nomads_logger.debug("Select Ping Responses for Period ... %s - %s" % (_from, _to))
         _select = select( [self.table] ).where( self.table.c.observation_datetime < datetime.datetime.now() )
 
-        result_proxy = self._connection.execute( _select )
+        result_proxy = _connection.execute( _select )
 
         nomads_logger.debug( "Records Found in PING_RESPONSES ... %d" % ( len(result_proxy.fetchall()) ))
 
