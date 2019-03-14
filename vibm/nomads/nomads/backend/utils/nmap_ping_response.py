@@ -7,7 +7,7 @@ class NMapPingResponse(object):
     def is_host_up(self):
         # Find the line with host status
         lines = self.response_text.split("\n")
-        host_status_line = lines[ _HOST_LINE ].trim()
+        host_status_line = lines[ _HOST_LINE ].strip()
 
         return host_status_line
 
