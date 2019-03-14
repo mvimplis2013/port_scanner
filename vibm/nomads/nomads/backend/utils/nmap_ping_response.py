@@ -1,3 +1,5 @@
+import re
+
 _HOST_LINE = 2
 
 class NMapPingResponse(object):
@@ -9,7 +11,9 @@ class NMapPingResponse(object):
         lines = self.response_text.split("\n")
         host_status_line = lines[ _HOST_LINE ].strip()
 
-        return host_status_line
+        _host_is_up = re.search(host_status_line, "host is up", re.IGNORECASE)
+
+        return _host_is_up
 
 class NMapPingResponseWithPortsScan(NMapPingResponse):
     def __init__(self):
