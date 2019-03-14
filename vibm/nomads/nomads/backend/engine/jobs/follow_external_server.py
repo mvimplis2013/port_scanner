@@ -4,6 +4,8 @@ from .. import DatabaseManager
 from .. import NMapNative
 from .. import NMapPingResponse
 
+from .. import PingResponseTable
+
 from .. import nomads_logger
 
 from .base_job import BaseJob
@@ -51,6 +53,10 @@ class FollowExternalServer(BaseJob):
             _now = datetime.datetime.now() 
 
             nomads_logger.debug( "Is Host Up ... %s - %s" % (str(_is_host_up), _now) )
+
+            # Save ping-output to database
+            
+
 
     def stop(self):
         pass
