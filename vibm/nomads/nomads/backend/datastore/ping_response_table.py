@@ -37,20 +37,22 @@ class PingResponseTable(object):
         db_manager = DatabaseManager()
         db_manager.establish_connection()
 
-        table_exists = self.check_table_exists( db_manager._connection )
+        self._connection = db_manager._connection
+
+        table_exists = self.check_table_exists()
 
         if not table_exists:
             # Table Not Found ... create it 
             nomads_logger.debug("PING_RESPONSES table not found ... Ready to create it")
-            self.create_table( db_manager._connection )
+            self.create_table()
             
-        result = db_manager._connection.execute( ins )
+        result = self.execute( ins )
         db_manager.close_connection()
 
         nomads_logger.debug( result )
 
-    def check_table_exists(self, _connection):
-        result_proxy = _connection.execute(
+    def check_table_exists(self):
+        result_proxy = self._connection.execute(
             "SELECT COUNT(*) FROM information_schema.tables WHERE table_name='ping_responses'"
         )
 
@@ -64,13 +66,15 @@ class PingResponseTable(object):
         else:
             return False
 
-    def create_table(self, _connection):
-        self.metadata.create_all( _connection )
+    def create_table(self):
+        self.metadata.create_all( self._connection )
         nomads_logger.debug("Table PING_RESPONSES is Created")
 
     def collect_data_for_period(self, _from, _to):
         nomads_logger.debug("Select Ping Responses for Period ... %s - %s" % (_from, _to))
-        result_proxy = select( [self.table] ).where( self.table.c.observation_datetime < datetime.datetime.now() )
+        _select = select( [self.table] ).where( self.table.c.observation_datetime < datetime.datetime.now() )
+
+        result_proxy = self._connection.execute( _select )
 
         nomads_logger.debug( "Records Found in PING_RESPONSES ... %d" % ( len(result_proxy.fetchall()) ))
 
