@@ -1,5 +1,6 @@
 import datetime
 
+from .. import DatabaseManager
 from .. import NMapNative
 from .. import NMapPingResponse
 
@@ -18,7 +19,7 @@ class FollowExternalServer(BaseJob):
     This is a data-centric application and different containers communicate through a backend database.
     """
     def __init__(self):
-        pass
+        self.db_manager = DatabaseManager()
 
     """ 
     Read from database the interesting external servers that will be monotored.
