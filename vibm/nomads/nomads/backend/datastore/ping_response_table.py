@@ -18,7 +18,7 @@ class PingResponseTable(object):
             Column('id', Integer(), primary_key=True),
             Column('server_id', Integer(), ForeignKey('external_servers.id')),
             Column('is_up', Boolean()),
-            Column('obesrvation_datetime', DateTime())
+            Column('observation_datetime', DateTime())
         )
 
     def save_record(self):
