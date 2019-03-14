@@ -169,6 +169,10 @@ class DatabaseManager(object):
     def get_ping_ports_found_tbl(self):
         return self.ping_ports_found_tbl
 
+    @property
+    def _connection(self):
+        return self.connection
+
 """
 #PROTOCOL = "mysql+pymysql://"
 

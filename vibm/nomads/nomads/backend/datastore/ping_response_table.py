@@ -2,6 +2,8 @@ from sqlalchemy import Table, MetaData, Column, Integer, String, Boolean, DateTi
 from sqlalchemy import ForeignKey
 from sqlalchemy import insert
 
+from ..engine import DatabaseManager
+
 from ..engine import nomads_logger
 
 """
@@ -30,5 +32,11 @@ class PingResponseTable(object):
 
         nomads_logger.debug( str(ins) )
 
+        db_manager = DatabaseManager()
+        db_manager.establish_connection()
         
+        result = db_manager._connection.execute( ins )
+
+        nomads_logger.debug( result )
+
 
