@@ -13,7 +13,10 @@ class NMapPingResponse(object):
 
         _host_is_up = re.search(host_status_line, "host is up", re.IGNORECASE)
 
-        return _host_is_up
+        if _host_is_up:
+            return True
+        else:
+            return False
 
 class NMapPingResponseWithPortsScan(NMapPingResponse):
     def __init__(self):
