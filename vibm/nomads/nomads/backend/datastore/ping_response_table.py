@@ -51,7 +51,7 @@ class PingResponseTable(object):
             "SELECT COUNT(*) FROM information_schema.tables WHERE table_name='ping_responses'"
         )
 
-        nomads_logger.debug( "Result-Proxy = %s" % result_proxy )
+        nomads_logger.debug( "Result-Proxy = %s" % result_proxy.fetchone() )
 
         return False
 
