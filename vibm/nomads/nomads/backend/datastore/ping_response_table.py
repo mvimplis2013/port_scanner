@@ -18,7 +18,7 @@ class PingResponseTable(object):
         self.metadata = MetaData()
         self.table = Table( 'ping_responses', self.metadata, 
             Column('id', Integer(), primary_key=True),
-            Column('server_id', Integer(), ForeignKey('nomads.external_servers.id')), 
+            Column('server_id', Integer()),  # , ForeignKey('nomads.external_servers.id') 
             Column('is_up', Boolean()),
             Column('observation_datetime', DateTime())
         )
