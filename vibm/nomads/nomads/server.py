@@ -5,6 +5,11 @@ from nomads.utils import ping_host, ping_host_full_response, scan_vlab_open_port
 
 from nomads.config_data_taxi import ConfigDataTaxi
 
+from nomads.backend.datastore.database_manager import DatabaseManager
+from nomads.backend.datastore.ping_response_table import PingResponseTable
+ 
+from datetime import datetime, timedelta 
+
 project_root = os.path.dirname(__file__)
 template_path = os.path.join(project_root, "templates")
 static_path = os.path.join(project_root, "gui")
@@ -87,3 +92,14 @@ def handle_new_config_data():
     print("Message Received from Capital")
     return "123"
 
+@app.route('/reports/external/get_ping_data', methods=['GET'])
+def get_ping_data_for_period():
+    db_manager = DatabaseManager()
+    db_manager.establish_connection() 
+
+    response_table = PingResponseTable( db_manager._connection )
+
+    _to = datetime.now()
+    _from = _to - timedelta(hours=12, minutes=0)
+
+    response_table.collect_data_for_period( _from, _to )

@@ -43,5 +43,8 @@ class PingPortScanTable(object):
             # Table Alread Defined
             return 1
 
+    def get_ports_open(self):
+        pass
+
 
 

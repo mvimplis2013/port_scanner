@@ -2,7 +2,7 @@ import datetime
 
 from .. import DatabaseManager
 from .. import NMapNative
-from .. import NMapPingResponse
+from .. import NMapPingResponse, NMapPingResponseWithPortsScan
 
 from .. import PingResponseTable
 
@@ -45,8 +45,12 @@ class FollowExternalServer(BaseJob):
             nomads_logger.debug( "*** Ping Reponse ***\n%s", ping_response)
 
             # Is Host Up and Running ?
-            obj_repsonse = NMapPingResponse( ping_response )
-            _is_host_up = obj_repsonse.is_host_up()
+            repsonse_host = NMapPingResponse( ping_response )
+            _is_host_up = repsonse_host.is_host_up()
+
+            # Which Ports are Open ?
+            repsonse_ports = NMapPingResponseWithPortsScan( ping_response )
+            open_ports_arr = repsonse_ports.get_open_ports_list()
 
             # Datetime of host ping
             _now = datetime.datetime.now() 
@@ -54,14 +58,15 @@ class FollowExternalServer(BaseJob):
             nomads_logger.debug( "Is Host Up ... %s - %s" % (str(_is_host_up), _now) )
 
             # Save ping-output to database
-            out_table = PingResponseTable( server.id, _is_host_up, _now )
-            out_table.save_record()
+            out_table = PingResponseTable( self._connection )
+            out_table.save_record( server.id, _is_host_up, _now )
 
-            out_table.collect_data_for_period( self.db_manager._connection, _now, _now )
+            out_table.collect_data_for_period( _now, _now )
 
-            self.db_manager.close_connection()
+            #ports_scan = NMapPingResponseWithPortsScan( ping_response )
 
     def stop(self):
-        pass
+        self.db_manager.close_connection()
+
 
 

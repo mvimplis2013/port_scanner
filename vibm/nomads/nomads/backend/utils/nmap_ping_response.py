@@ -18,6 +18,9 @@ class NMapPingResponse(object):
         else:
             return False
 
-class NMapPingResponseWithPortsScan(NMapPingResponse):
-    def __init__(self):
+class NMapPingResponseWithPortsScan(object):
+    def __init__(self, response_text):
+        self.response_text = response_text
+
+    def get_open_ports_list(self):
         pass
