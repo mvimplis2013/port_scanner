@@ -14,15 +14,17 @@ Table to store responses of mmap ping to external servers.
 class PingResponseTable(object):
     def __init__(self, _connection):
         self._connection = _connection
-        
+
     def save_record(self, _server_id, _is_up, _observation_datetime):
         table_exists = self.check_table_exists()
         if not table_exists:
             # Table Not Found ... create it 
             nomads_logger.debug("PING_RESPONSES table not found ... Ready to create it")
             self.create_table()
+        else:
+            self.connect_with_pre_existing_table()
                     
-        ins = self.table.insert().values(
+        ins = self.my_table.insert().values(
             server_id=_server_id,
             is_up=_is_up,
             observation_datetime=_observation_datetime
@@ -45,7 +47,9 @@ class PingResponseTable(object):
 
     def create_table(self):
         metadata = MetaData()
-        self.table = Table( 'ping_responses', metadata, 
+
+        # Case Create: SELF.MY_TABLE is here !!
+        self.my_table = Table( 'ping_responses', metadata, 
             Column('id', Integer(), primary_key=True),
             Column('server_id', Integer()),  # , ForeignKey('nomads.external_servers.id') 
             Column('is_up', Boolean()),
@@ -54,6 +58,21 @@ class PingResponseTable(object):
 
         metadata.create_all( self._connection )
         nomads_logger.debug("Table PING_RESPONSES is Created")
+
+    def connect_with_pre_existing_table(self):
+        metadata = MetaData()
+
+        # Case Found: SELF.MY_TABLE is here !!
+        self.my_table = Table( 'ping_responses', metadata, 
+            Column('id', Integer(), primary_key=True),
+            Column('server_id', Integer()),  # , ForeignKey('nomads.external_servers.id') 
+            Column('is_up', Boolean()),
+            Column('observation_datetime', DateTime())
+        )
+
+        selection       = self.my_table.select()
+        result_proxy    = self._connection.execute( selection )
+        results         = result_proxy.fetchall()
 
     def collect_data_for_period(self, _from, _to):
         nomads_logger.debug("Select Ping Responses for Period ... %s - %s" % (_from, _to))
