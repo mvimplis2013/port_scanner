@@ -30,9 +30,9 @@ class NMapPingResponseWithPortsScan(object):
         ports_header = self.lines[ _OPEN_PORTS_FROM ].strip()
 
         if not ( 
-            ports_header.lower().startswith("PORT") and \
+            ports_header.lower().startswith("port") and \
             re.search( "STATE", ports_header, re.IGNORECASE ) and \
-            ports_header.lower().endswith( "SERVICE" )
+            ports_header.lower().endswith( "service" )
         ):
             raise Exception("No PORT/ STATE/ SERVICE Header Found")
         
