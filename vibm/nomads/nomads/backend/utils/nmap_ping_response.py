@@ -39,7 +39,7 @@ class NMapPingResponseWithPortsScan(object):
         open_ports_sub = self.lines[ _OPEN_PORTS_FROM+1: ]
         open_ports_arr = []
 
-        for open_port in open_ports_arr:
+        for open_port in open_ports_sub:
             line = open_port.strip()
             if not line:
                 break
@@ -48,5 +48,6 @@ class NMapPingResponseWithPortsScan(object):
             open_ports_arr.append(line)
 
         nomads_logger.debug("+++++++++++++++++++++++++++++++++++++++")
+        nomads_logger.debug( open_ports_arr )
 
         return
