@@ -51,7 +51,18 @@ class PingPortScanTable(object):
 
         metadata.create_all( self._connection )
 
-    def save_open_ports(self, open_ports_arr):
+    def save_open_ports(self, _server_id, open_ports_arr):
+        metadata = MetaData()
+        
+        self.my_table = Table( TABLE_NAME, metadata, 
+            Column('id', Integer(), primary_key=True),
+            Column('server_id', Integer()), #, ForeignKey('external_servers.id')
+            Column('port', Integer(), index=True),
+            Column('protocol', String(3), CheckConstraint("protocol='tcp' OR protocol='udp'")),
+            Column('state', String(5)),
+            Column('service', String(50))
+        )
+
         #nomads_logger.debug("Someone wants to save an open port to db %s!" % open_ports_arr)
         for open_port_str in open_ports_arr:
             open_port_parts = open_port_str.split()
@@ -60,12 +71,27 @@ class PingPortScanTable(object):
             #    (open_port_parts[0], open_port_parts[1], open_port_parts[2]))
 
             port_protocol   = open_port_parts[0]
-            port            = port_protocol.split("/")[0]
-            protocol        = port_protocol.split("/")[1]
-            nomads_logger.debug("Port = %s .. Protocol = %s" % (port, protocol))
-            
-            state           = open_port_parts[1]
-            service         = open_port_parts[2]
+            _port            = port_protocol.split("/")[0]
+            _protocol        = port_protocol.split("/")[1]
+            #nomads_logger.debug("Port = %s .. Protocol = %s" % (_port, _protocol))
+
+            _state           = open_port_parts[1]
+            _service         = open_port_parts[2]
+
+            _insert = self.my_table.insert().values(
+                server_id=_server_id,
+                port=_port,
+                protocol=_protocol,
+                state=_state,
+                service=_service
+            )
+
+            result = self._connection.execute( _insert )
+
+            #assert result.inserted_primarry_key == [1]
+
+        return
+
 
     def get_ports_open(self):
         pass
