@@ -28,6 +28,10 @@ class NMapPingResponseWithPortsScan(object):
 
     def get_open_ports_list(self):
         ports_header = self.lines[ _OPEN_PORTS_FROM ]
-        nomads_logger.debug( "Inside NMapPing with Ports Scan Response ... %s" % ports_header)
+        
+        open_ports_arr = self.lines[ _OPEN_PORTS_FROM: ]
+            
+        for open_port in open_ports_arr:
+            nomads_logger.debug( "Inside NMapPing with Ports Scan Response ... %s" % open_port )
 
         return
