@@ -15,7 +15,7 @@ class PingResponseTable(object):
     def __init__(self, _connection):
         self._connection = _connection
         
-    def save_record(self, server_id, is_up, observation_datetime):
+    def save_record(self, _server_id, _is_up, _observation_datetime):
         table_exists = self.check_table_exists()
         if not table_exists:
             # Table Not Found ... create it 
@@ -23,9 +23,9 @@ class PingResponseTable(object):
             self.create_table()
                     
         ins = self.table.insert().values(
-            server_id=self.server_id,
-            is_up=self.is_up,
-            observation_datetime=self.observation_datetime
+            server_id=_server_id,
+            is_up=_is_up,
+            observation_datetime=_observation_datetime
         )
         result = self._connection.execute( ins )
         
