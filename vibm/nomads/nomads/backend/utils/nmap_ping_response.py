@@ -1,5 +1,7 @@
 import re
 
+from .. import nomads_logger
+
 _HOST_LINE = 2
 
 class NMapPingResponse(object):
@@ -23,4 +25,6 @@ class NMapPingResponseWithPortsScan(object):
         self.response_text = response_text
 
     def get_open_ports_list(self):
-        pass
+        nomads_logger.debug( "Inside NMapPing with Ports Scan Response ..." )
+
+        return
