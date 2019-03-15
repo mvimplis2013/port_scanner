@@ -44,10 +44,10 @@ class NMapPingResponseWithPortsScan(object):
             if not line:
                 break
 
-            nomads_logger.debug( "Inside NMapPing with Ports Scan Response ... %s" % line )
+            #nomads_logger.debug( "Inside NMapPing with Ports Scan Response ... %s" % line )
             open_ports_arr.append(line)
 
-        nomads_logger.debug("+++++++++++++++++++++++++++++++++++++++")
-        nomads_logger.debug( open_ports_arr )
+        #nomads_logger.debug("+++++++++++++++++++++++++++++++++++++++")
+        #nomads_logger.debug( open_ports_arr )
 
-        return
+        return open_ports_arr

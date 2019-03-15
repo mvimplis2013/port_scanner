@@ -54,6 +54,7 @@ class FollowExternalServer(BaseJob):
             # Which Ports are Open ?
             response_ports = NMapPingResponseWithPortsScan( ping_response )
             open_ports_arr = response_ports.get_open_ports_list()
+            nomads_logger.debug("For Server '%d' Found (%d) Open Ports !" % (server.id, len(open_ports_arr)))
 
             # Datetime of host ping
             _now = datetime.datetime.now() 
