@@ -28,8 +28,12 @@ class NMapPingResponseWithPortsScan(object):
 
     def get_open_ports_list(self):
         ports_header = self.lines[ _OPEN_PORTS_FROM ]
+
+        if not ( re.search( "PORT", ports_header, re.IGNORECASE ) && re.search( "STATE", ports_header, re.IGNORECASE ) && \
+            re.search( "SERVICE", ports_header, re.IGNORECASE )):
+            raise Exception("No PORT/ STATE/ SERVICE Header Found")
         
-        open_ports_arr = self.lines[ _OPEN_PORTS_FROM: ]
+        open_ports_arr = self.lines[ _OPEN_PORTS_FROM+1: ]
             
         for open_port in open_ports_arr:
             nomads_logger.debug( "Inside NMapPing with Ports Scan Response ... %s" % open_port )
