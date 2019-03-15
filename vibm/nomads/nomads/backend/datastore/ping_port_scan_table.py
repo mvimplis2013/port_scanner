@@ -46,12 +46,13 @@ class PingPortScanTable(object):
             Column('port', Integer(), index=True),
             Column('protocol', String(3), CheckConstraint("protocol='tcp' OR protocol='udp'")),
             Column('state', String(5)),
-            Column('service', String(50))
+            Column('service', String(50),
+            Column('observation_datetime', DateTime(), nullable=False))
         )
 
         metadata.create_all( self._connection )
 
-    def save_open_ports(self, _server_id, open_ports_arr):
+    def save_open_ports(self, _server_id, open_ports_arr, _observation_datetime):
         metadata = MetaData()
         
         self.my_table = Table( TABLE_NAME, metadata, 
