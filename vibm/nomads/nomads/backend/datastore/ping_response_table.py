@@ -77,7 +77,7 @@ class PingResponseTable(object):
     def collect_data_for_period(self, _from, _to):
         nomads_logger.debug("Select Ping Responses for Period ... %s - %s" % (_from, _to))
         
-        _select = select( [self.table] ).where( self.table.c.observation_datetime < datetime.datetime.now() )
+        _select = select( [self.my_table] ).where( self.my_table.c.observation_datetime < datetime.datetime.now() )
         result_proxy = self._connection.execute( _select )
         records_found = result_proxy.fetchall()
 
