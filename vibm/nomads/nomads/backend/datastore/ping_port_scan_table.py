@@ -55,8 +55,17 @@ class PingPortScanTable(object):
         #nomads_logger.debug("Someone wants to save an open port to db %s!" % open_ports_arr)
         for open_port_str in open_ports_arr:
             open_port_parts = open_port_str.split()
-            nomads_logger.debug("Part 1=%s .... Part 2=%s .... Part 3=%s" % \
-                (open_port_parts[0], open_port_parts[1], open_port_parts[2]))
+            
+            #nomads_logger.debug("Part 1=%s .... Part 2=%s .... Part 3=%s" % \
+            #    (open_port_parts[0], open_port_parts[1], open_port_parts[2]))
+
+            port_protocol   = open_port_parts[0]
+            port            = port_protocol.split("/")[0]
+            protocol        = port_protocol.split("/")[1]
+            nomads_logger.debug("Port = %s .. Protocol = %s" % (port, protocol))
+            
+            state           = open_port_parts[1]
+            service         = open_port_parts[2]
 
     def get_ports_open(self):
         pass
