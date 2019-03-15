@@ -71,7 +71,7 @@ class FollowExternalServer(BaseJob):
                 ports_scan_table.create()
 
             # Save Open-Ports Array for Server
-            ports_scan_table.save_open_ports( open_ports_arr )
+            ports_scan_table.save_open_ports( server._id, open_ports_arr, _now )
 
             # *** End of ports-scan to database *** 
 
