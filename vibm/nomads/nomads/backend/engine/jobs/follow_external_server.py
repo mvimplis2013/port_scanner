@@ -28,9 +28,6 @@ class FollowExternalServer(BaseJob):
         # Which External Servers Should the Monitoring Tool Ping ?
         self.db_manager.establish_connection()
         
-        ping_ports_found_tbl = self.db_manager.get_ping_ports_found_tbl()
-        ping_ports_found_tbl.check_table_exists()
-        
     def start(self):
         print( "***** Now is ... %s *****" % datetime.datetime.now() )
         _connection = self.db_manager._connection
@@ -54,16 +51,24 @@ class FollowExternalServer(BaseJob):
             # Which Ports are Open ?
             response_ports = NMapPingResponseWithPortsScan( ping_response )
             open_ports_arr = response_ports.get_open_ports_list()
-            nomads_logger.debug("For Server '%d' Found (%d) Open Ports !" % (server.id, len(open_ports_arr)))
 
             # Datetime of host ping
             _now = datetime.datetime.now() 
 
-            nomads_logger.debug( "Is Host Up ... %s - %s" % (str(_is_host_up), _now) )
+            nomads_logger.debug( "Is Host Up ... %d / %s - %s" % (server.id, str(_is_host_up), _now) )
+            nomads_logger.debug( "For Server '%d' Found (%d) Open Ports !" % (server.id, len(open_ports_arr)) )
 
             # Save ping-output to database
             out_table = PingResponseTable( _connection )
             out_table.save_record( server.id, _is_host_up, _now )
+
+            # Save ports-scan to database
+            ports_scan_table = self.db_manager.get_ping_ports_found_tbl()
+            ports_table_ok = ports_scan_table.check_table_exists()
+        
+            if not ports_table_ok:
+                # Table Ports Scan Output ... Not Found
+                ports_scan_table.create()
 
             out_table.collect_data_for_period( _now, _now )
 

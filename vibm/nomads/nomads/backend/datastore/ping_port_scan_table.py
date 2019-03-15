@@ -17,7 +17,7 @@ class PingPortScanTable(object):
 
         self.metadata = MetaData()
         
-        self.table = Table( TABLE_NAME, self.metadata, 
+        self.my_table = Table( TABLE_NAME, self.metadata, 
             Column('id', Integer(), primary_key=True),
             Column('server_id', Integer(), ForeignKey('external_servers.id')),
             Column('port', Integer(), index=True),
@@ -42,6 +42,12 @@ class PingPortScanTable(object):
         else:
             # Table Alread Defined
             return 1
+
+    """ 
+    Table not found in database and needs to be created for storing new OPEN-PORT records.
+    """
+    def create(self):
+        self.metadata.create_all([self.my_table])
 
     def get_ports_open(self):
         pass
