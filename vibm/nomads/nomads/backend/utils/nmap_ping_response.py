@@ -27,10 +27,13 @@ class NMapPingResponseWithPortsScan(object):
         self.lines = response_text.split("\n")
 
     def get_open_ports_list(self):
-        ports_header = self.lines[ _OPEN_PORTS_FROM ]
+        ports_header = self.lines[ _OPEN_PORTS_FROM ].strip()
 
-        if not ( re.search( "PORT", ports_header, re.IGNORECASE ) && re.search( "STATE", ports_header, re.IGNORECASE ) && \
-            re.search( "SERVICE", ports_header, re.IGNORECASE )):
+        if not ( 
+            ports_header.lower().startswith("PORT") AND \
+            re.search( "STATE", ports_header, re.IGNORECASE ) AND \
+            ports_header.lower().endswith( "SERVICE" )
+        ):
             raise Exception("No PORT/ STATE/ SERVICE Header Found")
         
         open_ports_arr = self.lines[ _OPEN_PORTS_FROM+1: ]
