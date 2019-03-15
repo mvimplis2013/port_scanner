@@ -49,7 +49,7 @@ class PingPortScanTable(object):
             Column('service', String(50))
         )
 
-        metadata.create_all([self.my_table])
+        metadata.create_all( self._connection )
 
     def save_open_port(self):
         nomads_logger.debug("Someone wants to save an open port to db !")

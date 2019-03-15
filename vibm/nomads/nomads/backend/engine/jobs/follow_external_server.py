@@ -29,7 +29,7 @@ class FollowExternalServer(BaseJob):
         self.db_manager.establish_connection()
         
     def start(self):
-        print( "***** Town is ... %s *****" % "China" )
+        print( "***** Town is ... %s *****" % "Delhi" )
         _connection = self.db_manager._connection
 
         # Get the list of external servers
