@@ -12,8 +12,8 @@ class PingPortScanTable(object):
     """
     Define the sql-engine that comminicates with underlying database server
     """
-    def __init__(self, engine):
-        self.engine = engine
+    def __init__(self, _connection):
+        self._connection = _connection
 
         self.metadata = MetaData()
         
@@ -30,7 +30,7 @@ class PingPortScanTable(object):
     Table already created and ready for records saving ?
     """
     def check_table_exists(self):
-        result_proxy = self.engine.execute(
+        result_proxy = self._connection.execute(
             "SHOW TABLES LIKE '" + TABLE_NAME + "'"
         )
 

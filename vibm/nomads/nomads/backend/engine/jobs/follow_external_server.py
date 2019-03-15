@@ -4,7 +4,7 @@ from .. import DatabaseManager
 from .. import NMapNative
 from .. import NMapPingResponse, NMapPingResponseWithPortsScan
 
-from .. import PingResponseTable
+from .. import PingResponseTable, PingPortScanTable
 
 from .. import nomads_logger
 
@@ -63,7 +63,7 @@ class FollowExternalServer(BaseJob):
             out_table.save_record( server.id, _is_host_up, _now )
 
             # Save ports-scan to database
-            ports_scan_table = self.db_manager.get_ping_ports_found_tbl()
+            ports_scan_table = PingPortScanTable( _connection )
             ports_table_ok = ports_scan_table.check_table_exists()
         
             if not ports_table_ok:
