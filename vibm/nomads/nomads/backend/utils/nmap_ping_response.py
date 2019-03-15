@@ -36,9 +36,17 @@ class NMapPingResponseWithPortsScan(object):
         ):
             raise Exception("No PORT/ STATE/ SERVICE Header Found")
         
-        open_ports_arr = self.lines[ _OPEN_PORTS_FROM+1: ]
-            
+        open_ports_sub = self.lines[ _OPEN_PORTS_FROM+1: ]
+        open_ports_arr = []
+
         for open_port in open_ports_arr:
-            nomads_logger.debug( "Inside NMapPing with Ports Scan Response ... %s" % open_port )
+            line = open_port.strip()
+            if not line:
+                break
+
+            nomads_logger.debug( "Inside NMapPing with Ports Scan Response ... %s" % line )
+            open_ports_arr.append(line)
+
+        nomads_logger.debug("+++++++++++++++++++++++++++++++++++++++")
 
         return
