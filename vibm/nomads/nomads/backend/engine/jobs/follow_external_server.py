@@ -48,12 +48,12 @@ class FollowExternalServer(BaseJob):
             nomads_logger.debug( "*** Ping Reponse ***\n%s", ping_response)
 
             # Is Host Up and Running ?
-            repsonse_host = NMapPingResponse( ping_response )
-            _is_host_up = repsonse_host.is_host_up()
+            response_host = NMapPingResponse( ping_response )
+            _is_host_up = response_host.is_host_up()
 
             # Which Ports are Open ?
-            repsonse_ports = NMapPingResponseWithPortsScan( ping_response )
-            open_ports_arr = repsonse_ports.get_open_ports_list()
+            response_ports = NMapPingResponseWithPortsScan( ping_response )
+            open_ports_arr = response_ports.get_open_ports_list()
 
             # Datetime of host ping
             _now = datetime.datetime.now() 

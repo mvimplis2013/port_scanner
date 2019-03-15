@@ -1,6 +1,6 @@
 import re
 
-from .. import nomads_logger
+from ..engine import nomads_logger
 
 _HOST_LINE = 2
 
