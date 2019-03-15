@@ -92,6 +92,13 @@ class PingPortScanTable(object):
             result = self._connection.execute( _insert )
 
             #assert result.inserted_primarry_key == [1]
+        
+        select_all = self.my_table.select()
+        result_proxy = self._connection.execute( select_all )
+        results_all = result_proxy.fetchall()
+
+        nomads_logger.debug( "Number of Records in Open Ports Table after Insert for Server ... %d" % \
+            len( results_all ))
 
         return
 
