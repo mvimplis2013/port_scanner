@@ -15,17 +15,6 @@ class PingPortScanTable(object):
     def __init__(self, _connection):
         self._connection = _connection
 
-        self.metadata = MetaData()
-        
-        self.my_table = Table( TABLE_NAME, self.metadata, 
-            Column('id', Integer(), primary_key=True),
-            Column('server_id', Integer(), ForeignKey('external_servers.id')),
-            Column('port', Integer(), index=True),
-            Column('protocol', String(3), CheckConstraint("protocol='tcp' OR protocol='udp'")),
-            Column('state', String(5)),
-            Column('service', String(50))
-        )
-
     """ 
     Table already created and ready for records saving ?
     """
@@ -38,16 +27,27 @@ class PingPortScanTable(object):
         
         if len(records_found) == 0:
             # Table Not Yet Defined
-            return 0
+            return False
         else:
             # Table Alread Defined
-            return 1
+            return True
 
     """ 
     Table not found in database and needs to be created for storing new OPEN-PORT records.
     """
     def create(self):
-        self.metadata.create_all([self.my_table])
+        metadata = MetaData()
+        
+        self.my_table = Table( TABLE_NAME, self.metadata, 
+            Column('id', Integer(), primary_key=True),
+            Column('server_id', Integer(), ForeignKey('external_servers.id')),
+            Column('port', Integer(), index=True),
+            Column('protocol', String(3), CheckConstraint("protocol='tcp' OR protocol='udp'")),
+            Column('state', String(5)),
+            Column('service', String(50))
+        )
+
+        metadata.create_all([self.my_table])
 
     def get_ports_open(self):
         pass
