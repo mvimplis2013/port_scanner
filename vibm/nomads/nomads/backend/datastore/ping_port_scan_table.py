@@ -51,8 +51,12 @@ class PingPortScanTable(object):
 
         metadata.create_all( self._connection )
 
-    def save_open_port(self, open_ports_arr):
-        nomads_logger.debug("Someone wants to save an open port to db %s!" % open_ports_arr)
+    def save_open_ports(self, open_ports_arr):
+        #nomads_logger.debug("Someone wants to save an open port to db %s!" % open_ports_arr)
+        for open_port_str in open_ports_arr:
+            open_port_parts = open_port_str.split()
+            nomads_logger.debug("Part 1=%s .... Part 2=%s .... Part 3=%s" % \
+                (open_port_parts[0], open_port_parts[1], open_port_parts[2]))
 
     def get_ports_open(self):
         pass
