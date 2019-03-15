@@ -2,6 +2,8 @@ from sqlalchemy import engine
 from sqlalchemy import Table, MetaData, Column, Integer, String, Boolean, DateTime
 from sqlalchemy import ForeignKey, CheckConstraint
 
+from ..engine import nomads_logger
+
 TABLE_NAME = "ping_ports_scan"
 
 """
@@ -38,7 +40,7 @@ class PingPortScanTable(object):
     def create(self):
         metadata = MetaData()
         
-        self.my_table = Table( TABLE_NAME, self.metadata, 
+        self.my_table = Table( TABLE_NAME, metadata, 
             Column('id', Integer(), primary_key=True),
             Column('server_id', Integer(), ForeignKey('external_servers.id')),
             Column('port', Integer(), index=True),
@@ -48,6 +50,9 @@ class PingPortScanTable(object):
         )
 
         metadata.create_all([self.my_table])
+
+    def save_open_port(self):
+        nomads_logger.debug("Someone wants to save an open port to db !")
 
     def get_ports_open(self):
         pass

@@ -70,6 +70,8 @@ class FollowExternalServer(BaseJob):
                 # Table Ports Scan Output ... Not Found
                 ports_scan_table.create()
 
+            ports_scan_table.save_open_port()
+
             out_table.collect_data_for_period( _now, _now )
 
             #ports_scan = NMapPingResponseWithPortsScan( ping_response )
