@@ -61,8 +61,8 @@ class PingPortScanTable(object):
             Column('port', Integer(), index=True),
             Column('protocol', String(3), CheckConstraint("protocol='tcp' OR protocol='udp'")),
             Column('state', String(5)),
-            Column('service', String(50), 
-            Column('observation_datetime', DateTime(), nullable=False))
+            Column('service', String(50)), 
+            Column('observation_datetime', DateTime(), nullable=False)
         )
 
         #nomads_logger.debug("Someone wants to save an open port to db %s!" % open_ports_arr)
