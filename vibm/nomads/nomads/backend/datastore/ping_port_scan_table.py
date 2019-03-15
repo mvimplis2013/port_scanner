@@ -103,7 +103,7 @@ class PingPortScanTable(object):
         return
 
 
-    def get_ports_open(self):
+    def get_open_ports(self):
         pass
 
 
