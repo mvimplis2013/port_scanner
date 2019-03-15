@@ -46,8 +46,8 @@ class PingPortScanTable(object):
             Column('port', Integer(), index=True),
             Column('protocol', String(3), CheckConstraint("protocol='tcp' OR protocol='udp'")),
             Column('state', String(5)),
-            Column('service', String(50),
-            Column('observation_datetime', DateTime(), nullable=False))
+            Column('service', String(50)),
+            Column('observation_datetime', DateTime(), nullable=False)
         )
 
         metadata.create_all( self._connection )
@@ -61,7 +61,8 @@ class PingPortScanTable(object):
             Column('port', Integer(), index=True),
             Column('protocol', String(3), CheckConstraint("protocol='tcp' OR protocol='udp'")),
             Column('state', String(5)),
-            Column('service', String(50))
+            Column('service', String(50), 
+            Column('observation_datetime', DateTime(), nullable=False))
         )
 
         #nomads_logger.debug("Someone wants to save an open port to db %s!" % open_ports_arr)
@@ -84,7 +85,8 @@ class PingPortScanTable(object):
                 port=_port,
                 protocol=_protocol,
                 state=_state,
-                service=_service
+                service=_service,
+                observation_datetime=_observation_datetime
             )
 
             result = self._connection.execute( _insert )
