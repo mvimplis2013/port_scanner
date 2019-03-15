@@ -51,8 +51,8 @@ class PingPortScanTable(object):
 
         metadata.create_all( self._connection )
 
-    def save_open_port(self):
-        nomads_logger.debug("Someone wants to save an open port to db !")
+    def save_open_port(self, open_ports_arr):
+        nomads_logger.debug("Someone wants to save an open port to db %s!" % open_ports_arr)
 
     def get_ports_open(self):
         pass

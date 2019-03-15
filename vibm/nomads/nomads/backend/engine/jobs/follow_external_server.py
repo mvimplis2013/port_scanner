@@ -62,7 +62,7 @@ class FollowExternalServer(BaseJob):
             out_table = PingResponseTable( _connection )
             out_table.save_record( server.id, _is_host_up, _now )
 
-            # Save ports-scan to database
+            # *** Save ports-scan to database ***
             ports_scan_table = PingPortScanTable( _connection )
             ports_table_ok = ports_scan_table.check_table_exists()
         
@@ -70,7 +70,10 @@ class FollowExternalServer(BaseJob):
                 # Table Ports Scan Output ... Not Found
                 ports_scan_table.create()
 
-            ports_scan_table.save_open_port()
+            # Save Open-Ports Array for Server
+            ports_scan_table.save_open_ports( open_ports_arr )
+
+            # *** End of ports-scan to database *** 
 
             out_table.collect_data_for_period( _now, _now )
 
