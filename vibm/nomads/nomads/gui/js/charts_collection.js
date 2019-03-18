@@ -50,10 +50,14 @@ var external_mode;
 $("#ping-ip").click( function() {
     console.log("PingIp");
     external_mode = 'ping';
+
+    return false;
 });
 $("#scan-ports").addEventListener("click", function(e){
     console.log("PortScan");
     external_mode = 'scan';
+
+    return false;
 });
 
 $("[role=button-get-data]").on("click", function(event) {
