@@ -103,3 +103,7 @@ def get_ping_data_for_period():
     _from = _to - timedelta(hours=12, minutes=0)
 
     response_table.collect_data_for_period( _from, _to )
+
+@app.route('/reports/external/base', methods=['GET'])
+def display_available_graphs():
+    return "123"
