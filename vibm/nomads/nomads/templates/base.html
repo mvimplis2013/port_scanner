@@ -116,90 +116,22 @@
         </div>
       </div>
     
-  <div class="row">
-      <div role="main" class="col-md-12 ml-sm-auto col-lg-12 px-4">
-        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-1 pb-2 mb-3 border-bottom">
-          <h1 class="h2">Dashboard</h1>
-                    
-          <div class="btn-toolbar mb-2 mb-md-0">
-            <div class="btn-group mr-2">
-              <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
-              <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
-            </div>
-                        
-            <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
-              <span data-feather="calendar"></span>
-              This week
-            </button>
-          </div>
-        </div>
-
-        <div id="wrapper" class="container">
-          <h4>
-            <span id="header-availability" class="badge badge-success">Availability Over the Past XX Hours</span>
-          </h4>
-                      
-          <div id="myTable" class="form-group"></div>
-                      
-          <canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas>              
-        </div>
-                    
-        <h2>VLAB Robot Configuration</h2>
-                    
-        <div class="table-responsive">
-          <table class="table table-striped table-sm">
-            <thead>
-              <tr>
-                <th>Apply</th>
-                <th>Property</th>
-                <th>Current Value</th>
-                <th>New Value</th>
-                <th>Response</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>
-                  <input type="checkbox" name="applyNow" value="apply" onclick="configure_robot()" autocomplete="off"> Now<br>
-                </td>
-                
-                <td>Port-Scan</td>
-                <td>0-1000</td>
-                
-                <td>
-                  <form>
-                    <input type="text" name="newConfig" autocomplete="off"><br>
-                  </form>
-                </td>
-                  
-                <td>
-                  <input type="text" id="robotResponse" value="" disabled style="border: none; border-color: transparent; width: 280px;" autocomplete="off">
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div> <!-- Table-Responsive -->
-    </div> <!-- MAIN -->
-  </div> <!-- class-ROW -->
+    </main>
   
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+    <!--script>window.jQuery || document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"><\/script>')</script-->
   
-  <script>window.jQuery || document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"><\/script>')</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
   
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>  
   
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.9.0/feather.min.js"></script>
   
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.9.0/feather.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
   
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.8.2/d3.js"></script>
   
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.8.2/d3.js"></script>
-  
-  <script type="text/javascript" src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
-  <script type="text/javascript" src="{{ url_for('static', filename='js/ports_services_availability_monitor.js') }}"></script>
-  <script type="text/javascript" src="{{ url_for('static', filename='js/scan_vlab_open_ports.js') }}"></script>
-  <script type="text/javascript" src="{{ url_for('static', filename='js/charts_collection.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/charts_collection.js') }}"></script>
 
 </body>
 </html>
