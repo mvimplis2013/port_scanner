@@ -31,11 +31,11 @@
             <a class="nav-link" href="#">Reports<span class="sr-only">(current)</span></a>
           </li>
           <!-- EXTERNAL MONITORING -->
-          <li class="nav-item dropdown" role="external-list">
+          <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">External</a>
-            <div class="dropdown-menu" aria-labelled-by="smallerscreenmenu" role="external-menu">
-              <a class="dropdown-item" href="#" onclick="{alert('Papares');}">Ping IP</a>
-              <a class="dropdown-item" href="#">Scan Ports</a>
+            <div class="dropdown-menu" aria-labelled-by="smallerscreenmenu">
+              <a class="dropdown-item" href="#" onclick="set_external('ping_ip')">Ping IP</a>
+              <a class="dropdown-item" href="#" onclick="set_external('port_scan')">Scan Ports</a>
             </div>
           </li>
           <!-- End of EXTERNAL -->

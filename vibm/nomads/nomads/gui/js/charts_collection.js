@@ -40,17 +40,17 @@ function drawChart() {
 
 $("[data-toggle=sidebar-colapse]").click( function() {
     SidebarCollapse();
-  });
-
-  $("[data-toggle=sidebar-colapse]").click( function() {
-    SidebarCollapse();
-  });*/
-
-$('a[id="ping"]').on("select", function(event) {
-    //var external_selected = "HeHe"; // $("[role=external-list]").selectedIndex;
-
-    alert("Paparies");
 });
+
+$("[data-toggle=sidebar-colapse]").click( function() {
+    SidebarCollapse();
+});*/
+
+external_mode; 
+function set_external( mode ) {
+    var external_mode = mode; 
+}
+
 
 $("[role=button-get-data]").on("click", function(event) {
     //find("td[id='status']").removeClass().addClass("bg-success");
@@ -61,6 +61,9 @@ $("[role=button-get-data]").on("click", function(event) {
     //num_names_add += 1;
 
     var external_monitoring = $("[role=external-list]").text
+
+    var external_mode;
+    console.log("external_mode = " + external_mode);
 
     alert("Data Games");
 });
