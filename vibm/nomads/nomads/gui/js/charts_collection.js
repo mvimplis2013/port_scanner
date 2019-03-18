@@ -55,13 +55,11 @@ $("#ping-ip").on("click", function(e) {
 
     e.preventDefault();
 });
-$("#scan-ports").addEventListener("click", function(e){
-    e.preventDefault();
-    
+$("#scan-ports").on("click", function(e){
     console.log("PortScan");
     external_mode = 'scan';
 
-    return false;
+    e.preventDefault();
 });
 
 $("[role=button-get-data]").on("click", function(event) {
@@ -71,8 +69,6 @@ $("[role=button-get-data]").on("click", function(event) {
     //$( "#tbl-names #ip-" + arr_num[num_names_add] ).text( which_name );
 
     //num_names_add += 1;
-
-    var external_monitoring = $("[role=external-list]").text
 
     console.log("external_mode = " + external_mode);
 
