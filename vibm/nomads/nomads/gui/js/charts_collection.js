@@ -46,13 +46,13 @@ $("[data-toggle=sidebar-colapse]").click( function() {
     SidebarCollapse();
   });*/
 
-$("li[role=external-list] a[class=dropdown-item]").on("click", function(event) {
+$('li[role="external-list"] a[class="dropdown-item"]').on("click", function(event) {
     var external_selected = "HeHe"; // $("[role=external-list]").selectedIndex;
 
     alert( external_selected );
 });
 
-$("[role=button-get-data").on("click", function(event) {
+$("[role=button-get-data]").on("click", function(event) {
     //find("td[id='status']").removeClass().addClass("bg-success");
     //which_name = $( "#new-name" ).val();
 
