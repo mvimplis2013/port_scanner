@@ -46,7 +46,7 @@ $("[data-toggle=sidebar-colapse]").click( function() {
     SidebarCollapse();
   });*/
 
-$("[role=external-list]").on("click", function(event) {
+$("[role=external-list] [class=dropdown-item]").on("click", function(event) {
     var external_selected = $("[role=external-list]").selectedIndex;
 
     alert( external_selected );
