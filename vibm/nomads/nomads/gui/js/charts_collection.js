@@ -46,10 +46,10 @@ $("[data-toggle=sidebar-colapse]").click( function() {
     SidebarCollapse();
   });*/
 
-$('li[role="external-list"] a[class="dropdown-item"]').on("select", function(event) {
+$('div[role="external-menu"] a').on("click", function(event) {
     var external_selected = "HeHe"; // $("[role=external-list]").selectedIndex;
 
-    alert( "Oaoaries" );
+    alert( "Paparies" );
 });
 
 $("[role=button-get-data]").on("click", function(event) {
