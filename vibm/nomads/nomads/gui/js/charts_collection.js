@@ -55,6 +55,8 @@ $("#ping-ip").click( function(e) {
     return false;
 });
 $("#scan-ports").addEventListener("click", function(e){
+    e.preventDefault();
+    
     console.log("PortScan");
     external_mode = 'scan';
 
