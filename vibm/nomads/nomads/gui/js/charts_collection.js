@@ -46,10 +46,13 @@ $("[data-toggle=sidebar-colapse]").click( function() {
     SidebarCollapse();
 });*/
 
-external_mode; 
-function set_external(mode) {
-    var external_mode = mode; 
-};
+var external_mode; 
+$("#ping_ip").addEventListener("click", function(e){
+    external_mode = 'ping';
+});
+$("#scan-ports").addEventListener("click", function(e){
+    external_mode = 'scan';
+});
 
 $("[role=button-get-data]").on("click", function(event) {
     //find("td[id='status']").removeClass().addClass("bg-success");
@@ -61,7 +64,6 @@ $("[role=button-get-data]").on("click", function(event) {
 
     var external_monitoring = $("[role=external-list]").text
 
-    var external_mode;
     console.log("external_mode = " + external_mode);
 
     alert("Data Games");
