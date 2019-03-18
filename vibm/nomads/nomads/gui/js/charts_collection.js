@@ -47,10 +47,9 @@ $("[data-toggle=sidebar-colapse]").click( function() {
 });*/
 
 external_mode; 
-function set_external( mode ) {
+function set_external(mode) {
     var external_mode = mode; 
-}
-
+};
 
 $("[role=button-get-data]").on("click", function(event) {
     //find("td[id='status']").removeClass().addClass("bg-success");
