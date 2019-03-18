@@ -46,7 +46,7 @@ $("[data-toggle=sidebar-colapse]").click( function() {
     SidebarCollapse();
   });*/
 
-$("[role=external-list] [class=dropdown-item]").on("click", function(event) {
+$("li [role=external-list] [class=dropdown-item]").on("select", function(event) {
     var external_selected = "HeHe"; // $("[role=external-list]").selectedIndex;
 
     alert( external_selected );
