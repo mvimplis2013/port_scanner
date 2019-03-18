@@ -20,10 +20,12 @@ COPY requirements_gui.txt requirements.txt
 RUN python -m venv venv_vlab
 RUN venv_vlab/bin/pip install -r requirements.txt
 
-#RUN pip install --user -r requirements.txt
+RUN pip install --user -r requirements.txt
 
 COPY nomads nomads
 COPY boot.sh ./
+
+RUN mkdir logs && touch logs/back-robot.log
 
 ENV PYTHONPATH "${PYTHONPATH}:/home/vlab/"
 

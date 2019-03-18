@@ -2,9 +2,9 @@ from sqlalchemy import Table, MetaData, Column, Integer, String, Boolean, DateTi
 from sqlalchemy import ForeignKey
 from sqlalchemy import insert, select
 
-from ..engine import DatabaseManager
+from nomads.backend.datastore.database_manager import DatabaseManager
 
-from ..engine import nomads_logger
+from nomads.backend.utils.back_logger import nomads_logger
 
 import datetime
 
