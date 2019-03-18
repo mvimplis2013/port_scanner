@@ -47,12 +47,11 @@ $("[data-toggle=sidebar-colapse]").click( function() {
 });*/
 
 var external_mode; 
-$("#ping-ip").click( function(e) {
-    e.preventDefault();
+$("#ping-ip").click(function(e) {
     console.log("PingIp");
     external_mode = 'ping';
 
-    return false;
+    e.preventDefault();
 });
 $("#scan-ports").addEventListener("click", function(e){
     e.preventDefault();
