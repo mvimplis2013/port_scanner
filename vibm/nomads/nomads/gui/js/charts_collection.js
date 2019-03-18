@@ -51,6 +51,8 @@ $("#ping-ip").on("click", function(e) {
     console.log("PingIp");
     external_mode = 'ping';
 
+    alert("Hunger Games");
+
     e.preventDefault();
 });
 $("#scan-ports").addEventListener("click", function(e){
