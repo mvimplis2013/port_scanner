@@ -71,10 +71,10 @@
             <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Time-Range</a>
             <div class="dropdown-menu" aria-labelled-by="smallerscreenmenu">
               <a class="dropdown-item" href="#">15 Mins</a>
-              <a class="dropdown-item" href="#">Half Hour</a>
-              <a class="dropdown-item" href="#">One(1) Hour</a>
-              <a class="dropdown-item" href="#">Three(3) Hours</a>
-              <a class="dropdown-item" href="#">Six(6) Hours</a>
+              <a class="dropdown-item" href="#">30 Mins</a>
+              <a class="dropdown-item" href="#">One Hour</a>
+              <a class="dropdown-item" href="#">Three Hours</a>
+              <a class="dropdown-item" href="#">Six Hours</a>
               <a class="dropdown-item" href="#">One Day</a>
               <a class="dropdown-item" href="#">Five Days</a>
               <a class="dropdown-item" href="#">Ten Days</a>
@@ -83,6 +83,7 @@
           </li>
           <!-- End of TIMEs -->
 
+          <!-- MORE Actions -->
           <li class="nav-item dropdown"> <!-- d-sm-block d-md-none"-->
             <a class="nav-link dropdown-toggle" href="#" id="smallerscreenmenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               More ...
@@ -94,6 +95,7 @@
               <a class="dropdown-item" href="#">Etc ...</a>
             </div>
           </li>
+          <!-- End of MORE -->
         </ul>
 
         <form class="form-inline my-2 my-lg-0">
@@ -103,100 +105,7 @@
       </div>
     </nav>
 
-    <div class="row" id="body-row">
-      <div class="col-7 col-sm-6 col-md-3 col-lg-2">
-        <div id="sidebar-container" class="sidebar-expanded"> <!--d-none d-sm-block"-->
-          <ul id="monitoType" class="list-group" myValue="None">
-            <li class="list-group-item text-muted d-flex align-items-center menu-collapsed">
-              <!--a class="monitohead" href="#"-->
-              <!--span data-feather="home"></span-->
-              <small>Monitoring Type</small>
-              <!--/a-->
-            </li>
-            
-            <a href="#submenu1" data-toggle="collapse" aria-expanded="false" class="bg-dark list-group-item list-group-item-action flex-column align-items-start">
-              <div class="d-flex justify-content-start align-items-center">
-                <span class="fa fa-dashboard fa-fw mr-3"></span>
-                <span class="menu-collapsed">Dashboard</span>
-                <span class="submenu-icon ml-auto"></span>
-              </div>
-            </a>
-
-            <div id="submenu1" class="collapse sidebar-submenu">
-              
-              <a href="#" class="list-group-item list-group-item-action bg-warning text-primary">
-                <!--a class="nav-link externamonit" href="#"-->
-                <input type="checkbox" class="menu-collapsed" id="extm" autocomplete="off">
-                <label for="extm" class="menu-collapsed">External M</label>
-                  <!--span data-feather="layers" onclick="play_external_monitoring()"></span-->
-                  <!--label for="extm" style="padding-left: 8px">External Monitoring</label-->
-                  <!--/a-->
-              </a>
-                      
-              <a href="#" class="list-group-item list-group-item-action bg-warning text-primary">
-                <!--a class="nav-link internamonit" href="#"-->
-                <input type="checkbox" id="inerm" class="menu-collapsed" autocomplete="off">
-                <!--span data-feather="layers" onclick="play_internal_monitoring()"></span-->
-                <label for="inerm" class="menu-collapsed">Internal M</label>
-              </a>
-            </div>
-
-            <a href="#submenu2" data-toggle="collapse" aria-expanded="false" class="bg-dark list-group-item list-group-item-action flex-column align-items-start">
-                <div class="d-flex justify-content-start align-items-center">
-                  <span class="fa fa-fighter-jet fa-fw mr-3"></span>
-                  <span class="menu-collapsed">Actions</span>
-                  <span class="submenu-icon ml-auto"></span>
-                </div>
-            </a>
-  
-            <div id="submenu2" class="collapse sidebar-submenu d-flex-column align-items-center">
-                <a href="#" class="list-group-item list-group-item-action bg-warning text-primary">
-                    <!--a class="nav-link externamonit" href="#"-->
-                    <input type="checkbox" id="ping-host" class="menu-collapsed" autocomplete="off" onclick="onPingIP()">
-                    <!--span data-feather="layers" onclick="play_external_monitoring()"></span-->
-                    <label for="ping-host" class="munu-collapsed">Ping Host</label>
-                    <!--/a-->
-                </a>
-
-                <a href="#" class="list-group-item list-group-item-action bg-warning text-primary">
-                    <!--a class="nav-link externamonit" href="#"-->
-                    <input type="checkbox" id="extm" class="menu-collapsed" autocomplete="off" onclick="onScanPorts()">
-                    <!--span data-feather="layers" onclick="play_external_monitoring()"></span-->
-                    <span for="extm" class="menu-collapsed">Scan Ports</span>
-                    <!--/a-->
-                </a>
-
-                <a href="#" class="list-group-item list-group-item-action bg-warning text-primary border-bottom">
-                    <!--a class="nav-link internamonit" href="#"-->
-                    <input type="checkbox" id="inerm" class="menu-collapsed" autocomplete="off">
-                    <!--span data-feather="layers" onclick="play_internal_monitoring()"></span-->
-                    <label for="inerm" class="menu-collapsed">Server Down</label>
-                    <!--/a-->
-                </a>
-
-                <a href="#" class="list-group-item list-group-item-action bg-warning text-primary">
-                  <!--a class="nav-link internamonit" href="#"-->
-                  <input type="checkbox" id="inerm" class="menu-collapsed" autocomplete="off">
-                  <!--span data-feather="layers" onclick="play_internal_monitoring()"></span-->
-                  <label for="inerm" class="menu-collapsed">Stop Service</label>
-                  <!--/a-->
-                </a>
-            </div>
-            
-            <a href="#" data-toggle="sidebar-colapse" class="bg-dark list-group-item list-group-item-action d-flex align-items-center">
-              <div class="d-flex justify-content-start align-items-center">
-                <span id="collapse-icon" class="fa fa-angle-double-right fa-2x mr-3"></span>
-                <span id="collapse-text" class="menu-collapsed">Collapse</span>
-              </div>
-            </a>
-            
-            <li class="list-group-item logo-separator d-flex justify-content-start align-items-center">
-              <img src="https://v4-alpha.getbootstrap.com/assets/brand/bootstrap-solid.svg" width="30" height="30">
-            </li>
-          </ul>        
-        </div>
-      </div> <!-- COL -->
-    
+    <div class="row" id="body-row">    
     <div class="col">
       <h3><span class="badge badge-pill badge-primary text-white">Server-URL</span></h3>
 
