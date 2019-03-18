@@ -47,9 +47,9 @@ $("[data-toggle=sidebar-colapse]").click( function() {
   });*/
 
 $('#ping').on("click", function(event) {
-    var external_selected = "HeHe"; // $("[role=external-list]").selectedIndex;
+    //var external_selected = "HeHe"; // $("[role=external-list]").selectedIndex;
 
-    alert( "Paparies" );
+    alert("Paparies");
 });
 
 $("[role=button-get-data]").on("click", function(event) {
