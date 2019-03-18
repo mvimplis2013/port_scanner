@@ -49,7 +49,7 @@ $("[data-toggle=sidebar-colapse]").click( function() {
 $('li[role="external-list"] a[class="dropdown-item"]').on("click", function(event) {
     var external_selected = "HeHe"; // $("[role=external-list]").selectedIndex;
 
-    alert( external_selected );
+    alert( "Papapa" );
 });
 
 $("[role=button-get-data]").on("click", function(event) {
