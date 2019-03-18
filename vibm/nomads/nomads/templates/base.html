@@ -7,33 +7,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
-    <!--link rel="icon" href="images/favicon.ico" type="image/ico" /-->
-
-    <title>VLAB Monitoring GUI</title>
+    <title>Charts</title>
 
     <!-- Bootstrap -->
     <!-- link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-    <link href="../gui/css/dashboard.css" rel="stylesheet">
-
+    
     <!-- Font Awesome -->
     <!-- link href="../vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet" -->
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-    
-    <!-- NProgress -->
-    <!-- link href="../vendors/nprogress/nprogress.css" rel="stylesheet" -->
-    <!-- link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/nprogress/0.2.0/nprogress.min.css" /-->
-    <!-- iCheck -->
-    <!-- link href="../vendors/iCheck/skins/flat/green.css" rel="stylesheet" -->
-	
-    <!-- bootstrap-progressbar -->
-    <!-- link href="../vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet" -->
-    <!-- JQVMap -->
-    <!-- link href="../vendors/jqvmap/dist/jqvmap.min.css" rel="stylesheet"/ -->
-    <!-- bootstrap-daterangepicker -->
-    <!-- link href="../vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet"-->
-
-    <!-- Custom Theme Style -->
   </head>
 
   <body class="container">
@@ -46,16 +28,25 @@
       <div class="collapse navbar-collapse" id="navbarNavDropdown">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item active">
-            <a class="nav-link" href="#">Home<span class="sr-only">(current)</span></a>
+            <a class="nav-link" href="#">Reports<span class="sr-only">(current)</span></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Info</a>
+            <a class="nav-link" href="#">External Lighthouse</a>
+            <div class="dropdown-menu" aria-labelled-by="smallerscreenmenu">
+              <a class="dropdown-item" href="#">Ping IP</a>
+              <a class="dropdown-item" href="#">Scan Ports</a>
+            </div>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Status</a>
+            <a class="nav-link" href="#">Internal Patrol</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Reports</a>
+            <a class="nav-link" href="#">Charts</a>
+            <div class="dropdown-menu" aria-labelled-by="smallerscreenmenu">
+              <a class="dropdown-item" href="#">Bars</a>
+              <a class="dropdown-item" href="#">Scan Ports</a>
+            </div>
+ 
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">Dashboards</a>
