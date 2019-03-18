@@ -46,6 +46,12 @@ $("[data-toggle=sidebar-colapse]").click( function() {
     SidebarCollapse();
   });*/
 
+$("[role=external-list]").on("click", function(event) {
+    var external_selected = $("[role=external-list]").selectedIndex;
+
+    alert( external_selected );
+});
+
 $("[role=button-get-data").on("click", function(event) {
     //find("td[id='status']").removeClass().addClass("bg-success");
     //which_name = $( "#new-name" ).val();
@@ -53,6 +59,8 @@ $("[role=button-get-data").on("click", function(event) {
     //$( "#tbl-names #ip-" + arr_num[num_names_add] ).text( which_name );
 
     //num_names_add += 1;
+
+    var external_monitoring = $("[role=external-list]").text
 
     alert("Data Games");
 });
