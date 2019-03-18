@@ -47,7 +47,7 @@ $("[data-toggle=sidebar-colapse]").click( function() {
   });*/
 
 $("[role=external-list] [class=dropdown-item]").on("click", function(event) {
-    var external_selected = $("[role=external-list]").selectedIndex;
+    var external_selected = "HeHe"; // $("[role=external-list]").selectedIndex;
 
     alert( external_selected );
 });
