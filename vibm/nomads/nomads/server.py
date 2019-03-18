@@ -104,6 +104,6 @@ def get_ping_data_for_period():
 
     response_table.collect_data_for_period( _from, _to )
 
-@app.route('/reports/external/base', methods=['GET'])
+@app.route('/reports/external/charts_collection', methods=['GET'])
 def display_available_graphs():
-    return "123"
+    return render_template("base.html")
