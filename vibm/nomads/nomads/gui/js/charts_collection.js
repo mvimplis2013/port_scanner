@@ -48,9 +48,11 @@ $("[data-toggle=sidebar-colapse]").click( function() {
 
 var external_mode; 
 $("#ping_ip").addEventListener("click", function(e){
+    console.log("PingIp");
     external_mode = 'ping';
 });
 $("#scan-ports").addEventListener("click", function(e){
+    console.log("PortScan");
     external_mode = 'scan';
 });
 
