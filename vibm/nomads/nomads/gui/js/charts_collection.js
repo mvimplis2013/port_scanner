@@ -47,7 +47,7 @@ $("[data-toggle=sidebar-colapse]").click( function() {
 });*/
 
 var external_mode; 
-$("#ping-ip").addEventListener("click", function(e){
+$("#ping-ip").click( function() {
     console.log("PingIp");
     external_mode = 'ping';
 });
