@@ -1,4 +1,4 @@
-google.charts.load("current", {"packages": ["bar"]});
+/*google.charts.load("current", {"packages": ["bar"]});
 google.charts.setOnLoadCallback(drawChart);
 
 function drawChart() {
@@ -44,7 +44,7 @@ $("[data-toggle=sidebar-colapse]").click( function() {
 
   $("[data-toggle=sidebar-colapse]").click( function() {
     SidebarCollapse();
-  });
+  });*/
 
 $("[role=button-get-data").on("click", function(event) {
     //find("td[id='status']").removeClass().addClass("bg-success");
