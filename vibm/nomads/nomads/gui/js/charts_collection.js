@@ -46,22 +46,39 @@ $("[data-toggle=sidebar-colapse]").click( function() {
     SidebarCollapse();
 });*/
 
+/* 
+** Define External Mode Ping or Scan 
+*/
 var external_mode; 
+
 $("#ping-ip").on("click", function(e) {
-    console.log("PingIp");
+    //console.log("PingIp");
+    
     external_mode = 'ping';
 
-    alert("Hunger Games");
+    //alert("Hunger Games");
 
     e.preventDefault();
 });
-$("#scan-ports").on("click", function(e){
-    console.log("PortScan");
+
+$("#scan-ports").on("click", function(e) {
+    //console.log("PortScan");
+    
     external_mode = 'scan';
 
     e.preventDefault();
 });
 
+/**  
+ * Define Chart Type -- An increasing number of Graphs is supported.
+*/
+var chart_ids = ["column-chart", "bar-chart", "scatter-chart", "pie-chart", "donut-chart", "timeline"]
+var chart_type;
+for (i=0; i<chart_ids.length; i++) {
+    $("#" + chart_ids[i]).on("click", function(e) {
+        alert("On Click for " + chart_ids[i]);
+    });
+};
 $("[role=button-get-data]").on("click", function(event) {
     //find("td[id='status']").removeClass().addClass("bg-success");
     //which_name = $( "#new-name" ).val();
