@@ -49,7 +49,14 @@
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Charts</a>
             <div class="dropdown-menu" aria-labelled-by="smallerscreenmenu">
-              <a class="dropdown-item" href="#" id="column-chart">Columns</a>
+              <div class="input-group">
+                <div class="input-group-prepend">
+                  <div class="input-group-text">
+                    <input type="checkbox" aria-label="Checkbox for following Bar-Chart selection">
+                  </div>
+                </div>
+                <a class="dropdown-item" href="#" id="column-chart">Columns</a>
+              </div>
               <a class="dropdown-item" href="#" id="bar-chart">Bars</a>
               <a class="dropdown-item" href="#" id="scatter-chart">Scatter</a>
               <a class="dropdown-item" href="#" id="pie-chart">Pie</a>
