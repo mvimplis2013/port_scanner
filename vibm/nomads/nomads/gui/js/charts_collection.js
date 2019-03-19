@@ -76,7 +76,7 @@ var chart_ids = ["column-chart", "bar-chart", "scatter-chart", "pie-chart", "don
 var chart_type;
 for (i=0; i<chart_ids.length; i++) {
     $("#" + chart_ids[i]).on("click", function(e) {
-        alert("On Click for " + $("[name='chart-type']").val);
+        alert("On Click for " + $("[name='chart-type']").val());
     });
 };
 $("[role=button-get-data]").on("click", function(event) {
