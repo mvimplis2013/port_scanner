@@ -60,8 +60,8 @@ $("#scan-ports").on("click", function(e) {
 /**  
  * Define Chart Type -- An increasing number of Graphs is supported.
 */
-$( "input[name='chart-type'" ).on( "select", function(e) { 
-    $( "td[role='chart']" ).html( $("input[name='chart-type']").val() );
+$( "input[name='chart-type'" ).on( "click", function(e) { 
+    $( "td[role='chart']" ).html( $("input[name='chart-type' checked]").val() );
 });
 
 $("[role=button-get-data]").on("click", function(event) {
