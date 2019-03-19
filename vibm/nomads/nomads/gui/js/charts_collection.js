@@ -60,12 +60,12 @@ $("#scan-ports").on("click", function(e) {
 /**  
  * Define Chart Type -- An increasing number of Graphs is supported.
 */
-var chart_ids = ["column-chart", "bar-chart", "scatter-chart", "pie-chart", "donut-chart", "timeline"]
-for (i=0; i<chart_ids.length; i++) {
-    $("#" + chart_ids[i]).on("click", function(e) {
+//var chart_ids = ["column-chart", "bar-chart", "scatter-chart", "pie-chart", "donut-chart", "timeline"]
+//for (i=0; i<chart_ids.length; i++) {
+    $("input[name='chart-type'").on("click", function(e) { //$("#" + chart_ids[i]).on("click", function(e) {
         $("td[role='chart']").html( $("[name='chart-type']").val() );
     });
-};
+//};
 
 $("[role=button-get-data]").on("click", function(event) {
     //find("td[id='status']").removeClass().addClass("bg-success");
