@@ -61,8 +61,16 @@ $("#scan-ports").on("click", function(e) {
  * Define Chart Type -- An increasing number of Graphs is supported.
 */
 $( "input[name='chart-type'" ).on( "click", function(e) { 
-    console.log("Hi");
+    //console.log("Hi");
     $( "td[role='chart']" ).html( $("input[name='chart-type']:checked").val() );
+});
+
+/**  
+ * Define Time Range -- Select time period of displayed performance data.
+*/
+$( "input[name='time-range'" ).on( "click", function(e) { 
+    //console.log("Hi");
+    $( "td[role='duration']" ).html( $("input[name='time-range']:checked").val() );
 });
 
 $("[role=button-get-data]").on("click", function(event) {
