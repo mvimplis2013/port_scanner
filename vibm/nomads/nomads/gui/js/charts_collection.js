@@ -73,15 +73,13 @@ $( "input[name='time-range'" ).on( "click", function(e) {
     $( "td[role='duration']" ).html( $("input[name='time-range']:checked").val() );
 });
 
-$("[role=button-get-data]").on("click", function(event) {
-    //find("td[id='status']").removeClass().addClass("bg-success");
-    //which_name = $( "#new-name" ).val();
-
-    //$( "#tbl-names #ip-" + arr_num[num_names_add] ).text( which_name );
-
-    //num_names_add += 1;
-
-    console.log("external_mode = " + external_mode);
-
-    alert("Data Games");
+/** *********************************************************************************************************
+ *   Press the button to get data from server. There are two options for requested vlab performance data set
+ *   Either the whole data set is retrieved for the entire time range and interesting pieces are extracted on client.
+ *   Or the backend datastore queries contain _from & _to parameters. 
+ *   The whole data set enables an independent client operation in case of connection with server lost.
+ *  *********************************************************************************************************  
+ */
+$("[role=button-get-data]").on( "click", function(event) {
+    ajax.();
 });
