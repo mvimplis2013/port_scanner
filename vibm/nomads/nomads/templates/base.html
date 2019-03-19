@@ -118,9 +118,24 @@
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Time-Range</a>
             <div class="dropdown-menu" aria-labelled-by="smallerscreenmenu">
-              <a class="dropdown-item" href="#">15 Mins</a>
+              
+              <div class="dropdown-item">
+                <!-- 15 minutes -->
+                <div class="custom-control custom-radio">
+                  <input type="radio" class="custom-control-input" id="15-mins" name="time-range" value="15-mins" checked>
+                  <label class="custom-control-label text-primary" for="15-mins">15 Mins</label>
+                </div>
+              </div>
+              
               <a class="dropdown-item" href="#">30 Mins</a>
-              <a class="dropdown-item" href="#">One Hour</a>
+              
+              <div class="dropdown-item">
+                <div class="custom-control custom-radio">
+                  <input type="radio" class="custom-control-input" id="one-hour" name="time-range" value="one-hour">
+                  <label class="custom-control-label text-success" for="one-hour">One Hour</label>
+                </div>
+              </div>
+  
               <a class="dropdown-item" href="#">Three Hours</a>
               <a class="dropdown-item" href="#">Six Hours</a>
               <a class="dropdown-item" href="#">One Day</a>
