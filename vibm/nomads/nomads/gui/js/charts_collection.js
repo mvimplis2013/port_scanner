@@ -49,24 +49,12 @@ $("[data-toggle=sidebar-colapse]").click( function() {
 /* 
 ** Define External Mode Ping or Scan 
 */
-var external_mode; 
-
 $("#ping-ip").on("click", function(e) {
-    //console.log("PingIp");
-    
-    external_mode = 'ping';
-
-    //alert("Hunger Games");
-
-    e.preventDefault();
+    alert("Hunger Games");
 });
 
 $("#scan-ports").on("click", function(e) {
-    //console.log("PortScan");
-    
-    external_mode = 'scan';
-
-    e.preventDefault();
+    console.log("PortScan");
 });
 
 /**  
