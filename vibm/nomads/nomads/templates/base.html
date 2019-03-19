@@ -51,14 +51,33 @@
               
               <div class="dropdown-item">
                 <div class="custom-control custom-radio">
-                  <input type="radio" class="custom-control-input" id="columnChart" value="column-chart">
-                  <label class="custom-control-label text-primary" for="columnChart">Columns</label>
+                  <input type="radio" class="custom-control-input" id="column-chart" name="chart-type" value="column-chart">
+                  <label class="custom-control-label text-primary" for="column-chart">Columns</label>
                 </div>
               </div>
 
-              <a class="dropdown-item" href="#" id="bar-chart">Bars</a>
-              <a class="dropdown-item" href="#" id="scatter-chart">Scatter</a>
-              <a class="dropdown-item" href="#" id="pie-chart">Pie</a>
+              <div class="dropdown-item">
+                <div class="custom-control custom-radio">
+                  <input type="radio" class="custom-control-input" id="bar-chart" name="chart-type" value="bar-chart">
+                  <label class="custom-control-label text-secondary" for="bar-chart">Bars</label>
+                </div>
+              </div>
+  
+              
+              <div class="dropdown-item">
+                <div class="custom-control custom-radio">
+                  <input type="radio" class="custom-control-input" id="scatter-chart" name="chart-type" value="scatter-chart">
+                  <label class="custom-control-label text-success" for="scatter-chart">Scatter</label>
+                </div>
+              </div>
+      
+              <div class="dropdown-item">
+                <div class="custom-control custom-radio">
+                  <input type="radio" class="custom-control-input" id="pie-chart" name="chart-type" value="pie-chart">
+                  <label class="custom-control-label text-danger" for="pie-chart">Pie</label>
+                </div>
+              </div>
+
               <a class="dropdown-item" href="#" id="donut-chart">Donut</a>
               <a class="dropdown-item" href="#" id="timeline">Timeline</a>
             </div>
