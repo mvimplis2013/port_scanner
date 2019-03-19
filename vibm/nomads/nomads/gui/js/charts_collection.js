@@ -50,11 +50,11 @@ $("[data-toggle=sidebar-colapse]").click( function() {
 ** Define External Mode Ping or Scan 
 */
 $("#ping-ip").on("click", function(e) {
-    $("td[role='monitoring'").val("Ping-IP");
+    $("td[role='monitoring'").html( "Ping-IP" );
 });
 
 $("#scan-ports").on("click", function(e) {
-    $("td[role='monitoring'").val("Scan-Ports");
+    $("td[role='monitoring'").html( "Scan-Ports" );
 });
 
 /**  
