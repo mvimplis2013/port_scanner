@@ -81,5 +81,10 @@ $( "input[name='time-range'" ).on( "click", function(e) {
  *  *********************************************************************************************************  
  */
 $("[role=button-get-data]").on( "click", function(event) {
-    ajax.();
+    $.ajax( {
+        url: "vlab3.dyndns.org:5000/reports/external/get_perfornance_data",
+        success: function(data) {
+            console.log("Contacted server for VAB performance data ... " + data)
+        }
+    });
 });
