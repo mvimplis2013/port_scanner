@@ -62,7 +62,7 @@ $("#scan-ports").on("click", function(e) {
 */
 $( "input[name='chart-type'" ).on( "click", function(e) { 
     console.log("Hi");
-    $( "td[role='chart']" ).html( $("input[name='chart-type' checked]").val() );
+    $( "td[role='chart']" ).html( $("input[name='chart-type']:checked").val() );
 });
 
 $("[role=button-get-data]").on("click", function(event) {
