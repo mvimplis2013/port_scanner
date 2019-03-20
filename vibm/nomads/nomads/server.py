@@ -126,6 +126,8 @@ def translate_time_ranges( time_range ):
     _to = datetime.now()
     _from = _to - timedelta(hours=12, minutes=0)
 
+    return [_from, _to]
+    
 """
  Internal server function that queries datastore for all available data that fits a specific time window
 """
