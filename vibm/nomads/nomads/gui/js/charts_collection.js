@@ -123,7 +123,9 @@ $("[role=button-get-data]").on("click", function (event) {
         //url: "http://vlab3.dyndns.org:5000/reports/external/get_performance_data",
         url: rpc_url,
         contentType: CONTENT_TYPE,
-        data: _data 
+        data: { 
+            "time-range": time_range
+        } 
     }).done(function (data) {
         console.log("Contacted server for VLAB performance data ... " + data)
         //alert("success");

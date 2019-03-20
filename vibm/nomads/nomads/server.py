@@ -108,10 +108,10 @@ def get_ping_data_for_period():
 def get_ip_data_for_period():
     print("**** Inside Get-IP-Data on Server ***")
 
-    #time_range = request.args.get("time-range")
-    time_range = request.get_json().get("time-range")
+    time_range = request.args.get("time-range")
+    #time_range = request.get_json().get("time-range")
 
-    print("Client Requested Time Range is: %r" % time_range)
+    print("Client Requested Time Range is: %s" % time_range)
 
     return "IP"
 
