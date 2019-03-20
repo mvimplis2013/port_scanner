@@ -104,10 +104,15 @@ def get_ping_data_for_period():
 
     response_table.collect_data_for_period( _from, _to )
 
-@app.route('/reports/external/get_performance_data', methods=['GET'])
-def get_performance_data_for_period():
-    print("**** Inside Get-Performance-Data on Server ***")
-    return "123"
+@app.route('/reports/external/get-ip-data', methods=['GET'])
+def get_ip_data_for_period():
+    print("**** Inside Get-IP-Data on Server ***")
+    return "IP"
+
+@app.route('/reports/external/get-ip-and-port-data', methods=['GET'])
+def get_ip_and_port_data_for_period():
+    print("**** Inside Get-PORT-Data on Server ***")
+    return "PORT"
 
 @app.route('/reports/external/charts_collection', methods=['GET'])
 def display_available_graphs():
