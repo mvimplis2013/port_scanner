@@ -92,18 +92,11 @@ def handle_new_config_data():
     print("Message Received from Capital")
     return "123"
 
-@app.route('/reports/external/get_ping_data', methods=['GET'])
-def get_ping_data_for_period():
-    db_manager = DatabaseManager()
-    db_manager.establish_connection() 
-
-    response_table = PingResponseTable( db_manager._connection )
-
-    _to = datetime.now()
-    _from = _to - timedelta(hours=12, minutes=0)
-
-    response_table.collect_data_for_period( _from, _to )
-
+""" 
+***********************************
+ Get VLAB IP-Ping & Port-Scan Data 
+***********************************
+"""
 @app.route('/reports/external/get-ip-data', methods=['GET'])
 def get_ip_data_for_period():
     print("**** Inside Get-IP-Data on Server ***")
@@ -112,6 +105,8 @@ def get_ip_data_for_period():
     #time_range = request.get_json().get("time-range")
 
     print("Client Requested Time Range is: %s" % time_range)
+
+    [_from, _to] = translate_time_ranges( time_range )
 
     return "IP"
 
@@ -123,3 +118,21 @@ def get_ip_and_port_data_for_period():
 @app.route('/reports/external/charts_collection', methods=['GET'])
 def display_available_graphs():
     return render_template("base.html")
+
+"""
+Internal server function that translates the UI time-ranges into date-times appropriate for SQL queries.
+"""
+def translate_time_ranges( time_range ):
+    _to = datetime.now()
+    _from = _to - timedelta(hours=12, minutes=0)
+
+"""
+ Internal server function that queries datastore for all available data that fits a specific time window
+"""
+def collect_data_for_period( _from=None, _to=None ):
+    db_manager = DatabaseManager()
+    db_manager.establish_connection() 
+
+    response_table = PingResponseTable( db_manager._connection )
+
+    response_table.collect_data_for_period( _from, _to )
