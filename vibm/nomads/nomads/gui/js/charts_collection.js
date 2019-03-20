@@ -113,9 +113,9 @@ $("[role=button-get-data]").on("click", function (event) {
     console.log("Time Range for Data/ From-To: " + time_range);
 
     // STEP 4: Prepare the data to send to server 
-    _data = JSON.stringify({ 
+    _data = { 
         "time-range": time_range
-    });
+    };
 
     // STEP 4: Make AJAX Request from Client to Server
     $.ajax({
@@ -123,9 +123,7 @@ $("[role=button-get-data]").on("click", function (event) {
         //url: "http://vlab3.dyndns.org:5000/reports/external/get_performance_data",
         url: rpc_url,
         contentType: CONTENT_TYPE,
-        data: { 
-            "time-range": time_range
-        } 
+        data: _data
     }).done(function (data) {
         console.log("Contacted server for VLAB performance data ... " + data)
         //alert("success");
