@@ -1,5 +1,5 @@
 ROBOT_URL = "http://" + location.hostname + ":5000/"
-RPC_GET_VLAB_PING_DATA = "reports/external/get-ping-data"
+RPC_GET_VLAB_PING_DATA = "reports/external/get-ip-data"
 RPC_GET_VLAB_PORT_DATA = "reports/external/get-ip-and-port-data"
 
 METHOD = "GET"
@@ -98,10 +98,13 @@ $("[role=button-get-data]").on("click", function (event) {
     } else if ($("input[name='external-monitoring']:checked").val() == "scan-ports") {
         //console.log("Ready to get the Open PORTS Data");
         rpc_url += RPC_GET_VLAB_PORT_DATA;
+    } else {
+        throw "No RPC for selected Monitoring-Type !";
     }
 
-    console.log( "***" + rpc_url );
+    //console.log( "***" + rpc_url );
 
+    // STEP 2: Make AJAX Request from Client to Server
     $.ajax({
         method: METHOD,
         //url: "http://vlab3.dyndns.org:5000/reports/external/get_performance_data",
