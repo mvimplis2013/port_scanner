@@ -1,3 +1,7 @@
+ROBOT_URL = "http://" + location.hostname + ":5000/"
+RPC_GET_VLAB_PING_DATA = "reports/external/get-ping-data"
+RPC_GET_VLAB_PORT_DATA = "reports/external/get-ping-and-port-data"
+
 /*google.charts.load("current", {"packages": ["bar"]});
 google.charts.setOnLoadCallback(drawChart);
 
@@ -81,7 +85,16 @@ $("input[name='time-range'").on("click", function (e) {
  *  *********************************************************************************************************  
  */
 $("[role=button-get-data]").on("click", function (event) {
-    console.log("Get Data Button Clicked !");
+    //console.log("Get Ping Data Button Clicked !");
+    
+    // STEP 1: Create the RPC address
+    if ($("input[name='external-monitoring']:checked").val() == "ping-ip") {
+        console.log("Ready to Get Ping Data");
+    } else if ($("input[name='external-monitoring']:checked").val() == "scan-ports") {
+        console.log("Ready to get the Open Ports Data");
+    }
+
+
     $.ajax({
         method: "GET",
         url: "http://vlab3.dyndns.org:5000/reports/external/get_performance_data",
