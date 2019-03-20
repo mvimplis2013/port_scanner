@@ -5,9 +5,16 @@ from nomads.utils import ping_host, ping_host_full_response, scan_vlab_open_port
 
 from nomads.config_data_taxi import ConfigDataTaxi
 
-from ..backend.datastore.database_manager import DatabaseManager
-from ..backend.datastore.ping_response_table import PingResponseTable
- 
+try: 
+    from ..backend.datastore.database_manager import DatabaseManager
+except ImportError:
+    from nomads.backend.datastore.database_manager import DatabaseManager
+
+try: 
+    from ..backend.datastore.ping_response_table import PingResponseTable
+except: 
+    from nomads.backend.datastore.ping_response_table import PingResponseTable
+     
 from datetime import datetime, timedelta 
 
 project_root = os.path.dirname(__file__)
