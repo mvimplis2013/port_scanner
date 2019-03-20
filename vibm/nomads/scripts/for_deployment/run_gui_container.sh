@@ -1,4 +1,4 @@
-source ./scripts/for_housekeeping/containers_remove_all_regardless_state.sh
+#source ./scripts/for_housekeeping/containers_remove_all_regardless_state.sh
 
 SCRIPTS_LOCATION="./scripts/for_deployment/"
 
