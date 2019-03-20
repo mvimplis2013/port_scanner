@@ -2,7 +2,7 @@ from sqlalchemy import engine
 from sqlalchemy import Table, MetaData, Column, Integer, String, Boolean, DateTime
 from sqlalchemy import ForeignKey, CheckConstraint
 
-from nomads.backend.utils.back_logger import nomads_logger
+from ..utils.back_logger import nomads_logger
 
 TABLE_NAME = "ping_ports_scan"
 
