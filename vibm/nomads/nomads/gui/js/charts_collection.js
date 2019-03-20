@@ -84,7 +84,7 @@ $("[role=button-get-data]").on("click", function (event) {
     console.log("Get Data Button Clicked !");
     $.ajax({
         method: "GET",
-        url: "vlab3.dyndns.org:5000/reports/external/get_performance_data",
+        url: "http://vlab3.dyndns.org:5000/reports/external/get_performance_data",
         contentType: "application/json; charset=utf-8"
     }).done(function () {
         //console.log("Contacted server for VLAB performance data ... " + data)
