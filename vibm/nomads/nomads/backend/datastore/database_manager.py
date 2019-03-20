@@ -37,6 +37,8 @@ class DatabaseManager(object):
         # SQLAlchemy engine knows the SQL-dialect for used datastore
         self.engine = create_engine( connection_str, pool_recycle = 3600)
 
+        self.check_and_create_db()
+
         self.metadata = MetaData()
         
         # TABLE --> Ping_Targets
