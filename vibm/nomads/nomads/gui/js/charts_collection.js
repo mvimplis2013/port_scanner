@@ -100,6 +100,8 @@ $("[role=button-get-data]").on("click", function (event) {
         rpc_url += RPC_GET_VLAB_PORT_DATA;
     }
 
+    console.log( "***" + rpc_url );
+
     $.ajax({
         method: METHOD,
         //url: "http://vlab3.dyndns.org:5000/reports/external/get_performance_data",
