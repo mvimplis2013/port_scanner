@@ -124,10 +124,22 @@ Internal server function that translates the UI time-ranges into date-times appr
 """
 def translate_time_ranges( time_range ):
     _to = datetime.now()
-    _from = _to - timedelta(hours=12, minutes=0)
+        
+    if 'all' in time_range.lower():
+        # Return ALL stored records
+        print("I will the MAXIMUM time window .. All records returned")
+        _from = None
+    elif 'one hour' in time_range.lower():
+        # One(1) Hour
+        _from = _to - timedelta(hours=1, minutes=0)
+    else: 
+        # Default time window
+        print("I will use the DEFAULT time window ... 12 Hours Back !")
+
+        _from = _to - timedelta(hours=12, minutes=0)
 
     return [_from, _to]
-    
+
 """
  Internal server function that queries datastore for all available data that fits a specific time window
 """
