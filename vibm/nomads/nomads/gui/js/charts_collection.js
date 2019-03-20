@@ -47,30 +47,30 @@ $("[data-toggle=sidebar-colapse]").click( function() {
 });*/
 
 /* 
-** Define External Mode Ping or Scan 
-*/
-$("#ping-ip").on("click", function(e) {
-    $("td[role='monitoring']").html( "Ping-IP" );
+ ** Define External Mode Ping or Scan 
+ */
+$("#ping-ip").on("click", function (e) {
+    $("td[role='monitoring']").html("Ping-IP");
 });
 
-$("#scan-ports").on("click", function(e) {
-    $("td[role='monitoring']").html( "Scan-Ports" );
+$("#scan-ports").on("click", function (e) {
+    $("td[role='monitoring']").html("Scan-Ports");
 });
 
 /**  
  * Define Chart Type -- An increasing number of Graphs is supported.
-*/
-$( "input[name='chart-type'" ).on( "click", function(e) { 
+ */
+$("input[name='chart-type'").on("click", function (e) {
     //console.log("Hi");
-    $( "td[role='chart']" ).html( $("input[name='chart-type']:checked").val() );
+    $("td[role='chart']").html($("input[name='chart-type']:checked").val());
 });
 
 /**  
  * Define Time Range -- Select time period of displayed performance data.
-*/
-$( "input[name='time-range'" ).on( "click", function(e) { 
+ */
+$("input[name='time-range'").on("click", function (e) {
     //console.log("Hi");
-    $( "td[role='duration']" ).html( $("input[name='time-range']:checked").val() );
+    $("td[role='duration']").html($("input[name='time-range']:checked").val());
 });
 
 /** *********************************************************************************************************
@@ -80,11 +80,12 @@ $( "input[name='time-range'" ).on( "click", function(e) {
  *   The whole data set enables an independent client operation in case of connection with server lost.
  *  *********************************************************************************************************  
  */
-$("[role=button-get-data]").on( "click", function(event) {
+$("[role=button-get-data]").on("click", function (event) {
     console.log("Get Data Button Clicked !");
     $.ajax({
-        url: "vlab3.dyndns.org:5000/reports/external/get_performance_data",        
-    }).done( function(data) {
+        method: "GET",
+        url: "vlab3.dyndns.org:5000/reports/external/get_performance_data",
+    }).done(function (data) {
         console.log("Contacted server for VLAB performance data ... " + data)
     });
 });

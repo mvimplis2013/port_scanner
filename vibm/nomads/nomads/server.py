@@ -106,6 +106,7 @@ def get_ping_data_for_period():
 
 @app.route('/reports/external/get_performance_data', methods=['GET'])
 def get_performance_data_for_period():
+    print("**** Inside Get-Performance-Data on Server ***")
     return "123"
 
 @app.route('/reports/external/charts_collection', methods=['GET'])
