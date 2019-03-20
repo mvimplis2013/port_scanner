@@ -83,6 +83,8 @@ class PingResponseTable(object):
 
         nomads_logger.debug( "Records Found in PING_RESPONSES ... %d" % len(records_found) )
 
+        return records_found
+
 
 
 

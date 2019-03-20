@@ -108,6 +108,8 @@ def get_ip_data_for_period():
 
     [_from, _to] = translate_time_ranges( time_range )
 
+    collect_ping_records_for_period(_from, _to)
+
     return "IP"
 
 @app.route('/reports/external/get-ip-and-port-data', methods=['GET'])
@@ -135,7 +137,6 @@ def translate_time_ranges( time_range ):
     else: 
         # Default time window
         print("I will use the DEFAULT time window ... 12 Hours Back !")
-
         _from = _to - timedelta(hours=12, minutes=0)
 
     return [_from, _to]
@@ -143,10 +144,10 @@ def translate_time_ranges( time_range ):
 """
  Internal server function that queries datastore for all available data that fits a specific time window
 """
-def collect_data_for_period( _from=None, _to=None ):
+def collect_ping_records_for_period( _from, _to ):
     db_manager = DatabaseManager()
     db_manager.establish_connection() 
 
     response_table = PingResponseTable( db_manager._connection )
 
-    response_table.collect_data_for_period( _from, _to )
+    records_found = response_table.collect_data_for_period( _from, _to )
