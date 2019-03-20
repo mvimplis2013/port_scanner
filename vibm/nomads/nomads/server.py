@@ -107,6 +107,10 @@ def get_ping_data_for_period():
 @app.route('/reports/external/get-ip-data', methods=['GET'])
 def get_ip_data_for_period():
     print("**** Inside Get-IP-Data on Server ***")
+
+    time_range = request.args.get("time-range")
+    print("Client Requested Time Range is: %s" % time_range)
+
     return "IP"
 
 @app.route('/reports/external/get-ip-and-port-data', methods=['GET'])

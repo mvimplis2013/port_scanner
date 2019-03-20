@@ -108,15 +108,22 @@ $("[role=button-get-data]").on("click", function (event) {
     chart_type = $("input[name='chart-type']:checked").val();
     console.log("Requested Chart Type is: " + chart_type);
 
+    // STEP 3: Time Range of Requested Data
     time_range = $("input[name='time-range']:checked").val();
     console.log("Time Range for Data/ From-To: " + time_range);
 
-    // STEP 2: Make AJAX Request from Client to Server
+    // STEP 4: Prepare the data to send to server 
+    _data = JSON.stringify({ 
+        "time-range": time_range
+    });
+
+    // STEP 4: Make AJAX Request from Client to Server
     $.ajax({
         method: METHOD,
         //url: "http://vlab3.dyndns.org:5000/reports/external/get_performance_data",
         url: rpc_url,
-        contentType: CONTENT_TYPE 
+        contentType: CONTENT_TYPE,
+        data: _data 
     }).done(function (data) {
         console.log("Contacted server for VLAB performance data ... " + data)
         //alert("success");
