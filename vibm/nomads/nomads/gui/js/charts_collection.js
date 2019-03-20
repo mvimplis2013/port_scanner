@@ -104,6 +104,13 @@ $("[role=button-get-data]").on("click", function (event) {
 
     //console.log( "***" + rpc_url );
 
+    // STEP 2: Chart Type to Render
+    chart_type = $("input[name='chart-type']:checked").val();
+    console.log("Requested Chart Type is: " + chart_type);
+
+    time_range = $("input[name='time-range']:checked").val();
+    console.log("Time Range for Data/ From-To: " + time_range);
+
     // STEP 2: Make AJAX Request from Client to Server
     $.ajax({
         method: METHOD,
