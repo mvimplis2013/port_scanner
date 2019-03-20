@@ -5,8 +5,8 @@ from nomads.utils import ping_host, ping_host_full_response, scan_vlab_open_port
 
 from nomads.config_data_taxi import ConfigDataTaxi
 
-from nomads.backend.datastore.database_manager import DatabaseManager
-from nomads.backend.datastore.ping_response_table import PingResponseTable
+from ..backend.datastore.database_manager import DatabaseManager
+from ..backend.datastore.ping_response_table import PingResponseTable
  
 from datetime import datetime, timedelta 
 
