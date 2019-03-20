@@ -86,7 +86,7 @@ $("[role=button-get-data]").on("click", function (event) {
         method: "GET",
         url: "http://vlab3.dyndns.org:5000/reports/external/get_performance_data",
         contentType: "application/json; charset=utf-8"
-    }).done(function () {
+    }).done(function (data) {
         console.log("Contacted server for VLAB performance data ... " + data)
         //alert("success");
     }).fail(function() {
