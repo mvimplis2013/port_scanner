@@ -83,7 +83,7 @@ $( "input[name='time-range'" ).on( "click", function(e) {
 $("[role=button-get-data]").on( "click", function(event) {
     console.log("Get Data Button Clicked !");
     $.ajax({
-        url: "vlab3.dyndns.org:5000/reports/external/get_perfornance_data",        
+        url: "vlab3.dyndns.org:5000/reports/external/get_performance_data",        
     }).done( function(data) {
         console.log("Contacted server for VLAB performance data ... " + data)
     });
