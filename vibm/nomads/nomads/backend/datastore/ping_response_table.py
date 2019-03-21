@@ -85,9 +85,9 @@ class PingResponseTable(object):
             connection_str = "mysql+pymysql://root@" + database_url + "/nomads"
             engine = create_engine( connection_str )
 
-            nomads_logger.deb("Need a connection")
+            nomads_logger.debug("Need a connection")
             connection = engine.connect()
-            nomads_logger.deb("Have a connection")
+            nomads_logger.debug("Have a connection")
 
             result = connection.execute( "select * from external_servers" ) # where observation_datetime > {} and observation_datetime < {}".format(_from, _to) )
             for row in result:
@@ -103,7 +103,7 @@ class PingResponseTable(object):
 
             return records_found
         except Exception as e:
-            nomads_logger("Exception ...{}".format( e.msg ))
+            nomads_logger.debug("Exception ...{}".format( e.msg ))
 
 
 
