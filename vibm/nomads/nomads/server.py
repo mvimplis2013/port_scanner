@@ -1,8 +1,8 @@
 from flask import Flask, render_template, request, jsonify
 import os
 
-from .utils import ping_host, ping_host_full_response, scan_vlab_open_ports_now
-from .config_data_taxi import ConfigDataTaxi
+from nomads.utils import ping_host, ping_host_full_response, scan_vlab_open_ports_now
+from nomads.config_data_taxi import ConfigDataTaxi
 
 try: 
     from ..backend.datastore.database_manager import DatabaseManager
