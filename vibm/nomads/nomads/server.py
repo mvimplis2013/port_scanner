@@ -153,14 +153,14 @@ def translate_time_ranges( time_range ):
 def collect_ping_records_for_period( _from, _to ):
     print("+++ Inside Collect Ping Data +++")
 
-    db_manager = DatabaseManager()
-    db_manager.establish_connection() 
+    #db_manager = DatabaseManager()
+    #db_manager.establish_connection() 
 
-    response_table = PingResponseTable( db_manager._connection )
-    records_found = response_table.collect_data_for_period( _from, _to )
+    #response_table = PingResponseTable( db_manager._connection )
+    records_found = PingResponseTable.collect_data_for_period( _from, _to )
 
     print("+++ Finished Collecting Ping Data +++")
     
-    db_manager.close_connection()
+    #db_manager.close_connection()
 
     return records_found

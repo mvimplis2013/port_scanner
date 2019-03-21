@@ -1,12 +1,14 @@
+from sqlalchemy import create_engine
 from sqlalchemy import Table, MetaData, Column, Integer, String, Boolean, DateTime
 from sqlalchemy import ForeignKey
 from sqlalchemy import insert, select
 
 from .database_manager import DatabaseManager
 
-from ..utils.back_logger import nomads_logger
+from nomads.backend.utils.back_logger import nomads_logger
 
 import datetime
+import os
 
 """
 Table to store responses of mmap ping to external servers.
@@ -74,12 +76,25 @@ class PingResponseTable(object):
         result_proxy    = self._connection.execute( selection )
         results         = result_proxy.fetchall()
 
-    def collect_data_for_period(self, _from, _to):
+    @classmethod
+    def collect_data_for_period(_from, _to):
         nomads_logger.debug("Select Ping Responses for Period ... %s - %s" % (_from, _to))
+
+        database_url = os.environ['MARIADB-SERVER']
+        connection_str = "mysql+pymysql://root@" + database_url + "/nomads"
+        engine = create_engine( connection_str )
         
-        _select = select( [self.my_table] ).where( self.my_table.c.observation_datetime < datetime.datetime.now() )
-        result_proxy = self._connection.execute( _select )
-        records_found = result_proxy.fetchall()
+        connection = engine.connect()
+
+        result = connection.execute( "select * from external_servers where observation_datetime > {} and observation_datetime < {}".format(_from, _to) )
+        for row in result:
+            print("datetime:", row['observation_datetime'])
+        
+        records_found = result.fetchall()
+        connection.close()
+        
+        #result_proxy = connection.execute( _select )
+        #records_found = result_proxy.fetchall()
 
         nomads_logger.debug( "Records Found in PING_RESPONSES ... %d" % len(records_found) )
 

@@ -46,7 +46,7 @@ class DatabaseManager(object):
 
         connection_str = "mysql+pymysql://" + DB_USER + "@" + database_url + "/" + DB_NAME
 
-        print("Connection string to database ... %s" % connection_str )
+        #print("Connection string to database ... %s" % connection_str )
 
         # SQLAlchemy engine knows the SQL-dialect for used datastore
         self.engine = create_engine( connection_str, pool_recycle = 3600)
