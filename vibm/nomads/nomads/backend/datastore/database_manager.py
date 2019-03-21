@@ -124,6 +124,17 @@ class DatabaseManager(object):
 
         self.metadata.create_all( self.connection )
 
+    """ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+         Create a single table instead of whole MONITORING schema .. 
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    """
+    @property
+    def tbl_external_servers(self):
+        return self.external_servers_tbl
+        
+    def create_table(self, table_obj ):
+        self.metadata.create_all( self.connection, table_names )
+
     """
     Populate database tables with data.
     """

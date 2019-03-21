@@ -46,9 +46,13 @@ class FollowExternalServer(BaseJob):
         try:
             external_servers_arr = self.db_manager.select_external_targets()
         except TableNotYetCreated as e:
-            nomads_logger.warn( "This table has not created yet ... %s" % e.table_name)
+            nomads_logger.warn( "This table has not yet been created ... %s" % e.table_name)
+            
             # Wait until external_servers available ?!!
-            return 
+            nomads_logger.debug("Ready to create table and save TOML external-configuration ... 'external_servers'")
+
+            self.db_manager.create_table( self.db_manager.tbl_external_servers )
+        # End of FIRST STEP: List of External-Servers retrieved    
 
         for server in external_servers_arr:
             print("Ready to Ping External Server ... %s" % server)
