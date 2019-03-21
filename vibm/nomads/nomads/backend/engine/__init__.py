@@ -6,7 +6,7 @@ from ..utils.nmap_ping_response import NMapPingResponse, NMapPingResponseWithPor
 from .configurator import ExternalMonitoringConfigurator
 
 #from ..config.external_monitoring_config_data import ExternalMonitoringConfigData
-from .external_monitoring_config_data import External
+from .ext_monit_config_data import External
 
 from ..config.database_config_data import DatabaseConfigData
 from ..config.message_queue_config_data import MessageQueueConfigData
