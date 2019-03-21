@@ -4,7 +4,10 @@ from ..utils.nmap_native import NMapNative
 from ..utils.nmap_ping_response import NMapPingResponse, NMapPingResponseWithPortsScan
 
 from .configurator import ExternalMonitoringConfigurator
-from ..config.external_monitoring_config_data import ExternalMonitoringConfigData
+
+#from ..config.external_monitoring_config_data import ExternalMonitoringConfigData
+from .external_monitoring_config_data import ExternalMonitoringConfigData
+
 from ..config.database_config_data import DatabaseConfigData
 from ..config.message_queue_config_data import MessageQueueConfigData
 
