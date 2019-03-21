@@ -1,6 +1,6 @@
 import os 
 
-from .backend.datastore.database_manager import DatabaseManager
+from nomads.backend.datastore.database_manager import DatabaseManager
 
 START_WITH_NEW_DB = True
 

@@ -1,9 +1,8 @@
 from flask import Flask, render_template, request, jsonify
 import os
 
-from nomads.utils import ping_host, ping_host_full_response, scan_vlab_open_ports_now
-
-from nomads.config_data_taxi import ConfigDataTaxi
+from .utils import ping_host, ping_host_full_response, scan_vlab_open_ports_now
+from .config_data_taxi import ConfigDataTaxi
 
 try: 
     from ..backend.datastore.database_manager import DatabaseManager
@@ -14,7 +13,7 @@ try:
     from ..backend.datastore.ping_response_table import PingResponseTable
 except: 
     from nomads.backend.datastore.ping_response_table import PingResponseTable
-     
+
 from datetime import datetime, timedelta 
 
 project_root = os.path.dirname(__file__)
@@ -115,9 +114,9 @@ def get_ip_data_for_period():
 
     [_from, _to] = translate_time_ranges( time_range )
 
-    collect_ping_records_for_period(_from, _to)
+    ping_responses = collect_ping_records_for_period(_from, _to)
 
-    return "IP"
+    return ping_responses
 
 @app.route('/reports/external/get-ip-and-port-data', methods=['GET'])
 def get_ip_and_port_data_for_period():
@@ -158,3 +157,6 @@ def collect_ping_records_for_period( _from, _to ):
     response_table = PingResponseTable( db_manager._connection )
 
     records_found = response_table.collect_data_for_period( _from, _to )
+    db_manager.close_connection()
+
+    return records_found
