@@ -51,7 +51,7 @@ class FollowExternalServer(BaseJob):
             # Wait until external_servers available ?!!
             nomads_logger.debug("Ready to create table and save TOML external-configuration ... 'external_servers'")
 
-            self.db_manager.create_table( self.db_manager.tbl_external_servers )
+            self.db_manager.create_table( [self.db_manager.tbl_external_servers] )
         # End of FIRST STEP: List of External-Servers retrieved    
 
         for server in external_servers_arr:
