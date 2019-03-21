@@ -131,9 +131,9 @@ class DatabaseManager(object):
     @property
     def tbl_external_servers(self):
         return self.external_servers_tbl
-        
+
     def create_table(self, table_obj ):
-        self.metadata.create_all( self.connection, table_names )
+        self.metadata.create_all( self.connection, table_obj )
 
     """
     Populate database tables with data.
