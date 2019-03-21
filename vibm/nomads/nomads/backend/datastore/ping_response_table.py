@@ -76,7 +76,7 @@ class PingResponseTable(object):
         result_proxy    = self._connection.execute( selection )
         results         = result_proxy.fetchall()
 
-    @classmethod
+    @staticmethod
     def collect_data_for_period(_from, _to):
         nomads_logger.debug("Select Ping Responses for Period ... %s - %s" % (_from, _to))
 
