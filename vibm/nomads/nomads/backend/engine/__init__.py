@@ -9,7 +9,7 @@ from .configurator import Configurator
 from ..utils.nmap_native import NMapNative
 from ..utils.nmap_ping_response import NMapPingResponse, NMapPingResponseWithPortsScan
 
-from ..datastore.database_manager import DatabaseManager 
+from ..datastore.database_manager import DatabaseManager, TableNotYetCreated
 from ..datastore.ping_port_scan_table import PingPortScanTable
 from ..datastore.external_servers_table import ExternalServersTable
 from ..datastore.ping_response_table import PingResponseTable

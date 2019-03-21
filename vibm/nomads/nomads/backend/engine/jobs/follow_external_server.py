@@ -3,7 +3,8 @@ import datetime
 from .. import TomlParser
 from .. import Configurator
 
-from .. import DatabaseManager
+from .. import DatabaseManager, TableNotYetCreated
+
 from .. import NMapNative
 from .. import NMapPingResponse, NMapPingResponseWithPortsScan
 
@@ -37,13 +38,15 @@ class FollowExternalServer(BaseJob):
         self.configurator.configureAll() 
         
     def start(self):
-        print( "***** New External-Server(s) Following Patrol ... %s , %s *****" % (datetime.datetime.now, 
-            self.configurator.external_monitoring.ext_vlabs) )
+        nomads_logger.debug( "***** New Patrol for External-Server(s) Availability ... %s *****" % (datetime.datetime.now()) )
 
         _connection = self.db_manager._connection
 
-        # Get the list of external servers
-        external_servers_arr = self.db_manager.select_external_targets()
+        # FIRST STEP: Get the list of external servers
+        try:
+            external_servers_arr = self.db_manager.select_external_targets()
+        except TableNotYetCreated as e:
+            nomads_logger.warn( "This table has not created yet ... %s" % e.table_name)
 
         for server in external_servers_arr:
             print("Ready to Ping External Server ... %s" % server)

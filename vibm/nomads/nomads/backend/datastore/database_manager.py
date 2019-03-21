@@ -21,6 +21,15 @@ from ..engine import nomads_logger
 DB_USER = "root"
 DB_NAME = "nomads"
 
+class TableNotYetCreated(BaseException):
+    def __init__(self, table_name, *args, **kwargs):
+        self._table_name = table_name
+        super.__init__(self, args, kwargs)
+
+    @property
+    def table_name(self):
+        return self._table_name
+
 class DatabaseManager(object):
     """
     Check that enough database config data is available for successful connection.
@@ -158,7 +167,7 @@ class DatabaseManager(object):
         if not is_created:
             # Table not yet created .. Abort querying 'external_servers'
             nomads_logger.warn( "Table 'external_servers' Not Yet Created !" )
-            return [] 
+            raise TableNotYetCreated("external_servers") 
 
         selection = select([self.external_servers_tbl])
         result_proxy = self.connection.execute( selection )
