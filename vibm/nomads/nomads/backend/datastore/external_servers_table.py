@@ -1,3 +1,5 @@
+TABLE_NAME = "external_servers"
+
 class ExternalServersTable(object):
     def __init__(self, record):
         self._id                        = record.id

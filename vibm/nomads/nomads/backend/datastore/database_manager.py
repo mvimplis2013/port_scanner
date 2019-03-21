@@ -151,6 +151,12 @@ class DatabaseManager(object):
     def select_external_targets(self):
         print( "Ready to read all external targets for monitoring ..." )
         
+        # First check if table is created 
+        is_created = self.check_table_exists( "external_servers" )
+        if not is_created:
+            # Table not yet created .. Abort querying 'external_servers'
+            return [] 
+
         selection = select([self.external_servers_tbl])
         result_proxy = self.connection.execute( selection )
         results = result_proxy.fetchall()
@@ -174,6 +180,28 @@ class DatabaseManager(object):
     @property
     def _connection(self):
         return self.connection
+
+    """
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+    Check whether Table already created and is ready for records saving ?!
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    """
+    def check_table_exists(self, table_name):
+        result_proxy = self.connection.execute(
+            "SHOW TABLES LIKE '" + table_name + "'"
+        )
+
+        records_found = result_proxy.fetchall()
+        
+        if len(records_found) == 0:
+            # Table Not Yet Defined
+            return False
+        else:
+            # Table Alread Defined
+            return True
+
+
+
 
 """
 #PROTOCOL = "mysql+pymysql://"
