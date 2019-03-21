@@ -16,6 +16,8 @@ from .ping_port_scan_table import PingPortScanTable
 
 from .external_servers_table import ExternalServersTable
 
+from ..engine import nomads_logger
+
 DB_USER = "root"
 DB_NAME = "nomads"
 
@@ -149,12 +151,13 @@ class DatabaseManager(object):
     Query the database for interesting servers needed to be monitored.
     """
     def select_external_targets(self):
-        print( "Ready to read all external targets for monitoring ..." )
+        nomads_logger.debug( "Ready to read all external targets for monitoring ..." )
         
         # First check if table is created 
         is_created = self.check_table_exists( "external_servers" )
         if not is_created:
             # Table not yet created .. Abort querying 'external_servers'
+            nomads_logger.warn( "Table 'external_servers' Not Yet Created !" )
             return [] 
 
         selection = select([self.external_servers_tbl])
