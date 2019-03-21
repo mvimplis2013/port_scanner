@@ -55,12 +55,12 @@ class FollowExternalServer(BaseJob):
             # Insert TOML defined external-monitoring data
             # ip = '', dns_name = "vlab3.dyndns.org", is_interesting = True
             data = {}
-            data["server-ip"] = self.configurator.external_monitoring.ext_ips
-            data["dns-name"] = self.configurator.external_monitoring.ext_vlabs
+            data["server-ip"] = self.configurator.external_monitoring.ip_v4
+            data["dns-name"] = self.configurator.external_monitoring.vlab_dns
             data["is-interesting"] = True
 
             self.db_manager.save_data_SERVERS_table(data)
-            
+
         # End of FIRST STEP: List of External-Servers retrieved    
 
         for server in external_servers_arr:
