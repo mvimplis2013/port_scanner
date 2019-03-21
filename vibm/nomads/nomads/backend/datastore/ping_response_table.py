@@ -86,7 +86,7 @@ class PingResponseTable(object):
         
         connection = engine.connect()
 
-        result = connection.execute( "select * from external_servers where observation_datetime > {} and observation_datetime < {}".format(_from, _to) )
+        result = connection.execute( "select * from external_servers" ) # where observation_datetime > {} and observation_datetime < {}".format(_from, _to) )
         for row in result:
             print("datetime:", row['observation_datetime'])
         
