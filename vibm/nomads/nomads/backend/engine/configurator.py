@@ -4,7 +4,7 @@ try:
     from . import ExternalMonitoringConfigData
 except ImportError as e:
     nomads_logger.error( e )
-    from nomads.backend.config.external_monitoring_config_data import ExternalMonitoringConfigData
+    from backend.config.external_monitoring_config_data import ExternalMonitoringConfigData
 
 #from . import DatabaseConfigData
 #from . import MessageQueueConfigData
