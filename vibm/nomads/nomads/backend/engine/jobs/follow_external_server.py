@@ -38,8 +38,8 @@ class FollowExternalServer(BaseJob):
         
     def start(self):
         print( "***** New External-Server(s) Following Patrol ... %s , %s *****" % (datetime.datetime.now, 
-            self.configurator.external_monitoring.vlab) )
-            
+            self.configurator.external_monitoring.ext_vlabs) )
+
         _connection = self.db_manager._connection
 
         # Get the list of external servers
