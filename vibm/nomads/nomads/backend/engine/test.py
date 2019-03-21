@@ -1,3 +1,5 @@
+from . import nomads_logger
+
 class External(object):
     def __init__(self):
         pass
