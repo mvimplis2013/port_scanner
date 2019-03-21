@@ -4,7 +4,8 @@
 title = "TOML Configuration File for Backend Monitoring Robot"
 
 [external-monitoring]
-vlabs = [ "vlab3" ]
+vlabs = "vlab3.dyndns.org"
+ips = ""
 ip-ping-freq-mins = "2"
 port-scan-freq-mins = "2"
 

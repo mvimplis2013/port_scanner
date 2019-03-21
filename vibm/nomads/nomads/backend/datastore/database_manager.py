@@ -135,9 +135,24 @@ class DatabaseManager(object):
     def create_table(self, table_obj ):
         self.metadata.create_all( self.connection, table_obj )
 
+    """ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        Populate database tables with data.
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     """
-    Populate database tables with data.
-    """
+    def save_data_SERVERS_table(self, data):
+        try:
+            insert_server = self.external_servers_tbl.insert().values(
+                ip = data["server-ip"],
+                dns_name = data["dns-name"],
+                is_interesting = data["is-interesting"]
+            )
+
+            result = self.connection.execute(insert_server)
+            print( "Finished with Table is ... External_Servers" )
+        except Exception as x:
+            print(x)
+
+
     def save_data_to_tables(self):
         print( "Ready to Save Data to Tables ..." )
         try:

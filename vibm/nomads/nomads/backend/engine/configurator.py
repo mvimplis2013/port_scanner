@@ -18,6 +18,8 @@ class ExternalMonitoringConfigurator(object):
         self.ext_vlabs = self.toml_parser.get("external-monitoring", "vlabs")
         #self.external_monitoring_configD.set_watch_vlabs( vlabs )
 
+        self._ips = self.toml_parser.get("external-monitoring", "ips")
+
         self.ip_ping_freq = self.toml_parser.get("external-monitoring", "ip-ping-freq-mins")
         #self.external_monitoring_configD.set_ip_ping_freq( ip_ping_freq )
 
@@ -26,6 +28,10 @@ class ExternalMonitoringConfigurator(object):
         @property
         def external_vlabs(self):
             return self.ext_vlab
+
+        @property
+        def ext_ips(self):
+            return self._ips
 
         @property
         def ip_ping_freq_mins(self):

@@ -50,8 +50,17 @@ class FollowExternalServer(BaseJob):
             
             # Wait until external_servers available ?!!
             nomads_logger.debug("Ready to create table and save TOML external-configuration ... 'external_servers'")
-
             self.db_manager.create_table( [self.db_manager.tbl_external_servers] )
+
+            # Insert TOML defined external-monitoring data
+            # ip = '', dns_name = "vlab3.dyndns.org", is_interesting = True
+            data = {}
+            data["server-ip"] = self.configurator.external_monitoring.ext_ips
+            data["dns-name"] = self.configurator.external_monitoring.ext_vlabs
+            data["is-interesting"] = True
+
+            self.db_manager.save_data_SERVERS_table(data)
+            
         # End of FIRST STEP: List of External-Servers retrieved    
 
         for server in external_servers_arr:
