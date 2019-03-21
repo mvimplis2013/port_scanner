@@ -1,7 +1,7 @@
 import datetime
 
 from .. import TomlParser
-from .. import Configurator
+from .. import ExternalMonitoringConfigurator
 from .. import DatabaseManager
 from .. import NMapNative
 from .. import NMapPingResponse, NMapPingResponseWithPortsScan
@@ -30,10 +30,12 @@ class FollowExternalServer(BaseJob):
     def prepare(self):
         # Which External Servers Should the Monitoring Tool Ping ?
         self.db_manager.establish_connection()
-        self.configurator = Configurator( self.toml_parser ) 
+        
+        self.extMonitConfigurator = ExternalMonitoringConfigurator( self.toml_parser )
+        self.extMonitConfigurator.configure() 
         
     def start(self):
-        print( "***** New External-Server(s) Following Patrol ... %s , %s *****" % (datetime.datetime.now, self.configurator.external_monitoring.vlab) )
+        print( "***** New External-Server(s) Following Patrol ... %s , %s *****" % (datetime.datetime.now, self.extMonConfigurator.vlab) )
         _connection = self.db_manager._connection
 
         # Get the list of external servers
