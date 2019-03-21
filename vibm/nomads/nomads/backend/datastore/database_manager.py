@@ -16,7 +16,10 @@ from .ping_port_scan_table import PingPortScanTable
 
 from .external_servers_table import ExternalServersTable
 
-from ..engine import nomads_logger
+try: 
+    from ..engine import nomads_logger
+except ImportError:
+    from nomads.backend.utils.back_logger import nomads_logger
 
 DB_USER = "root"
 DB_NAME = "nomads"
