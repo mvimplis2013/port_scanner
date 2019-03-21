@@ -60,7 +60,7 @@ class FollowExternalServer(BaseJob):
             data["is-interesting"] = True
 
             self.db_manager.save_data_SERVERS_table(data)
-
+            return
         # End of FIRST STEP: List of External-Servers retrieved    
 
         for server in external_servers_arr:
