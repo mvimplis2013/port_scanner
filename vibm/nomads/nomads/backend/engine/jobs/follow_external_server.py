@@ -1,7 +1,7 @@
 import datetime
 
 from .. import TomlParser
-from .. import ExternalMonitoringConfigurator
+from ..configurator import ExternalMonitoringConfigurator
 from .. import DatabaseManager
 from .. import NMapNative
 from .. import NMapPingResponse, NMapPingResponseWithPortsScan
