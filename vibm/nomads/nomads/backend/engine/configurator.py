@@ -1,6 +1,6 @@
 from . import nomads_logger
 
-from . import External
+from . import ExternalMonitoringConfigData
 
 #from . import DatabaseConfigData
 #from . import MessageQueueConfigData

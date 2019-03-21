@@ -1,8 +1,7 @@
 from ..utils.toml_config_parser import TomlParser 
 from ..utils.back_logger import nomads_logger
 
-#from ..config.external_monitoring_config_data import ExternalMonitoringConfigData
-from .test import External
+from ..config.external_monitoring_config_data import ExternalMonitoringConfigData
 from .configurator import ExternalMonitoringConfigurator
 
 from ..utils.nmap_native import NMapNative
