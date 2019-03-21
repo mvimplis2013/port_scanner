@@ -15,17 +15,25 @@ class ExternalMonitoringConfigurator(object):
         #self.external_monitoring_configD = ExternalMonitoringConfigData()
 
     def configure(self):
-        self.vlab = self.toml_parser.get("external-monitoring", "vlabs")
+        self.ext_vlabs = self.toml_parser.get("external-monitoring", "vlabs")
         #self.external_monitoring_configD.set_watch_vlabs( vlabs )
 
-        ip_ping_freq = self.toml_parser.get("external-monitoring", "ip-ping-freq")
+        self.ip_ping_freq = self.toml_parser.get("external-monitoring", "ip-ping-freq-mins")
         #self.external_monitoring_configD.set_ip_ping_freq( ip_ping_freq )
 
-        ports_scan_freq = self.toml_parser.get("")
+        port_scan_freq = self.toml_parser.get("external-monitoring", "port-scan-freq-mins")
 
         @property
-        def vlab(self):
-            return self.vlab        
+        def external_vlabs(self):
+            return self.ext_vlab
+
+        @property
+        def ip_ping_freq_mins(self):
+            return self.ip_ping_freq
+
+        @property
+        def port_scan_freq_mins(self):
+            return self.port_scan_freq        
 
 class Configurator(object):
     def __init__(self, tomlParser):
