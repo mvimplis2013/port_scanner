@@ -1,4 +1,9 @@
-#from . import ExternalMonitoringConfigData
+try:
+    from . import ExternalMonitoringConfigData
+except ImportError as e:
+    print( e )
+    from nomads.backend.config.external_monitoring_config_data import ExternalMonitoringConfigData
+
 #from . import DatabaseConfigData
 #from . import MessageQueueConfigData
 """
