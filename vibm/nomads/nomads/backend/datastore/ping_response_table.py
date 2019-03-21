@@ -84,7 +84,8 @@ class PingResponseTable(object):
             database_url = os.environ['MARIADB-SERVER']
             connection_str = "mysql+pymysql://root@" + database_url + "/nomads"
             engine = create_engine( connection_str )
-        
+
+            nomads_logger.deb("Need a connection")
             connection = engine.connect()
             nomads_logger.deb("Have a connection")
 
