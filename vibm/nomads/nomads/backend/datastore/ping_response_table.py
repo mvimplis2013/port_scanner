@@ -85,7 +85,7 @@ class PingResponseTable(object):
             connection_str = "mysql+pymysql://root@" + database_url + "/nomads"
             engine = create_engine( connection_str )
 
-            nomads_logger.debug("Need a connection")
+            nomads_logger.debug("Need a connection {}".format(connection_str))
             connection = engine.connect()
             nomads_logger.debug("Have a connection")
 
