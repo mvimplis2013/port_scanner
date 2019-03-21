@@ -1,10 +1,6 @@
 from . import nomads_logger
 
-try:
-    from . import ExternalMonitoringConfigData
-except ImportError as e:
-    nomads_logger.error( e )
-    from backend.config.external_monitoring_config_data import ExternalMonitoringConfigData
+from . import External
 
 #from . import DatabaseConfigData
 #from . import MessageQueueConfigData
