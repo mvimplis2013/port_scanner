@@ -24,7 +24,7 @@ DB_NAME = "nomads"
 class TableNotYetCreated(BaseException):
     def __init__(self, table_name, *args, **kwargs):
         self._table_name = table_name
-        super.__init__(self, args, kwargs)
+        super(TableNotYetCreated, self).__init__(args, kwargs)
 
     @property
     def table_name(self):
