@@ -6,7 +6,7 @@ from nomads.config_data_taxi import ConfigDataTaxi
 
 try: 
     from ..backend.datastore.database_manager import DatabaseManager
-except ImportError:
+except (ImportError, ValueError):
     from nomads.backend.datastore.database_manager import DatabaseManager
 
 try: 
