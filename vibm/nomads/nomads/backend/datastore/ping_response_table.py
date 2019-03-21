@@ -78,27 +78,31 @@ class PingResponseTable(object):
 
     @staticmethod
     def collect_data_for_period(_from, _to):
-        nomads_logger.debug("Select Ping Responses for Period ... %s - %s" % (_from, _to))
+        try:
+            nomads_logger.debug("Select Ping Responses for Period ... %s - %s" % (_from, _to))
 
-        database_url = os.environ['MARIADB-SERVER']
-        connection_str = "mysql+pymysql://root@" + database_url + "/nomads"
-        engine = create_engine( connection_str )
+            database_url = os.environ['MARIADB-SERVER']
+            connection_str = "mysql+pymysql://root@" + database_url + "/nomads"
+            engine = create_engine( connection_str )
         
-        connection = engine.connect()
+            connection = engine.connect()
+            nomads_logger.deb("Have a connection")
 
-        result = connection.execute( "select * from external_servers" ) # where observation_datetime > {} and observation_datetime < {}".format(_from, _to) )
-        for row in result:
-            print("datetime:", row['observation_datetime'])
+            result = connection.execute( "select * from external_servers" ) # where observation_datetime > {} and observation_datetime < {}".format(_from, _to) )
+            for row in result:
+                print("datetime:", row['observation_datetime'])
         
-        records_found = result.fetchall()
-        connection.close()
+            records_found = result.fetchall()
+            connection.close()
         
-        #result_proxy = connection.execute( _select )
-        #records_found = result_proxy.fetchall()
+            #result_proxy = connection.execute( _select )
+            #records_found = result_proxy.fetchall()
 
-        nomads_logger.debug( "Records Found in PING_RESPONSES ... %d" % len(records_found) )
+            nomads_logger.debug( "Records Found in PING_RESPONSES ... %d" % len(records_found) )
 
-        return records_found
+            return records_found
+        except Exception as e:
+            nomads_logger("Exception ...{}".format( e.msg ))
 
 
 
