@@ -32,7 +32,7 @@ class Configurator(object):
         self.external_monitoring_configurator = ExternalMonitoringConfigurator( tomlParser )
         
     def configureAll(self):
-        pass
+        self.external_monitoring_configurator.configure()
         
     @property
     def external_monitoring(self):
