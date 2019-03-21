@@ -47,6 +47,8 @@ class FollowExternalServer(BaseJob):
             external_servers_arr = self.db_manager.select_external_targets()
         except TableNotYetCreated as e:
             nomads_logger.warn( "This table has not created yet ... %s" % e.table_name)
+            # Wait until external_servers available ?!!
+            return 
 
         for server in external_servers_arr:
             print("Ready to Ping External Server ... %s" % server)
