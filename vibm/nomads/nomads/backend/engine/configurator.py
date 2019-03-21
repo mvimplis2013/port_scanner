@@ -1,7 +1,7 @@
 from . import ExternalMonitoringConfigData
 from . import DatabaseConfigData
 from . import MessageQueueConfigData
-
+"""
 class DatabaseConfigurator(object):
     def __init__(self, toml_parser):
         self.toml_parser = toml_parser
@@ -35,3 +35,7 @@ class Configurator(object):
     @property
     def external_monitoring(self):
         return self.external_monitoring_configurator
+"""
+class ExternalMonitoringConfigurator(object):
+    def __init__(self):
+        pass
