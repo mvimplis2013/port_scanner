@@ -2,7 +2,7 @@ class ExternalMonitoringConfigData(object):
     def __init__(self, vlabs=[]):
         self.vlabs = vlabs
         self.ipPingFreq = ""
-
+""""
     @property
     def watch_vlabs(self):
         return self.vlabs
@@ -19,3 +19,4 @@ class ExternalMonitoringConfigData(object):
 
     def __str__(self):
         return "External Configuration of Monitoring Tool: " + str(self.vlabs) + " , " + self.ipPingFreq 
+"""
