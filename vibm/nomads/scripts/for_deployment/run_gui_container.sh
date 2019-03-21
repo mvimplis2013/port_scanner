@@ -20,7 +20,7 @@ PORT_CONTAINER=5000
 # ***********************
 
 GUI_CONTAINER="vlab_gui_container"
-DOCKER_RUN_FLAGS="--name $GUI_CONTAINER -it --privileged -d -p $PORT_LOCAL:$PORT_CONTAINER -t -eMARIADB-SERVER=172.24.0.2 $GUI_IMAGE"
+DOCKER_RUN_FLAGS="--name $GUI_CONTAINER -it --privileged --network app-tier -d -p $PORT_LOCAL:$PORT_CONTAINER -t -eMARIADB-SERVER=172.24.0.2 $GUI_IMAGE"
 
 # Bring forward the GUI-container dockerfile
 source "$SCRIPTS_LOCATION"/prepare_context_of_build.sh arm x32 gui | tee "$OUTPUT"
