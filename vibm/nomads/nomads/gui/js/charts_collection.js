@@ -127,7 +127,7 @@ $("[role=button-get-data]").on("click", function (event) {
         contentType: CONTENT_TYPE,
         data: _data
     }).done(function (data) {
-        console.log("Contacted server for VLAB performance data ... " + JSON.parse(JSON.stringify(data)));
+        console.log("Contacted server for VLAB performance data ... " + JSON.parse(JSON.stringify(data))[0]);
         deferred_data.resolve( data );
 
         //alert("success");
