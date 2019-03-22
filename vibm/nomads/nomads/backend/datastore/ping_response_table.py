@@ -116,7 +116,7 @@ class PingResponseTable(object):
             connection = engine.connect()
             nomads_logger.debug("Have a connection with db ... {}".format(connection_str))
             
-            select_stm = "SELECT e.dns_name, p.is_up FROM ping_responses r, external_servers e WHERE r.server_id=e.id"
+            select_stm = "SELECT dns_name, is_up FROM ping_responses, external_servers WHERE external_servers.id = server_id"
             result = connection.execute( select_stm ) 
             
             #for row in result:
