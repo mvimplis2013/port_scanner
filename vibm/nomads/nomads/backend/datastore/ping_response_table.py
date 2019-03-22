@@ -117,13 +117,10 @@ class PingResponseTable(object):
             nomads_logger.debug("Have a connection with db ... {}".format(connection_str))
             
             #select_stm = "SELECT server_id, dns_name, GROUP_CONCAT(ping_responses.is_up) GROUP_CONCAT(observation_datetime) FROM ping_responses, external_servers WHERE external_servers.id = server_id GROUP BY server_id"
-            #select_stm = "SELECT * FROM ping_responses"
-            select_stm = "SELECT server_id, GROUP_CONCAT(is_up), GROUP_CONCAT(observation_datetime ORDER BY observation_datetime) FROM ping_responses GROUP BY server_id"
+            select_stm = "SELECT * FROM ping_responses"
+            #select_stm = "SELECT server_id, GROUP_CONCAT(is_up), GROUP_CONCAT(observation_datetime ORDER BY observation_datetime) FROM ping_responses GROUP BY server_id"
             result = connection.execute( select_stm ) 
             
-            for row in result:
-                print("server_id={} , dns_name={} ... datetime={}".format( row['server_id'], row[1], row[2]) )
-        
             records_found = result.fetchall()
             
             # Always avoid resources leaking ... close the database connection after finished 
@@ -131,6 +128,9 @@ class PingResponseTable(object):
         
             nomads_logger.debug( "Number of Records Found in PING_RESPONSES ... %d" % len(records_found) )
 
+            for row in records_found:
+                print("server_id={} , is_up={} ... datetime={}".format( row['server_id'], row[1], row[2]) )
+        
             return records_found
         except Exception as e:
             # Exception raised and need to exit
