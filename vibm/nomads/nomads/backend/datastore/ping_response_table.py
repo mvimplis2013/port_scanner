@@ -116,7 +116,7 @@ class PingResponseTable(object):
             connection = engine.connect()
             nomads_logger.debug("Have a connection with db ... {}".format(connection_str))
             
-            select_stm = "SELECT server_id, dns_name, ping_responses.is_up observation_datetime FROM ping_responses, external_servers WHERE external_servers.id = server_id GROUP BY server_id"
+            select_stm = "SELECT server_id, dns_name, GROUP_CONCAT(ping_responses.is_up, ',') GROUP_CONCAT(observation_datetime, ',') FROM ping_responses, external_servers WHERE external_servers.id = server_id GROUP BY server_id"
             #select_stm = "SELECT * FROM ping_responses"
             result = connection.execute( select_stm ) 
             
