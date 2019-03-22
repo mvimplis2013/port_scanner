@@ -128,8 +128,11 @@ $("[role=button-get-data]").on("click", function (event) {
         data: _data
     }).done(function (data) {
         console.log("Contacted server for VLAB performance data ... " + JSON.parse(JSON.stringify(data))[0]);
+        data0 = JSON.parse(JSON.stringify(data))[0]
+        console.log( "data0 is ..." + data0[0])
+        
         deferred_data.resolve( data );
-
+        console.log( "Deferred .. " + deferred_data)
         //alert("success");
     }).fail(function() {
         alert("error");
