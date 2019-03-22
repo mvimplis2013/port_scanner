@@ -10,8 +10,6 @@ from nomads.backend.utils.back_logger import nomads_logger
 import datetime
 import os
 
-TABLE_NAME = 'ping_responses'
-
 """
 Table to store responses of mmap ping to external servers.
 """
@@ -118,7 +116,8 @@ class PingResponseTable(object):
             connection = engine.connect()
             nomads_logger.debug("Have a connection with db ... {}".format(connection_str))
             
-            result = connection.execute( "SELECT * FROM " + TABLE_NAME ) 
+            select_stm = "SELECT e.dns_name, p.is_up FROM ping_responses r, external_servers e WHERE r.server_id=e.id"
+            result = connection.execute( select_stm ) 
             
             #for row in result:
             #    print("datetime:", row['observation_datetime'])
