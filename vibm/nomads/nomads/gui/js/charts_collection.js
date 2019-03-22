@@ -117,6 +117,8 @@ $("[role=button-get-data]").on("click", function (event) {
         "time-range": time_range
     };
 
+    var deferred_data = new jQuery.Deferred();
+
     // STEP 4: Make AJAX Request from Client to Server
     $.ajax({
         method: METHOD,
@@ -125,7 +127,9 @@ $("[role=button-get-data]").on("click", function (event) {
         contentType: CONTENT_TYPE,
         data: _data
     }).done(function (data) {
-        console.log("Contacted server for VLAB performance data ... %r" % data[0][0])
+        console.log("Contacted server for VLAB performance data ... " + data["responseJSON"])
+        deferred_data.resolve( data );
+
         //alert("success");
     }).fail(function() {
         alert("error");
