@@ -127,7 +127,8 @@ $("[role=button-get-data]").on("click", function (event) {
         contentType: CONTENT_TYPE,
         data: _data
     }).done(function (data) {
-        console.log("Contacted server for VLAB performance data ... " + JSON.parse(JSON.stringify(data))[0]);
+        records_length = data.length
+        console.log("Contacted server for VLAB performance data ... #" + records_length);
         data0 = JSON.parse(JSON.stringify(data))
         console.log( "data is ..." + data0 )
         
