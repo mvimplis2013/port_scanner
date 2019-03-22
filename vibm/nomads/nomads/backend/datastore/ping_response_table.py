@@ -125,10 +125,15 @@ class PingResponseTable(object):
             
             nomads_logger.debug( "Number of Records Found in PING_RESPONSES ... %d" % len(records_found) )
 
+            records_array = []
             for row in records_found:
-                print("server_id={} , is_up={} ... datetime={}".format( row['server_id'], row[1], row[2]) )
+                r["server_id"] = row['server_id']
+                r["is_up"] = row["is_up"] 
+                r["observation_datetime"] = row["observation_datetime"]
+
+                records_array.append( r )
         
-            return records_found
+            return records_array
         except Exception as e:
             # Exception raised and need to exit
             nomads_logger.debug(
