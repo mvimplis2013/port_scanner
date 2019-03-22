@@ -116,12 +116,12 @@ class PingResponseTable(object):
             connection = engine.connect()
             nomads_logger.debug("Have a connection with db ... {}".format(connection_str))
             
-            select_stm = "SELECT dns_name, ping_responses.is_up observation_datetime FROM ping_responses, external_servers WHERE external_servers.id = server_id"
+            select_stm = "SELECT server_id, dns_name, ping_responses.is_up observation_datetime FROM ping_responses, external_servers WHERE external_servers.id = server_id"
             #select_stm = "SELECT * FROM ping_responses"
             result = connection.execute( select_stm ) 
             
             for row in result:
-                print("server_id={} ... datetime={}".format( row['server_id'], row['observation_datetime']) )
+                print("server_id={} , dns_name={} ... datetime={}".format( row['server_id'], row['dns_name'], row['observation_datetime']) )
         
             records_found = result.fetchall()
             
