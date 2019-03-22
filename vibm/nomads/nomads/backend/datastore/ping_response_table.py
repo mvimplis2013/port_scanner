@@ -3,12 +3,14 @@ from sqlalchemy import Table, MetaData, Column, Integer, String, Boolean, DateTi
 from sqlalchemy import ForeignKey
 from sqlalchemy import insert, select
 
-from .database_manager import DatabaseManager
+from .database_manager import DatabaseManager, DB_NAME, DB_USER
 
 from nomads.backend.utils.back_logger import nomads_logger
 
 import datetime
 import os
+
+TABLE_NAME = 'ping_responses'
 
 """
 Table to store responses of mmap ping to external servers.
@@ -104,6 +106,37 @@ class PingResponseTable(object):
             return records_found
         except Exception as e:
             nomads_logger.debug("Exception ...{}".format( str(e) ))
+
+    @staticmethod
+    def get_all_records():
+        try:
+            nomads_logger.debug("Inside 'Ping_Responses_Table' to Select All Stored Records")
+
+            database_url = os.environ['MARIADB-SERVER']
+            connection_str = "mysql+pymysql://" + DB_USER + "@" + database_url + "/" + DB_NAME
+            engine = create_engine( connection_str )
+            connection = engine.connect()
+            nomads_logger.debug("Have a connection with db ... {}".format(connection_str))
+            
+            result = connection.execute( "SELECT * FROM " + TABLE_NAME ) 
+            
+            #for row in result:
+            #    print("datetime:", row['observation_datetime'])
+        
+            records_found = result.fetchall()
+            
+            # Always avoid resources leaking ... close the database connection after finished 
+            connection.close()
+        
+            nomads_logger.debug( "Number of Records Found in PING_RESPONSES ... %d" % len(records_found) )
+
+            return records_found
+        except Exception as e:
+            # Exception raised and need to exit
+            nomads_logger.debug(
+                "Exception raised in 'PING_RESPONSES'::get_all_records() ... {}".format(str(e)) )
+
+            return None
 
 
 

@@ -174,4 +174,8 @@ def collect_ping_records_for_period( _from, _to ):
 def collect_all_ping_records():
     nomads_logger.debug("+++ Inside Collect ALL Ping Data +++")
 
-    return []
+    records_found = PingResponseTable.get_all_records()
+
+    print("+++ Finished Collecting ALL Ping Data +++")
+    
+    return 1
