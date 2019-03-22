@@ -125,7 +125,7 @@ $("[role=button-get-data]").on("click", function (event) {
         contentType: CONTENT_TYPE,
         data: _data
     }).done(function (data) {
-        console.log("Contacted server for VLAB performance data ... " + data)
+        console.log("Contacted server for VLAB performance data ... " + data[0])
         //alert("success");
     }).fail(function() {
         alert("error");
