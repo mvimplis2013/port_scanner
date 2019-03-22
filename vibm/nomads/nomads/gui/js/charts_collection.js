@@ -132,7 +132,7 @@ $("[role=button-get-data]").on("click", function (event) {
         
         for (i=0; i<records_length; i++) {
             row = data[i];
-            console.log("Observation-Datetine = " + row.observation_datetime);
+            console.log("Observation-Datetine = " + i + " / " + row.observation_datetime);
         }
             
         //alert("success");
