@@ -119,8 +119,8 @@ class PingResponseTable(object):
             select_stm = "SELECT dns_name, ping_responses.is_up FROM ping_responses, external_servers WHERE external_servers.id = server_id GROUP BY server_id"
             result = connection.execute( select_stm ) 
             
-            #for row in result:
-            #    print("datetime:", row['observation_datetime'])
+            for row in result:
+                print("datetime:", row['observation_datetime'])
         
             records_found = result.fetchall()
             
