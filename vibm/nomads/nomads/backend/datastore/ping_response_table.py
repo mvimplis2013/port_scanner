@@ -137,6 +137,7 @@ class PingResponseTable(object):
             return None
         finally:
             # Always avoid resources leaking ... close the database connection after finished 
+            nomads_logger.debug( "PING_RESPONSES table: Ready to close db connection for get-all()" )
             connection.close()
 
 
