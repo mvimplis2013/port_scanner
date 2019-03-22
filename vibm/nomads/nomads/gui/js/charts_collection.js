@@ -129,11 +129,12 @@ $("[role=button-get-data]").on("click", function (event) {
     }).done(function (data) {
         records_length = data.length
         console.log("Contacted server for VLAB performance data ... #" + records_length);
-        data0 = JSON.parse(JSON.stringify(data))
-        console.log( "data is ..." + data0 )
         
-        deferred_data.resolve( data );
-        console.log( "Deferred .. " + deferred_data.dataALL)
+        for (i=0; i<records_length; i++) {
+            row = data[i];
+            console.log("Observation-Datetine = " + row.observation_datetime);
+        }
+            
         //alert("success");
     }).fail(function() {
         alert("error");
