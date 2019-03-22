@@ -2,6 +2,8 @@ from flask import Flask, render_template, request, jsonify
 import os
 
 from nomads.utils import ping_host, ping_host_full_response, scan_vlab_open_ports_now
+from nomads.backend.utils.back_logger import nomads_logger
+
 from nomads.config_data_taxi import ConfigDataTaxi
 
 try: 
@@ -114,7 +116,11 @@ def get_ip_data_for_period():
 
     [_from, _to] = translate_time_ranges( time_range )
 
-    ping_responses = collect_ping_records_for_period(_from, _to)
+    if _from is None:
+        # Select all records from database ping-responses
+        ping_responses = collect_all_ping_records()
+    else:
+        ping_responses = collect_ping_records_for_period(_from, _to)
 
     return ping_responses
 
@@ -164,3 +170,8 @@ def collect_ping_records_for_period( _from, _to ):
     #db_manager.close_connection()
 
     return records_found
+
+def collect_all_ping_records():
+    nomads_logger.debug("+++ Inside Collect ALL Ping Data +++")
+
+    return []
