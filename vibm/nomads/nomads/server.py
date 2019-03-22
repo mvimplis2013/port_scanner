@@ -178,4 +178,4 @@ def collect_all_ping_records():
 
     print("+++ Finished Collecting ALL Ping Data +++")
     
-    return 1
+    return jsonify( records_found )
