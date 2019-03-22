@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, Response, json
 import os
 
 from nomads.utils import ping_host, ping_host_full_response, scan_vlab_open_ports_now
@@ -179,4 +179,5 @@ def collect_all_ping_records():
     nomads_logger.debug( records_found[0] )
     nomads_logger.debug("+++ Finished Collecting ALL Ping Data +++")
     
-    return jsonify( records_found )
+    #return jsonify( records_found )
+    return Response( json.dumps( records_found ), mimetype="application/json")
