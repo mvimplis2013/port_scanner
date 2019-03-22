@@ -123,9 +123,6 @@ class PingResponseTable(object):
             
             records_found = result.fetchall()
             
-            # Always avoid resources leaking ... close the database connection after finished 
-            connection.close()
-        
             nomads_logger.debug( "Number of Records Found in PING_RESPONSES ... %d" % len(records_found) )
 
             for row in records_found:
@@ -138,7 +135,9 @@ class PingResponseTable(object):
                 "Exception raised in 'PING_RESPONSES'::get_all_records() ... {}".format(str(e)) )
 
             return None
-
+        finally:
+            # Always avoid resources leaking ... close the database connection after finished 
+            connection.close()
 
 
 
