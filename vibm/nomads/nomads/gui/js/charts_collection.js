@@ -132,7 +132,7 @@ $("[role=button-get-data]").on("click", function (event) {
         console.log( "data0 is ..." + data0 )
         
         deferred_data.resolve( data );
-        console.log( "Deferred .. " + deferred_data)
+        console.log( "Deferred .. " + deferred_data.dataALL)
         //alert("success");
     }).fail(function() {
         alert("error");
