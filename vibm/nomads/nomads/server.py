@@ -179,5 +179,5 @@ def collect_all_ping_records():
     nomads_logger.debug( records_found[0] )
     nomads_logger.debug("+++ Finished Collecting ALL Ping Data +++")
     
-    return jsonify( records_found )
+    return jsonify( dataALL=records_found )
     #return Response( json.dumps( records_found ), mimetype="application/json")
