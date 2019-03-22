@@ -126,6 +126,7 @@ class PingResponseTable(object):
             nomads_logger.debug( "Number of Records Found in PING_RESPONSES ... %d" % len(records_found) )
 
             records_array = []
+            r = {}
             for row in records_found:
                 r["server_id"] = row['server_id']
                 r["is_up"] = row["is_up"] 
