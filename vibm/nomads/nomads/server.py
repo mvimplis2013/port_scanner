@@ -176,6 +176,7 @@ def collect_all_ping_records():
 
     records_found = PingResponseTable.get_all_records()
 
-    print("+++ Finished Collecting ALL Ping Data +++")
+    nomads_logger.debug( records_found[0] )
+    nomads_logger.debug("+++ Finished Collecting ALL Ping Data +++")
     
     return jsonify( records_found )
