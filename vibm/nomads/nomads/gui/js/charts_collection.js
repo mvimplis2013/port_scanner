@@ -134,7 +134,8 @@ $("[role=button-get-data]").on("click", function (event) {
             row = data[i];
             console.log("Observation-Datetine = " + i + " / " + row.observation_datetime + " / " + row.is_up + " / " + row.server_id);
         }
-            
+        
+        $("div[role='statistics'").css("text-color", "yellow")
         //alert("success");
     }).fail(function() {
         alert("error");
