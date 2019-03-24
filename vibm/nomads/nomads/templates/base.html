@@ -264,6 +264,13 @@
 
     <!-- Google CHARTS library -->
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+    <!-- JavaScript Dates Manipulation Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/date-fns/1.30.1/date_fns.js"></script>
+    <script>
+      dateFns.isToday(new Date())
+      //=> true
+    </script>
   
     <script type="text/javascript" src="{{ url_for('static', filename='js/charts_collection.js') }}"></script>
 
