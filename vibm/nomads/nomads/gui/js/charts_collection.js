@@ -5,16 +5,21 @@ RPC_GET_VLAB_PORT_DATA = "reports/external/get-ip-and-port-data"
 METHOD = "GET"
 CONTENT_TYPE = "application/json; charset=utf-8"
 
-/*google.charts.load("current", {"packages": ["bar"]});
+google.charts.load("current", {"packages": ["bar"]});
 google.charts.setOnLoadCallback(drawChart);
 
-function drawChart() {
+function drawChart( server_id, _from, _to, _is_up ) {
+    //var data = google.visualization.arrayToDataTable([
+    //    ["Year", "Sales", "Expenses", "Profit"], 
+    //    ["2014", 1000, 400, 200],
+    //    ["2015", 1170, 460, 250],
+    //    ["2016", 660, 1120, 300],
+    //    ["2017", 1030, 540, 350]
+    //]);
+
     var data = google.visualization.arrayToDataTable([
-        ["Year", "Sales", "Expenses", "Profit"], 
-        ["2014", 1000, 400, 200],
-        ["2015", 1170, 460, 250],
-        ["2016", 660, 1120, 300],
-        ["2017", 1030, 540, 350]
+        ["Server-ID", "From", "To", "is-UP"],
+        [server_id, _from, _to, is_up]
     ]);
 
     var options = {
@@ -51,7 +56,7 @@ $("[data-toggle=sidebar-colapse]").click( function() {
 
 $("[data-toggle=sidebar-colapse]").click( function() {
     SidebarCollapse();
-});*/
+});
 
 /* 
  ** Define External Mode Ping or Scan 
