@@ -17,6 +17,9 @@ function drawChart( server_id, _from, _to, _is_up ) {
     //    ["2017", 1030, 540, 350]
     //]);
 
+    var result = addMinutes(new Date(2014, 6, 10, 12, 0), 30);
+    console.log("New Date is ..." + result);
+
     var data = google.visualization.arrayToDataTable([
         ["Server-ID", "From", "To", "is-UP"],
         [server_id, _from, _to, is_up]
