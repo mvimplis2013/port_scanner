@@ -178,5 +178,5 @@ function findUpAndDownPeriods(data) {
 
     console.log( "Number of server-UP/ DOWN observations are ..." + up_array.all().length + "/ " + down_array.all().length);
 
-    return {"from":up_array[0], "to":up_array[up_array.length-1] };
+    return { "from": up_array.first(), "to": up_array.last() };
 }
