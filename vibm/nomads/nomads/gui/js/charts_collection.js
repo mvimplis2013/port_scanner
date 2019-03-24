@@ -166,9 +166,9 @@ function findUpAndDownPeriods(data) {
 
         if (is_up == 1) {
             // This is an UP server observation
-            _.concatenate(up_array, observation_datetime);
+            _.concat(up_array, observation_datetime);
         } else if (is_up == 0) {
-            _.concatenate(down_array, observation_datetime);
+            _.concat(down_array, observation_datetime);
         } 
     }
 
