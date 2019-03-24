@@ -144,18 +144,19 @@ function findUpAndDownPeriods(data) {
     // *******************************************
     // ** Check the existence of LODASH library **
     // *******************************************
-    console.log( "type of COLLECT is ..." + typeof collect );
+    
+    //console.log( "type of COLLECT is ..." + typeof collect );
 
     if (typeof collect === 'function') {
-        console.log( "LODASH library is loaded and can be used" )
+        console.log( "COLLECT library is loaded and can be used" )
     } else {
         // return
-        throw "LODASH library not install and need to abort the performance data array processing !";
+        throw "COLLECT library not installed and need to abort the performance data array processing !";
     } // EndOf LODASH existance check up
 
     // Two different arrays for UP and DOWN observations
-    up_array    = new Array()
-    down_array  = new Array()
+    const up_array    = collect()
+    const down_array  = collect()
 
     // Must read this and next record and decide whether continuous being in UP state 
     for (i=0; i<records_length; i++) {
@@ -169,7 +170,7 @@ function findUpAndDownPeriods(data) {
 
         if (is_up == 1) {
             // This is an UP server observation
-            up_array.push(observation_datetime);
+            up_array.push( observation_datetime );
         } else if (is_up == 0) {
             down_array.push( observation_datetime );
         } 
