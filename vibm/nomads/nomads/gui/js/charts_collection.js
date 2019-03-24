@@ -152,8 +152,8 @@ function findUpAndDownPeriods(data) {
     } // EndOf LODASH existance check up
 
     // Two different arrays for UP and DOWN observations
-    up_array    = []
-    down_array  = []
+    up_array    = new Array()
+    down_array  = new Array()
 
     // Must read this and next record and decide whether continuous being in UP state 
     for (i=0; i<records_length; i++) {
@@ -167,13 +167,13 @@ function findUpAndDownPeriods(data) {
 
         if (is_up == 1) {
             // This is an UP server observation
-            _.concat(up_array, observation_datetime);
+            up_array.push(observation_datetime);
         } else if (is_up == 0) {
-            _.concat(down_array, observation_datetime);
+            down_array.push( observation_datetime );
         } 
     }
 
     console.log( "Number of server-UP/ DOWN observations are ..." + up_array.length + "/ " + down_array.length);
 
-    return {"from": _.head(up_array), "to": _.last(up_array) };
+    return {"from":up_array[0], "to":up_array[up_array.length-1] };
 }
