@@ -144,6 +144,8 @@ function findUpAndDownPeriods(data) {
     // *******************************************
     // ** Check the existence of LODASH library **
     // *******************************************
+    console.log( "type of COLLECT is ..." + typeof collect );
+
     if (typeof collect === 'function') {
         console.log( "LODASH library is loaded and can be used" )
     } else {
