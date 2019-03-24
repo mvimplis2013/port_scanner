@@ -39,7 +39,7 @@ function drawChart( server_id, _from, _to, _is_up ) {
 
     chart.draw(data, google.charts.Bar.convertOptions(options));
 
-    var btns = document.getElementById("btn-group");
+    /*var btns = document.getElementById("btn-group");
 
     btns.onClick = function(e) {
         if (e.target.tagName === "BUTTON") {
@@ -47,7 +47,7 @@ function drawChart( server_id, _from, _to, _is_up ) {
 
             chart.draw(data, google.charts.Bar.convertOptions(options));
         }
-    }
+    }*/
 }
 
 $("[data-toggle=sidebar-colapse]").click( function() {
