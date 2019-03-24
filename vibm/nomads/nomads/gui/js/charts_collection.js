@@ -140,14 +140,19 @@ $("[role=button-get-data]").on("click", function (event) {
 });
 
 function findUpAndDownPeriods(data) {
-    up_array    = []
-    down_array  = []
-
+    // *******************************************
+    // ** Check the existence of LODASH library **
+    // *******************************************
     if (typeof _ === 'function') {
         console.log( "LODASH library is loaded and can be used" )
-        return
-    } 
+    } else {
+        // return
+        throw "LODASH library not install and need to abort the performance data array processing !";
+    } // EndOf LODASH existance check up
 
+    // Two different arrays for UP and DOWN observations
+    up_array    = []
+    down_array  = []
 
     // Must read this and next record and decide whether continuous being in UP state 
     for (i=0; i<records_length; i++) {
@@ -159,11 +164,13 @@ function findUpAndDownPeriods(data) {
         is_up = row.is_up;
         observation_datetime = row.observation_datetime;
 
-        
-
-        if (is_up) {
-            // This is an UP server instance
-            up_array.ap
-        }
+        if (is_up == 1) {
+            // This is an UP server observation
+            _.concatenate(up_array, observation_datetime);
+        } elseif (is_up == 0) {
+            _.concatenate(down_array, observation_datetime);
+        } 
     }
+
+    console.log( "Number of server-UP/ DOWN observations are ..." + up_array.length + "/ " + down_array.length);
 }
