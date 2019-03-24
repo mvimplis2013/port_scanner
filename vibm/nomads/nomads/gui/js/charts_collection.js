@@ -143,6 +143,13 @@ function findUpAndDownPeriods(data) {
     up_array    = []
     down_array  = []
 
+    console.log( "typeof lodash ..." + typeof lodash);
+    if (typeof lodash === 'object') {
+        console.log( "LODASH library is loaded and can be used" )
+        return
+    } 
+
+
     // Must read this and next record and decide whether continuous being in UP state 
     for (i=0; i<records_length; i++) {
         row = data[i];
@@ -153,11 +160,8 @@ function findUpAndDownPeriods(data) {
         is_up = row.is_up;
         observation_datetime = row.observation_datetime;
 
-        if (typeof lodash === 'object') {
-            console.log( "LODASH library is loaded and can be used" )
-            return
-        }
         
+
         if (is_up) {
             // This is an UP server instance
             up_array.ap
