@@ -138,7 +138,9 @@ $("[role=button-get-data]").on("click", function (event) {
         from_to = findUpAndDownPeriods( data );
         console.log( "Server is UP since ..." + from_to.from + " - " + from_to.to );
 
-        $("div[role='statistics'").css("color", "yellow")
+        $("div[role='statistics'").css("color", "yellow");
+
+        drawChart(1, from_to.from, from_to.to, "true");
         //alert("success");
     }).fail(function() {
         alert("error");
