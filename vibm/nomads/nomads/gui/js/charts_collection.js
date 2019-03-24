@@ -143,8 +143,7 @@ function findUpAndDownPeriods(data) {
     up_array    = []
     down_array  = []
 
-    console.log( "typeof lodash ..." + typeof _ );
-    if (typeof lodash === 'object') {
+    if (typeof _ === 'function') {
         console.log( "LODASH library is loaded and can be used" )
         return
     } 
