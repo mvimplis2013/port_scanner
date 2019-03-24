@@ -130,14 +130,37 @@ $("[role=button-get-data]").on("click", function (event) {
         records_length = data.length
         console.log("Contacted server for VLAB performance data ... #" + records_length);
         
-        for (i=0; i<records_length; i++) {
-            row = data[i];
-            console.log("Observation-Datetine = " + i + " / " + row.observation_datetime + " / " + row.is_up + " / " + row.server_id);
-        }
-        
+        findUpAndDownPeriods( data )
+
         $("div[role='statistics'").css("color", "yellow")
         //alert("success");
     }).fail(function() {
         alert("error");
     });
 });
+
+function findUpAndDownPeriods(data) {
+    up_array    = []
+    down_array  = []
+
+    // Must read this and next record and decide whether continuous being in UP state 
+    for (i=0; i<records_length; i++) {
+        row = data[i];
+  
+        //console.log("Observation-Datetine = " + i + " / " + row.observation_datetime + " / " + row.is_up + " / " + row.server_id);
+
+        server_id = row.server_id;
+        is_up = row.is_up;
+        observation_datetime = row.observation_datetime;
+
+        if (typeof lodash === 'object') {
+            console.log( "LODASH library is loaded and can be used" )
+            return
+        }
+        
+        if (is_up) {
+            // This is an UP server instance
+            up_array.ap
+        }
+    }
+}
