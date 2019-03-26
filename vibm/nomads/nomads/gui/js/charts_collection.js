@@ -1,4 +1,5 @@
 import draw_timeline from '/gui/js/google_charts.mjs';
+
 ROBOT_URL = "http://" + location.hostname + ":5000/"
 RPC_GET_VLAB_PING_DATA = "reports/external/get-ip-data"
 RPC_GET_VLAB_PORT_DATA = "reports/external/get-ip-and-port-data"
