@@ -10,7 +10,7 @@ function draw_timeline( server, from_time, to_time, is_up ) {
     function drawChart() {
         console.log("Ready to draw a timeline for ... '" + _server + "' / " + _from + " - " + _to + " {" + _is_up + "}");
 
-        var container = document.getElementById("timeline-container");
+        var container = document.getElementById("chart-container");
         
         var chart = new google.visualization.Timeline(container); 
     }
