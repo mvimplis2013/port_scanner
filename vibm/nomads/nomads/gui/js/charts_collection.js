@@ -1,4 +1,4 @@
-import { draw_timeline } from './google_charts'
+import { draw_timeline } from "./google_charts.mjs";
 
 ROBOT_URL = "http://" + location.hostname + ":5000/"
 RPC_GET_VLAB_PING_DATA = "reports/external/get-ip-data"
@@ -18,6 +18,8 @@ function drawChart( server_id, _from, _to, _is_up ) {
     //    ["2016", 660, 1120, 300],
     //    ["2017", 1030, 540, 350]
     //]);
+
+    draw_timeline();
 
     var result = dateFns.addMinutes(new Date(2014, 6, 10, 12, 0), 30);
     console.log("New Date is ..." + result);
