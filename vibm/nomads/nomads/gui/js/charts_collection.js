@@ -1,4 +1,4 @@
-import { draw_timeline } from "gui/js/google_charts.mjs";
+import { draw_timeline } from "/gui/js/google_charts.js";
 
 ROBOT_URL = "http://" + location.hostname + ":5000/"
 RPC_GET_VLAB_PING_DATA = "reports/external/get-ip-data"
