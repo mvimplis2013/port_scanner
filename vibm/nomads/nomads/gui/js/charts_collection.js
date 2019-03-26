@@ -1,5 +1,3 @@
-//import draw_timeline from '/gui/js/google_charts.mjs';
-
 ROBOT_URL = "http://" + location.hostname + ":5000/"
 RPC_GET_VLAB_PING_DATA = "reports/external/get-ip-data"
 RPC_GET_VLAB_PORT_DATA = "reports/external/get-ip-and-port-data"
@@ -18,8 +16,6 @@ function drawChart( server_id, _from, _to, _is_up ) {
     //    ["2016", 660, 1120, 300],
     //    ["2017", 1030, 540, 350]
     //]);
-
-    draw_timeline();
 
     var result = dateFns.addMinutes(new Date(2014, 6, 10, 12, 0), 30);
     console.log("New Date is ..." + result);
@@ -147,7 +143,9 @@ $("[role=button-get-data]").on("click", function (event) {
 
         $("div[role='statistics'").css("color", "yellow");
 
-        drawChart(1, from_to.from, from_to.to, "true");
+        //drawChart(1, from_to.from, from_to.to, "true");
+        draw_timeline();
+
         //alert("success");
     }).fail(function() {
         alert("error");
