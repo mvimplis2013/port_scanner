@@ -278,12 +278,12 @@
       console.log("type of v is: " + typeof v);
     </script>
   
-    <script type="module">
+    <!--script type="module">
       import {draw_timeline} from '/gui/js/google_charts.mjs';    
       draw_timeline();
-    </script>
-    <!--script type="text/javascript" src="{{ url_for('static', filename='js/charts_collection.js') }}"></script-->
-    <script type="module" src="{{ url_for('static', filename='js/charts_collection.js') }}"></script-->
+    </script-->
+    <script src="{{ url_for('static', filename='js/google_charts.mjs') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/charts_collection.js') }}"></script-->
 
 </body>
 </html>
