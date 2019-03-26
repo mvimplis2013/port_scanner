@@ -22,8 +22,8 @@ function draw_timeline( server, from_time, to_time, is_up ) {
         dataTable.addColumn({ type: 'date', id: 'End' });
 
         dataTable.addRows([
-            [ 'Server-1', "OK", new Date(2019, 3, 26), new Date(2019, 3, 28) ],
-            [ 'Server-2', "OK", new Date(2018, 1, 30), new Date(2019, 2, 20) ]
+            [ 'Server-1', "OK", new Date(2019, 3, 26), new Date(2019, 4, 28) ],
+            [ 'Server-2', "OK", new Date(2019, 4, 30), new Date(2019, 6, 20) ]
         ]);
 
         chart.draw( dataTable );
