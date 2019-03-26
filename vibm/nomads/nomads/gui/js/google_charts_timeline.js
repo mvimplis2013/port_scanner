@@ -8,7 +8,7 @@ function draw_timeline(server, a, b, is_up) {
     _is_up = is_up;
 
     function drawChart() {
-        console.log("Hello from Other Module ... " + text);
+        console.log("Hello from Other Module ... " + _server);
     }
 }
 
