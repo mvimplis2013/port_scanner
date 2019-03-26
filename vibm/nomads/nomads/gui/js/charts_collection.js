@@ -19,7 +19,7 @@ function drawChart( server_id, _from, _to, _is_up ) {
     //    ["2017", 1030, 540, 350]
     //]);
 
-    //draw_timeline();
+    draw_timeline();
 
     var result = dateFns.addMinutes(new Date(2014, 6, 10, 12, 0), 30);
     console.log("New Date is ..." + result);
