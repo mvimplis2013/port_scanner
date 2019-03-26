@@ -12,7 +12,20 @@ function draw_timeline( server, from_time, to_time, is_up ) {
 
         var container = document.getElementById("chart-container");
         
-        var chart = new google.visualization.Timeline(container); 
+        var chart = new google.visualization.Timeline(container);
+        
+        var dataTable = new google.visualization.DataTable();
+
+        dataTable.addColumn({ type: 'string', id: 'Server-Name' });
+        dataTable.addColumn({ type: 'string', id: 'Up & Running' });
+        dataTable.addColumn({ type: 'date', id: 'Start' });
+        dataTable.addColumn({ type: 'date', id: 'End' });
+
+        dataTable.addRows([
+            [ 'Server-1', "OK", new Date(2019, 3, 26), new Date(2019, 3, 28) ]
+        ]);
+
+        chart.draw( dataTable );
     }
 }
 
