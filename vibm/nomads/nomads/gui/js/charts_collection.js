@@ -144,7 +144,7 @@ $("[role=button-get-data]").on("click", function (event) {
         $("div[role='statistics'").css("color", "yellow");
 
         //drawChart(1, from_to.from, from_to.to, "true");
-        draw_timeline();
+        draw_timeline("server-one", 1, 2, true);
 
         //alert("success");
     }).fail(function() {
