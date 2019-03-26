@@ -8,9 +8,11 @@ function draw_timeline( server, from_time, to_time, is_up ) {
     var _is_up      = is_up;
 
     function drawChart() {
-        console.log("Hello from Other Module ... " + _server + " / " + _from + " / " + _to );
+        console.log("Ready to draw a timeline for ... '" + _server + "' / " + _from + " - " + _to + " {" + _is_up + "}");
 
         var container = document.getElementById("timeline-container");
+        
+        var chart = new google.visualization.Timeline(container); 
     }
 }
 
