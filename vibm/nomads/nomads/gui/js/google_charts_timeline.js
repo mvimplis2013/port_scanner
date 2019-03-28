@@ -5,7 +5,7 @@ if (typeof collect === 'function') {
     throw "COLLECT library not installed and need to abort the PATTERN recognition processing !";
 } // EndOf LODASH existance check up
 
-if (typeof moment === 'function') {
+if (typeof dateFns === 'function') {
     console.log( "MOMENT library is loaded and can be used" )
 } else {
     // return
