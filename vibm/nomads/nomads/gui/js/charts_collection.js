@@ -138,8 +138,13 @@ $("[role=button-get-data]").on("click", function (event) {
         records_length = data.length
         console.log("Contacted server for VLAB performance data ... #" + records_length);
         
-        from_to = findUpAndDownPeriods( data );
-        console.log( "Server is UP since ..." + from_to.from + " - " + from_to.to );
+        result = {}
+        result = findUpAndDownPeriods( data );
+        
+        up_array = result.up_array;
+        down_array = result.down_array;
+        
+        //console.log( "Server is UP since ..." + from_to.from + " - " + from_to.to );
 
         $("div[role='statistics'").css("color", "yellow");
 
@@ -190,5 +195,5 @@ function findUpAndDownPeriods(data) {
 
     console.log( "Number of server-UP/ DOWN observations are ..." + up_array.all().length + "/ " + down_array.all().length);
 
-    return { "from": up_array.first(), "to": up_array.last() };
+    return { "up_array": up_array, "down_array": down_array };
 }
