@@ -122,18 +122,13 @@ class PingResponseTable(object):
             #select_stm = "SELECT server_id, dns_name, GROUP_CONCAT(ping_responses.is_up) GROUP_CONCAT(observation_datetime) FROM ping_responses, external_servers WHERE external_servers.id = server_id GROUP BY server_id"
             select_stm = "SELECT server_id, is_up, observation_datetime FROM ping_responses ORDER BY observation_datetime"
             #select_stm = "SELECT server_id, GROUP_CONCAT(is_up), GROUP_CONCAT(observation_datetime ORDER BY observation_datetime) FROM ping_responses GROUP BY server_id"
-            result = connection.execute( select_stm ) 
+            results = connection.execute( select_stm ) 
             
-            for r in result:
-                print( "--> " , r["observation_datetime"] )
-
-            records_found = result.fetchall()
-            
-            nomads_logger.debug( "Number of Records Found in PING_RESPONSES ... %d" % len(records_found) )
+            nomads_logger.debug( "Number of Records Found in PING_RESPONSES ... %d" % len(results) )
 
             records_array = []
             r = {}
-            for row in records_found:
+            for row in results:
                 r["server_id"] = row['server_id']
                 r["is_up"] = row["is_up"] 
                 r["observation_datetime"] = row["observation_datetime"]
