@@ -27,7 +27,7 @@ class BackRobot(object):
         freq_mins = self.toml_parser.get("external-monitoring", "ip-ping-freq-mins")
         self._freq_mins = int( freq_mins )
 
-        print( "Scheduler will Ping External Servers Every '%d' minutes" % freq_mins )
+        print( "Scheduler will Ping External Servers Every '%d' minutes" % self._freq_mins )
         
         self.scheduler.scheduleExternalServersPing( freq_mins )
 
