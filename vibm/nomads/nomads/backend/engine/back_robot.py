@@ -29,7 +29,7 @@ class BackRobot(object):
 
         print( "Scheduler will Ping External Servers Every '%d' minutes" % self._freq_mins )
         
-        self.scheduler.scheduleExternalServersPing( freq_mins )
+        self.scheduler.scheduleExternalServersPing( self._freq_mins )
 
     @property
     def freq_mins(self):
