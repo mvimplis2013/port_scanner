@@ -193,5 +193,5 @@ def collect_all_ping_records():
     freq_mins = toml_parser.get("external-monitoring", "ip-ping-freq-mins")
     freq_mins = int( freq_mins )
 
-    return jsonify( freq_mins=how_often, records_found=records_found )
+    return jsonify( freq_mins=freq_mins, records_found=records_found )
     #return Response( json.dumps( records_found ), mimetype="application/json")
