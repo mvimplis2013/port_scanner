@@ -124,6 +124,9 @@ class PingResponseTable(object):
             #select_stm = "SELECT server_id, GROUP_CONCAT(is_up), GROUP_CONCAT(observation_datetime ORDER BY observation_datetime) FROM ping_responses GROUP BY server_id"
             result = connection.execute( select_stm ) 
             
+            for r in result:
+                print( "--> " , r["observation_datetime"] )
+
             records_found = result.fetchall()
             
             nomads_logger.debug( "Number of Records Found in PING_RESPONSES ... %d" % len(records_found) )
