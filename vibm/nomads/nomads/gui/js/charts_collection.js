@@ -127,7 +127,9 @@ $("[role=button-get-data]").on("click", function (event) {
 
     var deferred_data = new jQuery.Deferred();
 
-    // STEP 4: Make AJAX Request from Client to Server
+    // *********************************************************************
+    // ******    STEP 4: Make AJAX Request from Client to Server     *******
+    // *********************************************************************
     $.ajax({
         method: METHOD,
         //url: "http://vlab3.dyndns.org:5000/reports/external/get_performance_data",
@@ -137,68 +139,19 @@ $("[role=button-get-data]").on("click", function (event) {
     }).done(function (data) {
         // *** HOW OFTEN SERVERS-PING HAPPENS ? ***
         _freq_mins = data.freq_mins
-        
+        // *** PING RESPONSES ***
         _data = data.records_found
         
         records_length = _data.length;
         console.log("Contacted server for VLAB performance data ... Freq-Mins = " + _freq_mins + " #" + records_length);
         
-        result = {}
-        result = findUpAndDownPeriods( _data );
-        
-        up_observations = result.up_array;
-        down_observations = result.down_array;
-        
-        //console.log( "Server is UP since ..." + from_to.from + " - " + from_to.to );
-
         $("div[role='statistics'").css("color", "yellow");
 
         //drawChart(1, from_to.from, from_to.to, "true");
-        draw_timeline( up_observations, down_observations ); //"server-one", 1, 2, true);
+        draw_timeline( _freq_mins, _data );
 
         //alert("success");
     }).fail(function() {
         alert("error");
     });
 });
-
-function findUpAndDownPeriods(data) {
-    // *******************************************
-    // ** Check the existence of LODASH library **
-    // *******************************************
-    
-    //console.log( "type of COLLECT is ..." + typeof collect );
-
-    if (typeof collect === 'function') {
-        console.log( "COLLECT library is loaded and can be used" )
-    } else {
-        // return
-        throw "COLLECT library not installed and need to abort the performance data array processing !";
-    } // EndOf LODASH existance check up
-
-    // Two different arrays for UP and DOWN observations
-    const up_array    = collect()
-    const down_array  = collect()
-
-    // Must read this and next record and decide whether continuous being in UP state 
-    for (i=0; i<records_length; i++) {
-        row = data[i];
-  
-        //console.log("Observation-Datetine = " + i + " / " + row.observation_datetime + " / " + row.is_up + " / " + row.server_id);
-
-        server_id = row.server_id;
-        is_up = row.is_up;
-        observation_datetime = row.observation_datetime;
-
-        if (is_up == 1) {
-            // This is an UP server observation
-            up_array.push( observation_datetime );
-        } else if (is_up == 0) {
-            down_array.push( observation_datetime );
-        } 
-    }
-
-    console.log( "Number of server-UP/ DOWN observations are ..." + up_array.all().length + "/ " + down_array.all().length);
-
-    return { "up_array": up_array, "down_array": down_array };
-}

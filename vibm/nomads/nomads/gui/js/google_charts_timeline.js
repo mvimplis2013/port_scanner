@@ -1,4 +1,54 @@
-function draw_timeline( up_observations, down_observations ) { //} server, from_time, to_time, is_up ) {
+if (typeof collect === 'function') {
+    console.log( "COLLECT library is loaded and can be used" )
+} else {
+    // return
+    throw "COLLECT library not installed and need to abort the PATTERN recognition processing !";
+} // EndOf LODASH existance check up
+
+if (typeof moment === 'function') {
+    console.log( "MOMENT library is loaded and can be used" )
+} else {
+    // return
+    throw "MOMENT library not installed and need to abort the PATTERN recognition processing !";
+} // EndOf LODASH existance check up
+
+function pattern_recognition(freq_mins, data) {
+        
+        // Two different arrays for UP and DOWN observations
+        const total       = collect( data );
+        const length      = total.count();
+
+        const first_n     = total.chunk( length-1 );
+        const last_n      = total.slice( 1 );
+
+        // Difference 
+        diff_values       = last_n.diff(first_n);
+    
+        // Must read this and next record and decide whether continuous being in UP state 
+        for (i=0; i<records_length; i++) {
+            row = data[i];
+      
+            //console.log("Observation-Datetine = " + i + " / " + row.observation_datetime + " / " + row.is_up + " / " + row.server_id);
+    
+            server_id = row.server_id;
+            is_up = row.is_up;
+            observation_datetime = row.observation_datetime;
+    
+            if (is_up == 1) {
+                // This is an UP server observation
+                up_array.push( observation_datetime );
+            } else if (is_up == 0) {
+                down_array.push( observation_datetime );
+            } 
+        }
+    
+        console.log( "Number of server-UP/ DOWN observations are ..." + up_array.all().length + "/ " + down_array.all().length);
+    
+        return { "up_array": up_array, "down_array": down_array };
+    }
+}
+
+function draw_timeline( freq_mins, observations ) { //} server, from_time, to_time, is_up ) {
     google.charts.load("current", {packages: ["timeline"]});
     google.charts.setOnLoadCallback(drawChart);
 
@@ -13,6 +63,11 @@ function draw_timeline( up_observations, down_observations ) { //} server, from_
 
     var _server = _up_observations[0].server_id;
     var _from = _up_observations
+
+    function initialize() {
+        pattern_recognition(freq_mins, observations);
+        drawChart();
+    }
 
     function drawChart() {
         console.log("Ready to draw a timeline for ... '" + _server + "' / " + _from + " - " + _to + " {" + _is_up + "}");
