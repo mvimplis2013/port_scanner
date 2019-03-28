@@ -134,7 +134,7 @@ class PingResponseTable(object):
                     "observation_datetime": row["observation_datetime"] 
                 } )
 
-            nomads_logger.debug( "Number of Records Found in PING_RESPONSES ... %d" % len(results) )
+            nomads_logger.debug( "Number of Records Found in PING_RESPONSES ... %d" % len(records_array) )
 
             return records_array
         except Exception as e:
