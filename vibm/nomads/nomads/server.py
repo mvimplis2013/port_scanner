@@ -4,7 +4,7 @@ import os
 from nomads.utils import ping_host, ping_host_full_response, scan_vlab_open_ports_now
 
 from nomads.backend.utils.back_logger import nomads_logger
-from nomads.backend.utils.config_parser import TomlParser
+from nomads.backend.utils.toml_config_parser import TomlParser
 
 from nomads.config_data_taxi import ConfigDataTaxi
 
