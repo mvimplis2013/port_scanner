@@ -7,7 +7,6 @@ from nomads.backend.utils.back_logger import nomads_logger
 
 from nomads.config_data_taxi import ConfigDataTaxi
 
-
 # import BACK-ROBOT for pinging frequency
 # from nomads.backend.engine.back_robot import BackRobot
 from nomads.backend.utils.toml_config_parser import TomlParser
@@ -196,10 +195,10 @@ def collect_all_ping_records():
     
     # How often external-servers ping is performed ?
     # freq_mins = BackRobot().freq_mins
-    # toml_parser = TomlParser.instance()
-    # freq_mins = toml_parser.get("external-monitoring", "ip-ping-freq-mins")
-    # freq_mins = int( freq_mins )
+    toml_parser = TomlParser.instance()
+    freq_mins = toml_parser.get("external-monitoring", "ip-ping-freq-mins")
+    freq_mins = int( freq_mins )
 
-    #return jsonify( freq_mins=freq_mins, records_found=records_found )
-    return jsonify( records_found )
+    return jsonify( freq_mins=freq_mins, records_found=records_found )
+    #return jsonify( records_found )
     #return Response( json.dumps( records_found ), mimetype="application/json")
