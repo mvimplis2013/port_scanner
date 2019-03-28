@@ -5,11 +5,11 @@ if (typeof collect === 'function') {
     throw "COLLECT library not installed and need to abort the PATTERN recognition processing !";
 } // EndOf LODASH existance check up
 
-if (typeof dateFns === 'function') {
-    console.log( "MOMENT library is loaded and can be used" )
+if (typeof dateFns === 'object') {
+    console.log( "DATE-FNS library is loaded and can be used" )
 } else {
     // return
-    throw "MOMENT library not installed and need to abort the PATTERN recognition processing !";
+    throw "DATE-FNS library not installed and need to abort the PATTERN recognition processing !";
 } // EndOf LODASH existance check up
 
 function pattern_recognition(freq_mins, data) {
