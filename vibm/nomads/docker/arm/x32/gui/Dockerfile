@@ -27,6 +27,8 @@ COPY boot.sh ./
 
 RUN mkdir logs && touch logs/back-robot.log
 
+ADD config ./config
+
 ENV PYTHONPATH "${PYTHONPATH}:/home/vlab/"
 
 EXPOSE 5000
