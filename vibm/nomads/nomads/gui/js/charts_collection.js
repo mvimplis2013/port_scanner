@@ -135,13 +135,16 @@ $("[role=button-get-data]").on("click", function (event) {
         contentType: CONTENT_TYPE,
         data: _data
     }).done(function (data) {
+        // *** HOW OFTEN SERVERS-PING HAPPENS ? ***
         _freq_mins = data.freq_mins
         
-        records_length = data.length;
+        _data = data.records_found
+        
+        records_length = _data.length;
         console.log("Contacted server for VLAB performance data ... Freq-Mins = " + _freq_mins + " #" + records_length);
         
         result = {}
-        result = findUpAndDownPeriods( data );
+        result = findUpAndDownPeriods( _data );
         
         up_observations = result.up_array;
         down_observations = result.down_array;
@@ -149,16 +152,6 @@ $("[role=button-get-data]").on("click", function (event) {
         //console.log( "Server is UP since ..." + from_to.from + " - " + from_to.to );
 
         $("div[role='statistics'").css("color", "yellow");
-
-        // *** HOW OFTEN SERVERS-PING HAPPENS ? ***
-        /*$.ajax( {
-            method: METHOD,
-            //url: "http://vlab3.dyndns.org:5000/reports/external/get_performance_data",
-            url: ROBOT_URL + "/get-ping-freq-mins",
-            contentType: CONTENT_TYPE
-        }).done( function (data) {
-            console.log("Servers Ping Frequency ... " + data );
-        });*/
 
         //drawChart(1, from_to.from, from_to.to, "true");
         draw_timeline( up_observations, down_observations ); //"server-one", 1, 2, true);
