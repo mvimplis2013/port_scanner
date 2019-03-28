@@ -8,7 +8,7 @@ from .database_manager import DatabaseManager, DB_NAME, DB_USER
 try:
     from nomads.backend.utils.back_logger import nomads_logger
 except ImportError:
-    from ../engine/ import nomads_logger
+    from ..engine import nomads_logger
 
 import datetime
 import os
