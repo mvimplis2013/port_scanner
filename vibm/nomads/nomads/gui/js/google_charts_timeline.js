@@ -1,11 +1,18 @@
-function draw_timeline( server, from_time, to_time, is_up ) {
+function draw_timeline( up_observations, down_observations ) { //} server, from_time, to_time, is_up ) {
     google.charts.load("current", {packages: ["timeline"]});
     google.charts.setOnLoadCallback(drawChart);
 
-    var _server     = server;
-    var _from       = from_time;
-    var _to         = to_time;
-    var _is_up      = is_up;
+    //var _server     = server;
+    //var _from       = from_time;
+    //var _to         = to_time;
+    //var _is_up      = is_up;
+
+    // *** These are COLLECT arrays
+    var _up_observations = up_observations;
+    var _down_observations = down_observations;
+
+    var _server = _up_observations[0].server_id;
+    var _from = _up_observations
 
     function drawChart() {
         console.log("Ready to draw a timeline for ... '" + _server + "' / " + _from + " - " + _to + " {" + _is_up + "}");

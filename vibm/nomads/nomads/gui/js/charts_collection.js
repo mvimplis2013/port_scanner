@@ -141,15 +141,15 @@ $("[role=button-get-data]").on("click", function (event) {
         result = {}
         result = findUpAndDownPeriods( data );
         
-        up_array = result.up_array;
-        down_array = result.down_array;
+        up_observations = result.up_array;
+        down_observations = result.down_array;
         
         //console.log( "Server is UP since ..." + from_to.from + " - " + from_to.to );
 
         $("div[role='statistics'").css("color", "yellow");
 
         //drawChart(1, from_to.from, from_to.to, "true");
-        draw_timeline("server-one", 1, 2, true);
+        draw_timeline( up_observations, down_observations ); //"server-one", 1, 2, true);
 
         //alert("success");
     }).fail(function() {

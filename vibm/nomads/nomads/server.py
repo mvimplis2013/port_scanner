@@ -6,6 +6,9 @@ from nomads.backend.utils.back_logger import nomads_logger
 
 from nomads.config_data_taxi import ConfigDataTaxi
 
+# import BACK-ROBOT for pinging frequency
+from nomads.backend.engine.back_robot import BackRobot
+
 try: 
     from ..backend.datastore.database_manager import DatabaseManager
 except (ImportError, ValueError):
@@ -181,5 +184,8 @@ def collect_all_ping_records():
 
     nomads_logger.debug("+++ Finished Collecting ALL Ping Data +++")
     
-    return jsonify( records_found )
+    # How often external-servers ping is performed ?
+    how_often = BackRobot().freq_mins
+
+    return jsonify( freq_mins=how_often, records_found=records_found )
     #return Response( json.dumps( records_found ), mimetype="application/json")
