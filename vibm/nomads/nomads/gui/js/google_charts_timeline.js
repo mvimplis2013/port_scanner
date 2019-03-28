@@ -16,7 +16,7 @@ function pattern_recognition(freq_mins, observations) {
     //console.log( "..." + observations[10].observation_datetime);
     
     const _observations  = collect( observations );
-    const _datetimes     = _observations.only( "observation_datetime" );
+    const _datetimes     = _observations.pluck( "observation_datetime" );
 
     console.log( "..." + _datetimes );
 
