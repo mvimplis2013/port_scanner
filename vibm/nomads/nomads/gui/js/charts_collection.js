@@ -135,8 +135,10 @@ $("[role=button-get-data]").on("click", function (event) {
         contentType: CONTENT_TYPE,
         data: _data
     }).done(function (data) {
-        records_length = data.length
-        console.log("Contacted server for VLAB performance data ... #" + records_length);
+        _freq_mins = data.freq_mins
+        
+        records_length = data.length;
+        console.log("Contacted server for VLAB performance data ... Freq-Mins = " + _freq_mins + " #" + records_length);
         
         result = {}
         result = findUpAndDownPeriods( data );
