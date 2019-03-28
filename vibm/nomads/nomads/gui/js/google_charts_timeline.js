@@ -13,39 +13,39 @@ if (typeof moment === 'function') {
 } // EndOf LODASH existance check up
 
 function pattern_recognition(freq_mins, data) {
-        
-        // Two different arrays for UP and DOWN observations
-        const total       = collect( data );
-        const length      = total.count();
+    console.log( "..." + data);
 
-        const first_n     = total.chunk( length-1 );
-        const last_n      = total.slice( 1 );
+    // Two different arrays for UP and DOWN observations
+    const total       = collect( data );
+    const length      = total.count();
 
-        // Difference 
-        diff_values       = last_n.diff(first_n);
+    const first_n     = total.chunk( length-1 );
+    const last_n      = total.slice( 1 );
+
+    // Difference 
+    diff_values       = last_n.diff(first_n);
     
-        // Must read this and next record and decide whether continuous being in UP state 
-        for (i=0; i<records_length; i++) {
-            row = data[i];
+    // Must read this and next record and decide whether continuous being in UP state 
+    for (i=0; i<records_length; i++) {
+        row = data[i];
       
-            //console.log("Observation-Datetine = " + i + " / " + row.observation_datetime + " / " + row.is_up + " / " + row.server_id);
+        //console.log("Observation-Datetine = " + i + " / " + row.observation_datetime + " / " + row.is_up + " / " + row.server_id);
     
-            server_id = row.server_id;
-            is_up = row.is_up;
-            observation_datetime = row.observation_datetime;
+        server_id = row.server_id;
+        is_up = row.is_up;
+        observation_datetime = row.observation_datetime;
     
-            if (is_up == 1) {
-                // This is an UP server observation
-                up_array.push( observation_datetime );
-            } else if (is_up == 0) {
-                down_array.push( observation_datetime );
-            } 
-        }
-    
-        console.log( "Number of server-UP/ DOWN observations are ..." + up_array.all().length + "/ " + down_array.all().length);
-    
-        return { "up_array": up_array, "down_array": down_array };
+        if (is_up == 1) {
+            // This is an UP server observation
+            up_array.push( observation_datetime );
+        } else if (is_up == 0) {
+            down_array.push( observation_datetime );
+        } 
     }
+    
+    console.log( "Number of server-UP/ DOWN observations are ..." + up_array.all().length + "/ " + down_array.all().length);
+    
+    return { "up_array": up_array, "down_array": down_array };
 }
 
 function draw_timeline( freq_mins, observations ) { //} server, from_time, to_time, is_up ) {
