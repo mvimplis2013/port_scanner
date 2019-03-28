@@ -5,7 +5,10 @@ from sqlalchemy import insert, select
 
 from .database_manager import DatabaseManager, DB_NAME, DB_USER
 
-from nomads.backend.utils.back_logger import nomads_logger
+try:
+    from nomads.backend.utils.back_logger import nomads_logger
+except ImportError:
+    from ../engine/ import nomads_logger
 
 import datetime
 import os
