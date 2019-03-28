@@ -12,21 +12,26 @@ if (typeof dateFns === 'object') {
     throw "DATE-FNS library not installed and need to abort the PATTERN recognition processing !";
 } // EndOf LODASH existance check up
 
-function pattern_recognition(freq_mins, data) {
-    console.log( "..." + data);
+function pattern_recognition(freq_mins, observations) {
+    //console.log( "..." + observations[10].observation_datetime);
+    
+    const _observations  = collect( observations );
+    const _datetimes     = _observations.only( "observation_datetime" );
+
+    console.log( "..." + _datetimes );
 
     // Two different arrays for UP and DOWN observations
-    const total       = collect( data );
-    const length      = total.count();
+    //const total       = collect( _datetimes );
+    //const length      = total.count();
 
-    const first_n     = total.chunk( length-1 );
-    const last_n      = total.slice( 1 );
+    //const first_n     = total.chunk( length-1 );
+    //const last_n      = total.slice( 1 );
 
     // Difference 
-    diff_values       = last_n.diff(first_n);
+    //diff_values       = last_n.diff(first_n);
     
     // Must read this and next record and decide whether continuous being in UP state 
-    for (i=0; i<records_length; i++) {
+    /*for (i=0; i<records_length; i++) {
         row = data[i];
       
         //console.log("Observation-Datetine = " + i + " / " + row.observation_datetime + " / " + row.is_up + " / " + row.server_id);
@@ -45,7 +50,7 @@ function pattern_recognition(freq_mins, data) {
     
     console.log( "Number of server-UP/ DOWN observations are ..." + up_array.all().length + "/ " + down_array.all().length);
     
-    return { "up_array": up_array, "down_array": down_array };
+    return { "up_array": up_array, "down_array": down_array };*/
 }
 
 function draw_timeline( freq_mins, observations ) { //} server, from_time, to_time, is_up ) {
