@@ -18,17 +18,19 @@ function pattern_recognition(freq_mins, observations) {
     const _observations  = collect( observations );
     const _datetimes     = _observations.pluck( "observation_datetime" );
 
-    console.log( "..." + _datetimes.all() );
+    //console.log( "..." + _datetimes.all() );
 
     // Two different arrays for UP and DOWN observations
     //const total       = collect( _datetimes );
-    //const length      = total.count();
+    const length        = _datetimes.count();
 
-    //const first_n     = total.chunk( length-1 );
-    //const last_n      = total.slice( 1 );
+    const first_n     = _datetimes.chunk( length-1 );
+    const last_n      = _datetimes.slice( 1 );
 
     // Difference 
-    //diff_values       = last_n.diff(first_n);
+    diff_values       = last_n.diff(first_n);
+    
+    console.log( "..." + diff_values.all() );
     
     // Must read this and next record and decide whether continuous being in UP state 
     /*for (i=0; i<records_length; i++) {
