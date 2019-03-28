@@ -148,6 +148,16 @@ $("[role=button-get-data]").on("click", function (event) {
 
         $("div[role='statistics'").css("color", "yellow");
 
+        // *** HOW OFTEN SERVERS-PING HAPPENS ? ***
+        $.ajax( {
+            method: METHOD,
+            //url: "http://vlab3.dyndns.org:5000/reports/external/get_performance_data",
+            url: ROBOT_URL + "/get-ping-freq-mins",
+            contentType: CONTENT_TYPE
+        }).done( function (data) {
+            console.log("Servers Ping Frequency ... " + data );
+        });
+
         //drawChart(1, from_to.from, from_to.to, "true");
         draw_timeline( up_observations, down_observations ); //"server-one", 1, 2, true);
 
