@@ -18,7 +18,7 @@ function pattern_recognition(freq_mins, observations) {
     const _observations  = collect( observations );
     const _datetimes     = _observations.pluck( "observation_datetime" );
 
-    console.log( "..." + _datetimes );
+    console.log( "..." + _datetimes.all() );
 
     // Two different arrays for UP and DOWN observations
     //const total       = collect( _datetimes );
