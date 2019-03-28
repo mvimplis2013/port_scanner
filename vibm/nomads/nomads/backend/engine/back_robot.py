@@ -1,6 +1,10 @@
 from . import nomads_logger
 from . import TomlParser
-from . import Scheduler
+
+try: 
+    from . import Scheduler
+except ImportError:
+    print("Must be in GUI Running Mode !")
 
 class BackRobot(object):
     """

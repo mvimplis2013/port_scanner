@@ -4,13 +4,13 @@ import os
 from nomads.utils import ping_host, ping_host_full_response, scan_vlab_open_ports_now
 
 from nomads.backend.utils.back_logger import nomads_logger
-from nomads.backend.utils.toml_config_parser import TomlParser
 
 from nomads.config_data_taxi import ConfigDataTaxi
 
 
 # import BACK-ROBOT for pinging frequency
-# from nomads.backend.engine.back_robot import BackRobot
+from nomads.backend.engine.back_robot import BackRobot
+# from nomads.backend.utils.toml_config_parser import TomlParser
 
 try: 
     from ..backend.datastore.database_manager import DatabaseManager
@@ -188,10 +188,10 @@ def collect_all_ping_records():
     nomads_logger.debug("+++ Finished Collecting ALL Ping Data +++")
     
     # How often external-servers ping is performed ?
-    # how_often = BackRobot().freq_mins
-    toml_parser = TomlParser.instance()
-    freq_mins = toml_parser.get("external-monitoring", "ip-ping-freq-mins")
-    freq_mins = int( freq_mins )
+    freq_mins = BackRobot().freq_mins
+    #toml_parser = TomlParser.instance()
+    #freq_mins = toml_parser.get("external-monitoring", "ip-ping-freq-mins")
+    #freq_mins = int( freq_mins )
 
     return jsonify( freq_mins=freq_mins, records_found=records_found )
     #return Response( json.dumps( records_found ), mimetype="application/json")
