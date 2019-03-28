@@ -50,7 +50,7 @@ function pattern_recognition(freq_mins, data) {
 
 function draw_timeline( freq_mins, observations ) { //} server, from_time, to_time, is_up ) {
     google.charts.load("current", {packages: ["timeline"]});
-    google.charts.setOnLoadCallback(drawChart);
+    google.charts.setOnLoadCallback(initialize);
 
     //var _server     = server;
     //var _from       = from_time;
@@ -58,19 +58,22 @@ function draw_timeline( freq_mins, observations ) { //} server, from_time, to_ti
     //var _is_up      = is_up;
 
     // *** These are COLLECT arrays
-    var _up_observations = up_observations;
-    var _down_observations = down_observations;
+    //var _up_observations = up_observations;
+    //var _down_observations = down_observations;
 
-    var _server = _up_observations[0].server_id;
-    var _from = _up_observations
+    //var _server = _up_observations[0].server_id;
+    //var _from = _up_observations
+
+    var _freq_mins      = freq_mins;
+    var _observations   = observations;
 
     function initialize() {
-        pattern_recognition(freq_mins, observations);
+        pattern_recognition(_freq_mins, _observations);
         drawChart();
     }
 
     function drawChart() {
-        console.log("Ready to draw a timeline for ... '" + _server + "' / " + _from + " - " + _to + " {" + _is_up + "}");
+        /*console.log("Ready to draw a timeline for ... '" + _server + "' / " + _from + " - " + _to + " {" + _is_up + "}");
 
         var container = document.getElementById("chart-container");
         
@@ -88,7 +91,7 @@ function draw_timeline( freq_mins, observations ) { //} server, from_time, to_ti
             [ 'Server-2', "OK", new Date(2019, 4, 30), new Date(2019, 6, 20) ]
         ]);
 
-        chart.draw( dataTable );
+        chart.draw( dataTable );*/
     }
 }
 
