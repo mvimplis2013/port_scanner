@@ -122,19 +122,20 @@ class PingResponseTable(object):
             #select_stm = "SELECT server_id, dns_name, GROUP_CONCAT(ping_responses.is_up) GROUP_CONCAT(observation_datetime) FROM ping_responses, external_servers WHERE external_servers.id = server_id GROUP BY server_id"
             select_stm = "SELECT server_id, is_up, observation_datetime FROM ping_responses ORDER BY observation_datetime"
             #select_stm = "SELECT server_id, GROUP_CONCAT(is_up), GROUP_CONCAT(observation_datetime ORDER BY observation_datetime) FROM ping_responses GROUP BY server_id"
-            results = connection.execute( select_stm ) 
             
+            # Execute "SELECT *" statement 
+            result = connection.execute( select_stm ) 
+            
+            records_array = []
+            for row in result:
+                records_array.append( {
+                    "server_id": row["server_id"],
+                    "is_up": row["is_up"],
+                    "observation_datetime": row["observation_datetime"] 
+                } )
+
             nomads_logger.debug( "Number of Records Found in PING_RESPONSES ... %d" % len(results) )
 
-            records_array = []
-            r = {}
-            for row in results:
-                r["server_id"] = row['server_id']
-                r["is_up"] = row["is_up"] 
-                r["observation_datetime"] = row["observation_datetime"]
-
-                records_array.append( r )
-        
             return records_array
         except Exception as e:
             # Exception raised and need to exit
