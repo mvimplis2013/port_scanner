@@ -126,6 +126,7 @@ class PingResponseTable(object):
             # Execute "SELECT *" statement 
             result = connection.execute( select_stm ) 
             
+            # Save collected data to array 
             records_array = []
             for row in result:
                 records_array.append( {
@@ -136,6 +137,7 @@ class PingResponseTable(object):
 
             nomads_logger.debug( "Number of Records Found in PING_RESPONSES ... %d" % len(records_array) )
 
+            # Return the array of UP & Running servers
             return records_array
         except Exception as e:
             # Exception raised and need to exit
