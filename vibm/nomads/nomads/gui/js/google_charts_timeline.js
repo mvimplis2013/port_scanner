@@ -76,6 +76,8 @@ function pattern_recognition(freq_mins, observations) {
             if (glasses_on === false) {
                 number_of_periods += 1;
                 glasses_on = true;
+
+                console.log("Entering a new Server Operation Window #" + number_of_periods);
             }
         } else if (p1.is_up === true && p2.is_up === false) {
             // Suddent server status change ... Was UP and Now is Down
