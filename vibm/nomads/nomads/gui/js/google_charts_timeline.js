@@ -1,3 +1,5 @@
+NEXT_OBSERVATION_THRESHOLD_MINS = 2
+
 if (typeof collect === 'function') {
     console.log( "COLLECT library is loaded and can be used" )
 } else {
@@ -66,12 +68,17 @@ function pattern_recognition(freq_mins, observations) {
         var p1 = _observations.get(i);
         var p2 = _observations.get(i+1);
 
-        if ( time_diff > freq_mins ) {
+        // When sparity is big ... 2 x sampling-freq 
+        thresh = NEXT_OBSERVATION_THRESHOLD_MINS * freq_mins;
+
+        if ( time_diff > freq_mins && time_diff > thresh ) {
             // CAUTION : Sparce Consecutive Observation ... time taken GreaterThan Normal Frequency
             console.log("CAUTION : Sparce Consecutive Observations : \n" + 
                 "Curr Measurement Time is ..." + p1.observation_datetime + "\n" +
                 "Next Measurement Time is ..." + p2.observation_datetime + "\n" + 
                 "Time Difference VS Sampling Frequency is ..." + time_diff + " > " + freq_mins); 
+
+            continue;
         } 
 
         if (p1.is_up === p2.is_up) {
@@ -119,7 +126,7 @@ function pattern_recognition(freq_mins, observations) {
             var max = measurementTimes.max();
             
             server_status_timeline.push({
-                "period-id": number_of_periods,
+                "period_id": number_of_periods,
                 "from": min,
                 "to": max
             });            
