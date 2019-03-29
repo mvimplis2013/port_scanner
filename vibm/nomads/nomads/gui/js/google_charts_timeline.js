@@ -46,7 +46,10 @@ function pattern_recognition(freq_mins, observations) {
 
     // Difference ... NEED TO USE THE DATE LIBRARY AND TRANSFORM FROM STRING TO DATES
     var number_of_periods = 0;    
-    var glasses_on = false; 
+    var glasses_on = false;
+    const measurementTimes = collect();
+
+    const server_status_timeline = collect();
     for (i=0; i<first_n.count(); i++) {
         var c = first_n.get(i);
         var n = last_n.get(i);
@@ -79,27 +82,56 @@ function pattern_recognition(freq_mins, observations) {
 
                 console.log("Entering a new Server Operation Window #" + number_of_periods);
             }
+
+            measurementTimes.push( c, n );
         } else if (p1.is_up === true && p2.is_up === false) {
             // Suddent server status change ... Was UP and Now is Down
             console.log("Found that server state was Up and went Down");
             // Finished inspecting a time period
             glasses_on = false;
-        } else { //if (p1.is_up === true && p2.is_up === false) {
+
+            // *** Finish with current period measurements ***
+            measurementTimes.push( c );
+            var min = measurementTimes.min();
+            var max = measurementTimes.max();
+            
+            server_status_timeline.push({
+                "period-id": number_of_periods,
+                "from": min,
+                "to": max
+            });
+
+            // New sampling time array
+            
+            measurementTimes = collect();
+        } else { //if (p1.is_up === false && p2.is_up === true) {
             // Suddent server status change ... Was Down and Now is UP
             console.log("Found that server state was Down and went Up");
 
             // Starting inspecting new time period
             number_of_periods += 1;
             glasses_on = true;
+
+            // *** Finish with current period measurements ***
+            measurementTimes.push( n );
+
+            var min = measurementTimes.min();
+            var max = measurementTimes.max();
+            
+            server_status_timeline.push({
+                "period-id": number_of_periods,
+                "from": min,
+                "to": max
+            });            
         }
     }
 
     console.log("Number of Server State Change Found ..." + number_of_periods);
-  
-    diff_values       = last_n.diff(first_n);
+    measurementTimes.each( (item) => {
+        console.log("Details of Server Operation Time-Period:\n" + 
+            "Period-ID: " + item.get("period-id"));
+    });
     
-    console.log( "..." + diff_values.all() );
-
     // Must read this and next record and decide whether continuous being in UP state 
     /*for (i=0; i<records_length; i++) {
         row = data[i];
