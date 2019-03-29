@@ -53,7 +53,7 @@ function pattern_recognition(freq_mins, observations) {
 
         var result = dateFns.differenceInMinutes( n, c );
 
-        if (dateFns.isDate(c) !== true || dateFns.isDate(n)) {
+        if (dateFns.isDate(c) !== true || dateFns.isDate(n) !== true) {
             throw "This and Next ... Problem with Dates !";
         }
 
