@@ -23,9 +23,18 @@ function pattern_recognition(freq_mins, observations) {
     // Two different arrays for UP and DOWN observations
     //const total       = collect( _datetimes );
     _datetimes.each( (item) => {
-        console.log("Item is ... " + item);
+        // console.log("Item is ... " + item);
+        
+        // Check whether a valid date
+        if (dateFns.isDate( item ) === false) {
+            throw Exception("Not a Datetime to Handle Observation");
+        }
+
+        my_time = dateFns.getTime(item);
+
+        console.log("Time is ... " + my_time);        
     });
-    
+
     const length        = _datetimes.count();
 
     const first_n     = _datetimes.chunk( length-1 );
