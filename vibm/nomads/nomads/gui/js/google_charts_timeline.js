@@ -87,10 +87,10 @@ function pattern_recognition(freq_mins, observations) {
             number_of_periods += 1;
             glasses_on = true;
         }
-
-        console.log("?? VS ?? ..." + p1 + " / " + p2);
     }
 
+    console.log("Number of Server State Change Found ..." + number_of_periods);
+  
     diff_values       = last_n.diff(first_n);
     
     console.log( "..." + diff_values.all() );
