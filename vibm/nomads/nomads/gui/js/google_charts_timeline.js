@@ -21,7 +21,8 @@ function pattern_recognition(freq_mins, observations) {
     //console.log( "..." + _datetimes.all() );
 
     // Two different arrays for UP and DOWN observations
-    //const total       = collect( _datetimes );
+    const parse_all  = collect();
+    
     _datetimes.each( (item) => {
         // console.log("Item is ... " + item);
         
@@ -31,15 +32,14 @@ function pattern_recognition(freq_mins, observations) {
             throw "Not a Datetime to Handle Observation ..." + item;
         }
 
-        my_time = dateFns.getTime(item);
-
-        console.log("Time is ... " + my_time);        
+        parse_all.push(d_item);
+        //my_time = dateFns.getTime(item);
+        //console.log("Time is ... " + my_time);        
     });
 
-    const length        = _datetimes.count();
-
-    const first_n     = _datetimes.chunk( length-1 );
-    const last_n      = _datetimes.slice( 1 );
+    const length      = parse_all.count();
+    const first_n     = parse_all.chunk( length-1 );
+    const last_n      = parse_all.slice( 1 );
 
     // Difference ... NEED TO USE THE DATE LIBRARY AND TRANSFORM FROM STRING TO DATES
     diff_values       = last_n.diff(first_n);
