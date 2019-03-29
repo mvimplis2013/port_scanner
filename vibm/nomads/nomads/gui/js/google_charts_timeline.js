@@ -32,10 +32,11 @@ function pattern_recognition(freq_mins, observations) {
             throw "Not a Datetime to Handle Observation ..." + item;
         }
 
-        // parse_all.push(d_item);
-        my_time = dateFns.getTime(item);
-
-        parse_all.push(my_time);
+        // Store the DATE value
+        parse_all.push(d_item);
+        
+        //my_time = dateFns.getTime(item);
+        //parse_all.push(my_time);
         //console.log("Time is ... " + my_time);        
     });
 
@@ -44,6 +45,13 @@ function pattern_recognition(freq_mins, observations) {
     const last_n      = parse_all.slice( 1 );
 
     // Difference ... NEED TO USE THE DATE LIBRARY AND TRANSFORM FROM STRING TO DATES
+    for (i=0; i<first_n.count(); i++) {
+        c = first_n.get(i);
+        n = last_n.get(i);
+
+        console.log("Now & Next are ..." + c + " --- " + n);
+    }
+    
     diff_values       = last_n.diff(first_n);
     
     console.log( "..." + diff_values.all() );
