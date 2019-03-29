@@ -155,27 +155,8 @@ function pattern_recognition(freq_mins, observations) {
             "To: " + item.to );
     });
     
-    // Must read this and next record and decide whether continuous being in UP state 
-    /*for (i=0; i<records_length; i++) {
-        row = data[i];
-      
-        //console.log("Observation-Datetine = " + i + " / " + row.observation_datetime + " / " + row.is_up + " / " + row.server_id);
-    
-        server_id = row.server_id;
-        is_up = row.is_up;
-        observation_datetime = row.observation_datetime;
-    
-        if (is_up == 1) {
-            // This is an UP server observation
-            up_array.push( observation_datetime );
-        } else if (is_up == 0) {
-            down_array.push( observation_datetime );
-        } 
-    }
-    
-    console.log( "Number of server-UP/ DOWN observations are ..." + up_array.all().length + "/ " + down_array.all().length);
-    
-    return { "up_array": up_array, "down_array": down_array };*/
+    // Return the list of server time-slices found with ... Up/ Down/ Unresponsive behavior
+    return server_status_timeline;
 }
 
 function draw_timeline( freq_mins, observations ) { //} server, from_time, to_time, is_up ) {
@@ -183,10 +164,8 @@ function draw_timeline( freq_mins, observations ) { //} server, from_time, to_ti
     google.charts.setOnLoadCallback(initialize);
 
     //var _server     = server;
-    //var _from       = from_time;
-    //var _to         = to_time;
-    //var _is_up      = is_up;
-
+    var server = "vlabX";
+    
     // *** These are COLLECT arrays
     //var _up_observations = up_observations;
     //var _down_observations = down_observations;
@@ -197,13 +176,26 @@ function draw_timeline( freq_mins, observations ) { //} server, from_time, to_ti
     var _freq_mins      = freq_mins;
     var _observations   = observations;
 
+    var server_status_timeline;
+
     function initialize() {
-        pattern_recognition(_freq_mins, _observations);
+        server_status_timeline = pattern_recognition(_freq_mins, _observations);
         drawChart();
     }
 
     function drawChart() {
-        /*console.log("Ready to draw a timeline for ... '" + _server + "' / " + _from + " - " + _to + " {" + _is_up + "}");
+        var _server = "vlabC";
+
+        //var _from  = from_time;
+        var _from = server_status_timeline.get(0).from;
+
+        //var _to    = to_time;
+        var _to = server_status_timeline.get(0).to;
+        
+        //var _is_up = is_up;
+        var _is_ip = "True";
+
+        console.log("Ready to draw a timeline for ... '" + _server + "' / " + _from + " - " + _to + " {" + _is_up + "}");
 
         var container = document.getElementById("chart-container");
         
@@ -217,11 +209,11 @@ function draw_timeline( freq_mins, observations ) { //} server, from_time, to_ti
         dataTable.addColumn({ type: 'date', id: 'End' });
 
         dataTable.addRows([
-            [ 'Server-1', "OK", new Date(2019, 3, 26), new Date(2019, 4, 28) ],
-            [ 'Server-2', "OK", new Date(2019, 4, 30), new Date(2019, 6, 20) ]
+            [ _server, _is_up, new Date(_from), new Date(_to) ],
+            //[ 'Server-2', "OK", new Date(2019, 4, 30), new Date(2019, 6, 20) ]
         ]);
 
-        chart.draw( dataTable );*/
+        chart.draw( dataTable );
     }
 }
 
