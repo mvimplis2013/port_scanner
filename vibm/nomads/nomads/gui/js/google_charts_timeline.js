@@ -27,7 +27,7 @@ function pattern_recognition(freq_mins, observations) {
         
         // Check whether a valid date
         if (dateFns.isDate( item ) === false) {
-            throw "Not a Datetime to Handle Observation";
+            throw "Not a Datetime to Handle Observation ..." + item;
         }
 
         my_time = dateFns.getTime(item);
