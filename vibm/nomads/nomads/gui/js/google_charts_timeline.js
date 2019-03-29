@@ -46,8 +46,8 @@ function pattern_recognition(freq_mins, observations) {
 
     // Difference ... NEED TO USE THE DATE LIBRARY AND TRANSFORM FROM STRING TO DATES
     for (i=0; i<first_n.count(); i++) {
-        var c = first_n.get(i);
-        var n = last_n.get(i);
+        var c = dateFns.parse( first_n.get(i) );
+        var n = dateFns.parse( last_n.get(i) );
 
         console.log("Now & Next are ..." + c + " --- " + typeof c);
 
