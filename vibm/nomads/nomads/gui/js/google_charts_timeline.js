@@ -45,6 +45,8 @@ function pattern_recognition(freq_mins, observations) {
     const last_n      = parse_all.slice( 1 );
 
     // Difference ... NEED TO USE THE DATE LIBRARY AND TRANSFORM FROM STRING TO DATES
+    var number_of_periods = 0;    
+    var glasses_on = false; 
     for (i=0; i<first_n.count(); i++) {
         var c = first_n.get(i);
         var n = last_n.get(i);
@@ -55,11 +57,36 @@ function pattern_recognition(freq_mins, observations) {
             throw "This and Next ... Problem with Dates !";
         }
 
-        var result = dateFns.differenceInMinutes( n, c );
+        var time_diff = dateFns.differenceInMinutes( n, c );
+
+        if ( time_diff > freq_mins ) {
+            // CAUTION : Sparce Consecutive Observation ... time taken GreaterThan Normal Frequency
+            console.log("CAUTION : Sparce Consecutive Observations : " + time_diff + " > " + freq_mins); 
+        } 
 
         // The current and next observation have the same server-status ?
-        var p1 = _observations.all().get(i);
-        var p2 = _observations.all().get(i+1);
+        var p1 = _observations.get(i);
+        var p2 = _observations.get(i+1);
+
+        if (p1.is_up === p2.is_up) {
+            // Server status is same ... now VS next
+            if (glasses_on === false) {
+                number_of_periods += 1;
+                glasses_on = true;
+            }
+        } else if (p1.is_up === true && p2.is_up === false) {
+            // Suddent server status change ... Was UP and Now is Down
+            console.log("Found that server state was Up and went Down");
+            // Finished inspecting a time period
+            glasses_on = false;
+        } else { //if (p1.is_up === true && p2.is_up === false) {
+            // Suddent server status change ... Was Down and Now is UP
+            console.log("Found that server state was Down and went Up");
+
+            // Starting inspecting new time period
+            number_of_periods += 1;
+            glasses_on = true;
+        }
 
         console.log("?? VS ?? ..." + p1 + " / " + p2);
     }
