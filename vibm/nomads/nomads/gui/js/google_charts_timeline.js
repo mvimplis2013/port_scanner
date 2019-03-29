@@ -53,6 +53,10 @@ function pattern_recognition(freq_mins, observations) {
 
         var result = dateFns.differenceInMinutes( n - c );
 
+        if (dateFns.isDate(c) !== true || dateFns.isDate(n)) {
+            throw "This and Next ... Proble with Dates !";
+        }
+        
         console.log("Difference in Minutes is ..." + result);
     }
 
