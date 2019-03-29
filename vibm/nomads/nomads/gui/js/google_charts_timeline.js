@@ -103,13 +103,12 @@ function pattern_recognition(freq_mins, observations) {
             var max = measurementTimes.max();
             
             server_status_timeline.push({
-                "period-id": number_of_periods,
+                "period_id": number_of_periods,
                 "from": min,
                 "to": max
             });
 
-            // New sampling time array
-            
+            // New sampling time array            
             measurementTimes = collect();
         } else { //if (p1.is_up === false && p2.is_up === true) {
             // Suddent server status change ... Was Down and Now is UP
@@ -120,23 +119,38 @@ function pattern_recognition(freq_mins, observations) {
             glasses_on = true;
 
             // *** Finish with current period measurements ***
+            measurementTimes = collect();
             measurementTimes.push( n );
 
-            var min = measurementTimes.min();
-            var max = measurementTimes.max();
+            //var min = measurementTimes.min();
+            //var max = measurementTimes.max();
             
+            //server_status_timeline.push({
+            //    "period_id": number_of_periods,
+            //    "from": min,
+            //    "to": max
+            //});            
+        }
+    }
+
+    if (server_status_timeline.count() != number_of_periods) {
+        // Data exists that is .. Not added to collection
+        var num_to_add = server_status_timeline.count();
+        if ( num_to_add == 1) {
             server_status_timeline.push({
                 "period_id": number_of_periods,
-                "from": min,
-                "to": max
-            });            
+                "from": measurementTimes.min(),
+                "to": measurementTimes.max()
+            });
+        } else {
+            throw "Size of Server Data Not Added to Timeline Structure ... Too BIG !!!";
         }
     }
 
     console.log("Number of Server State Change Found ..." + number_of_periods);
     measurementTimes.each( (item) => {
         console.log("Details of Server Operation Time-Period:\n" + 
-            "Period-ID: " + item.get("period-id"));
+            "Period-ID: " + item.period_id);
     });
     
     // Must read this and next record and decide whether continuous being in UP state 
