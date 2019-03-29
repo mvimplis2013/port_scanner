@@ -46,21 +46,22 @@ function pattern_recognition(freq_mins, observations) {
 
     // Difference ... NEED TO USE THE DATE LIBRARY AND TRANSFORM FROM STRING TO DATES
     for (i=0; i<first_n.count(); i++) {
-        //var c = dateFns.parse( first_n.get(i) );
-        //var n = dateFns.parse( last_n.get(i) );
-
         var c = first_n.get(i);
         var n = last_n.get(i);
 
-        console.log("Now & Next are ..." + c + " --- " + typeof c);
-
-        var result = dateFns.differenceInMinutes( n, c );
+        //console.log("Now & Next are ..." + c + " --- " + typeof c);
 
         if (dateFns.isDate(c) !== true || dateFns.isDate(n) !== true) {
             throw "This and Next ... Problem with Dates !";
         }
 
-        console.log("Difference in Minutes is ..." + result);
+        var result = dateFns.differenceInMinutes( n, c );
+
+        // The current and next observation have the same server-status ?
+        var p1 = _observations.all().get(i);
+        var p2 = _observations.all().get(i+1);
+
+        console.log("?? VS ?? ..." + p1 + " / " + p2);
     }
 
     diff_values       = last_n.diff(first_n);
