@@ -135,7 +135,7 @@ function pattern_recognition(freq_mins, observations) {
 
     if (server_status_timeline.count() != number_of_periods) {
         // Data exists that is .. Not added to collection
-        var num_to_add = server_status_timeline.count();
+        var num_to_add = number_of_periods - server_status_timeline.count();
         if ( num_to_add == 1) {
             server_status_timeline.push({
                 "period_id": number_of_periods,
