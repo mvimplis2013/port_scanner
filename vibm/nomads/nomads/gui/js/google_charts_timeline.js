@@ -148,9 +148,11 @@ function pattern_recognition(freq_mins, observations) {
     }
 
     console.log("Number of Server State Change Found ..." + number_of_periods);
-    measurementTimes.each( (item) => {
+    server_status_timeline.each( (item) => {
         console.log("Details of Server Operation Time-Period:\n" + 
-            "Period-ID: " + item.period_id);
+            "Period-ID: " + item.period_id + "\n", 
+            "From: " + item.from + "\n",
+            "To: " + item.to );
     });
     
     // Must read this and next record and decide whether continuous being in UP state 
