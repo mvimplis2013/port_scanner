@@ -163,9 +163,6 @@ function draw_timeline( freq_mins, observations ) { //} server, from_time, to_ti
     google.charts.load("current", {packages: ["timeline"]});
     google.charts.setOnLoadCallback(initialize);
 
-    //var _server     = server;
-    var server = "vlabX";
-    
     // *** These are COLLECT arrays
     //var _up_observations = up_observations;
     //var _down_observations = down_observations;
@@ -184,8 +181,9 @@ function draw_timeline( freq_mins, observations ) { //} server, from_time, to_ti
     }
 
     function drawChart() {
-        var _server = "vlabC";
-
+        //var _server     = server;
+        var _server = "vlabX";
+    
         //var _from  = from_time;
         var _from = server_status_timeline.get(0).from;
 
