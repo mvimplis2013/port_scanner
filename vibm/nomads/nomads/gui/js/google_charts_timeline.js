@@ -191,7 +191,7 @@ function draw_timeline( freq_mins, observations ) { //} server, from_time, to_ti
         var _to = server_status_timeline.get(0).to;
         
         //var _is_up = is_up;
-        var _is_ip = "True";
+        var _is_up = "True";
 
         console.log("Ready to draw a timeline for ... '" + _server + "' / " + _from + " - " + _to + " {" + _is_up + "}");
 
