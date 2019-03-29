@@ -46,10 +46,14 @@ function pattern_recognition(freq_mins, observations) {
 
     // Difference ... NEED TO USE THE DATE LIBRARY AND TRANSFORM FROM STRING TO DATES
     for (i=0; i<first_n.count(); i++) {
-        c = first_n.get(i);
-        n = last_n.get(i);
+        var c = first_n.get(i);
+        var n = last_n.get(i);
 
-        console.log("Now & Next are ..." + c + " --- " + n);
+        //console.log("Now & Next are ..." + c + " --- " + n);
+
+        var result = dateFns.differenceInMinutes( n - c );
+
+        console.log("Difference in Minutes is ..." + result);
     }
 
     diff_values       = last_n.diff(first_n);
