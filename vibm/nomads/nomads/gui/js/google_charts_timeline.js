@@ -59,14 +59,17 @@ function pattern_recognition(freq_mins, observations) {
 
         var time_diff = dateFns.differenceInMinutes( n, c );
 
-        if ( time_diff > freq_mins ) {
-            // CAUTION : Sparce Consecutive Observation ... time taken GreaterThan Normal Frequency
-            console.log("CAUTION : Sparce Consecutive Observations : " + time_diff + " > " + freq_mins); 
-        } 
-
         // The current and next observation have the same server-status ?
         var p1 = _observations.get(i);
         var p2 = _observations.get(i+1);
+
+        if ( time_diff > freq_mins ) {
+            // CAUTION : Sparce Consecutive Observation ... time taken GreaterThan Normal Frequency
+            console.log("CAUTION : Sparce Consecutive Observations : \n" + 
+                "Curr Measurement Time is ..." + p1.observation_datetime + "\n" +
+                "Next Measurement Time is ..." + p2.observation_datetime + "\n" + 
+                "Time Difference VS Sampling Frequency is ..." + time_diff + " > " + freq_mins); 
+        } 
 
         if (p1.is_up === p2.is_up) {
             // Server status is same ... now VS next
