@@ -51,12 +51,12 @@ function pattern_recognition(freq_mins, observations) {
 
         //console.log("Now & Next are ..." + c + " --- " + n);
 
-        var result = dateFns.differenceInMinutes( n - c );
+        var result = dateFns.differenceInMinutes( n, c );
 
         if (dateFns.isDate(c) !== true || dateFns.isDate(n)) {
             throw "This and Next ... Proble with Dates !";
         }
-        
+
         console.log("Difference in Minutes is ..." + result);
     }
 
