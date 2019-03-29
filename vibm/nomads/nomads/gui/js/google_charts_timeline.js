@@ -41,7 +41,7 @@ function pattern_recognition(freq_mins, observations) {
     });
 
     const length      = parse_all.count();
-    const first_n     = parse_all.chunk( length-1 );
+    const first_n     = parse_all.chunk( length-1 )[0];
     const last_n      = parse_all.slice( 1 );
 
     // Difference ... NEED TO USE THE DATE LIBRARY AND TRANSFORM FROM STRING TO DATES
@@ -51,7 +51,7 @@ function pattern_recognition(freq_mins, observations) {
 
         console.log("Now & Next are ..." + c + " --- " + n);
     }
-    
+
     diff_values       = last_n.diff(first_n);
     
     console.log( "..." + diff_values.all() );
