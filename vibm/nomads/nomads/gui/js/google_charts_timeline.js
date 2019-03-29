@@ -32,8 +32,10 @@ function pattern_recognition(freq_mins, observations) {
             throw "Not a Datetime to Handle Observation ..." + item;
         }
 
-        parse_all.push(d_item);
-        //my_time = dateFns.getTime(item);
+        // parse_all.push(d_item);
+        my_time = dateFns.getTime(item);
+
+        parse_all.push(my_time);
         //console.log("Time is ... " + my_time);        
     });
 
