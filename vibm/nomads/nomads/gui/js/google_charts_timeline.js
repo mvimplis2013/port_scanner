@@ -26,7 +26,8 @@ function pattern_recognition(freq_mins, observations) {
         // console.log("Item is ... " + item);
         
         // Check whether a valid date
-        if (dateFns.isDate( item ) === false) {
+        d_item = dateFns.parse(item);
+        if (dateFns.isDate( d_item ) === false) {
             throw "Not a Datetime to Handle Observation ..." + item;
         }
 
