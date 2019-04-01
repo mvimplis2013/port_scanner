@@ -23,7 +23,7 @@ function draw_organization() { //} server, from_time, to_time, is_up ) {
             {v:'Jim', f:"Jim<div style='color:red; font-style: italic'>Vice President</div>"}, "Mike", "VP"
         ])
 
-        google.visualization.OrgChart( document.getElementById("chart_div") );
+        google.visualization.OrgChart( document.getElementById("chart-div") );
 
         chart.draw(data, {allowHtml:true});
     }
