@@ -20,7 +20,10 @@ function draw_organization() { //} server, from_time, to_time, is_up ) {
         // For each organization chart box, provide the Name/ Category and ToolTip to show.
         data.addRows([
             [{v:'Mike', f:"Mike<div style='color:red; font-style:italic'>President</div>"}, "", "The President"],
-            [{v:'Jim', f:"Jim<div style='color:red; font-style:italic'>Vice President</div>"}, "Mike", "VP"]
+            [{v:'Jim', f:"Jim<div style='color:red; font-style:italic'>Vice President</div>"}, "Mike", "VP"],
+            ["Alice", "Mike", ""],
+            ["Bob", "Jim", "Bob Sponge"],
+            ["Carol", "Bob", ""],
         ]);
 
         var chart = new google.visualization.OrgChart( document.getElementById("chart-div") );
