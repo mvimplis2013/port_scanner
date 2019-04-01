@@ -26,41 +26,46 @@
         <!-- ~~~~ EndOf Organization Chart ~~~~ -->
     </div>
     <!-- New Row -->
-    <div class="btn-group">
-        <!-- Control Buttons for New Leafs -->
-        <button class="button button-blue" id="add" data-toggle="collapse" data-target="#addNode">Add</button>
-        <button class="button button-red" id="delete">Delete</button>
+    <div class="row">
+        <div class="btn-group">
+            <!-- Control Buttons for New Leafs -->
+            <button class="button button-blue" id="add" data-toggle="collapse" data-target="#addNode">Add</button>
+            <button class="button button-red" id="delete">Delete</button>
 
-        <div class="collapse" id="addNode">
-            <div class="input-group mb-3">
-                <div class="input-group-prepend">>
-                    <span class="input-group-text" id="nodeName">Name:</span>
-                </div>
-                <input type="text" class="form-control" placeholder="identifier">
-            </div>
-
-            <div class="input-group mb-3"></div> 
-                <div class="input-group-prepend">
-                    <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown">Dropdown</button>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" href="#">IP</a>
-                        <a class="dropdown-item" href="#">DNS</a>
+            <div class="collapse" id="addNode">
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">>
+                        <span class="input-group-text" id="nodeName">Name:</span>
                     </div>
-                    <input type="text" class="form-control">
+                    <input type="text" class="form-control" placeholder="identifier">
                 </div>
-            </div>
 
-            <div class="input-group mb-3"></div> 
-                <div class="input-group-prepend">
-                    <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown">Category</button>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" href="#">Server</a>
-                        <a class="dropdown-item" href="#">VM</a>
-                        <a class="dropdown-item" href="#">Container</a>
-                        <a class="dropdown-item" href="#">Service</a>
+                <div class="input-group mb-3"> 
+                    <div class="input-group-prepend">
+                        <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown">Dropdown</button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="#">IP</a>
+                            <a class="dropdown-item" href="#">DNS</a>
+                        </div>
+                        <input type="text" class="form-control">
                     </div>
-                    <input type="text" class="form-control">
                 </div>
+
+
+                <div class="input-group mb-3"> 
+                    <div class="input-group-prepend">
+                        <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown">Category</button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="#">Server</a>
+                            <a class="dropdown-item" href="#">VM</a>
+                            <a class="dropdown-item" href="#">Container</a>
+                            <a class="dropdown-item" href="#">Service</a>
+                        </div>
+                        <input type="text" class="form-control">
+                    </div>
+                </div>
+
+                <!-- DEFINE PARENT !!!-->
             </div>
         </div>
     </div>
