@@ -2,7 +2,7 @@ console.log("Going to Draw an Impressive ORGANIZATION Chart");
 
 CHART_TYPE = "orgchart"
 
-function draw_organization( freq_mins, observations ) { //} server, from_time, to_time, is_up ) {
+function draw_organization() { //} server, from_time, to_time, is_up ) {
     google.charts.load("current", {packages: [CHART_TYPE]});
     google.charts.setOnLoadCallback(initialize);
 
@@ -28,3 +28,5 @@ function draw_organization( freq_mins, observations ) { //} server, from_time, t
         chart.draw(data, {allowHtml:true});
     }
 }
+
+draw_organization();
