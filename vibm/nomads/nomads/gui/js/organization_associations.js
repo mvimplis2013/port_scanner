@@ -26,10 +26,9 @@ function draw_organization() { //} server, from_time, to_time, is_up ) {
             ["Carol", "Bob", ""],
         ]);
 
-        var chart_div = document.getElementById("chart-div");
-        chart_div.classList("opacity") = "0.6";
-        
-        var chart = new google.visualization.OrgChart( chart_div );
+        $("#chart-div").css("opacity") = "0.6";
+
+        var chart = new google.visualization.OrgChart( document.getElementById("chart-div") );
 
         chart.draw(data, {allowHtml:true});
     }
