@@ -21,9 +21,9 @@ function draw_organization() { //} server, from_time, to_time, is_up ) {
         data.addRows([
             {v:'Mike', f:"Mike<div style='color:red; font-style: italic'>President</div>"}, "", "The President"], [
             {v:'Jim', f:"Jim<div style='color:red; font-style: italic'>Vice President</div>"}, "Mike", "VP"
-        ])
+        ]);
 
-        google.visualization.OrgChart( document.getElementById("chart-div") );
+        var chart = new google.visualization.OrgChart( document.getElementById("chart-div") );
 
         chart.draw(data, {allowHtml:true});
     }
