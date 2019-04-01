@@ -26,7 +26,7 @@ function draw_organization() { //} server, from_time, to_time, is_up ) {
             ["Carol", "Bob", ""],
         ]);
 
-        $("#chart-div").css("opacity") = 0.6;
+        $("#chart-div").css('opacity', 0.6);
 
         var chart = new google.visualization.OrgChart( document.getElementById("chart-div") );
 
