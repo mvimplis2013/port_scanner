@@ -28,8 +28,14 @@
     <!-- New Row -->
     <div class="btn-group">
         <!-- Control Buttons for New Leafs -->
-        <button class="button button-blue" id="add">Add</button>
+        <button class="button button-blue" id="add" data-toggle="collapse" data-target="#addNode">Add</button>
         <button class="button button-red" id="delete">Delete</button>
+
+        <div class="collapse" id="addNode">
+            <div class="input-group">
+                <input type="text" class="form-control">
+            </div>
+        </div>
     </div>
   
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
