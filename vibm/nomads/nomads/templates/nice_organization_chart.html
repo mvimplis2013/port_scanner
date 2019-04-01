@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>Org-Charts</title>
+
+    <!-- Bootstrap -->
+    <!-- link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    
+    <!-- Font Awesome -->
+    <!-- link href="../vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet" -->
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+  </head>
+
+  <body class="main">
+    <div class="row">
+        <!-- **** Where Chart is Hosted **** -->
+        <h1>Organization Chart</h1>
+        <div class="container" id="chart-container"></div>
+        <!-- ~~~~ EndOf Organization Chart ~~~~ -->
+    </div>
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+    <!--script>window.jQuery || document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"><\/script>')</script-->
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>  
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.9.0/feather.min.js"></script>
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.8.2/d3.js"></script>
+
+    <!--script src="https://cdn.jsdelivr.net/npm/lodash@4.17.11/lodash.min.js"></script-->
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.11/lodash.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/collect.js/4.6.4/collect.min.js"></script>
+
+    <!-- Google CHARTS library -->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+    <!-- JavaScript Dates Manipulation Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/date-fns/1.30.1/date_fns.js"></script>
+    <script>
+      dateFns.isToday(new Date())
+      //=> true
+    </script>
+
+    <!-- Ultimate String Library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/voca/1.4.0/voca.js"></script>
+    <script>
+      console.log("type of v is: " + typeof v);
+    </script>
+  
+    <!--script type="module">
+      import {draw_timeline} from '/gui/js/google_charts.mjs';    
+      draw_timeline();
+    </script-->
+    <script src="{{ url_for('static', filename='js/google_charts_timeline.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/charts_collection.js') }}"></script>
+</body>
+</html>

@@ -202,3 +202,10 @@ def collect_all_ping_records():
     return jsonify( freq_mins=freq_mins, records_found=records_found )
     #return jsonify( records_found )
     #return Response( json.dumps( records_found ), mimetype="application/json")
+
+"""
+Render the organization-type chart for associations between vlab components.  
+"""
+@app.route('/admin/internal/define-assocations', methods=['GET'])
+def render_organization_chart():
+    return render_template("nice_organization_chart.html")
