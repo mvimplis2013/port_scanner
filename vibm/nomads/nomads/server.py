@@ -210,6 +210,6 @@ Render the organization-type chart for associations between vlab components.
 def render_organization_chart():
     data = {}
     data["chart"] = "Nice"
-    data["description"] = "Define Parent-Child Associations in VLAB infrastructure"
+    data["description"] = "Define Parent-Child Associations in VLAB Infrastructure"
     
     return render_template("nice_organization_chart.html", value=data)
