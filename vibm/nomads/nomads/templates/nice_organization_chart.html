@@ -32,8 +32,18 @@
         <button class="button button-red" id="delete">Delete</button>
 
         <div class="collapse" id="addNode">
-            <div class="input-group">
-                <input type="text" class="form-control">
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">>
+                    <span class="input-group-text" id="nodeName">Name:</span>
+                </div>
+                <div class="input-group-prepend">
+                    <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown">Dropdown</button>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="#">IP</a>
+                        <a class="dropdown-item" href="#">DNS</a>
+                    </div>
+                    <input type="text" class="form-control">
+                </div>
             </div>
         </div>
     </div>
