@@ -209,7 +209,7 @@ Render the organization-type chart for associations between vlab components.
 @app.route('/admin/internal/define-associations', methods=['GET'])
 def render_organization_chart():
     data = {}
-    data.chart = 'Nice'
-    data.description = "Define Parent-Child Associations in VLAB infrastructure"
+    data["chart"] = "Nice"
+    data["description"] = "Define Parent-Child Associations in VLAB infrastructure"
     
     return render_template("nice_organization_chart.html", value=data)
