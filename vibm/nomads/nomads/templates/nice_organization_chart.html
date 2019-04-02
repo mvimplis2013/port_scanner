@@ -33,21 +33,23 @@
             <button class="button button-red" id="delete">Delete</button>
         
             <div class="collapse" id="addNode">
+                <!-- Define Name/ ID of New Node -->
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">>
                         <span class="input-group-text" id="nodeName">Name:</span>
                     </div>
-                    <input type="text" class="form-control" placeholder="identifier">
+                    <input type="text" class="form-control" role="node-name" placeholder="Node-1">
                 </div>
 
+                <!-- Define PARENT of New Node -->
                 <div class="input-group mb-3"> 
                     <div class="input-group-prepend">
                         <span class="input-group-text" id="prepend-parent">Parent: </span>
                     </div>
-                    <input type="text" class="form-control" role="parent-id">
+                    <input type="text" class="form-control" role="parent-id" placeholder="Node-0">
                 </div>
 
-
+                <!-- Define Category ... is a Server/ VM-->
                 <div class="input-group mb-3"> 
                     <div class="input-group-prepend">
                         <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown">Category</button>
@@ -61,7 +63,18 @@
                     </div>
                 </div>
 
-                <!-- DEFINE PARENT !!!-->
+                <!-- Dafine IP/ DNS and Port -->
+                <div class="input-group mb-3" id="bg-ip-port"> 
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">IP or DNS :</span>
+                    </div>
+                    <input type="text" class="form-control" role="ip-dns" placeholder="internal.ip.vlab">
+                    
+                    <div class="input-group-append">
+                        <span class="input-group-text">Port :</span>
+                    </div>
+                    <input type="text" class="form-control" role="port-number" placeholder="0000">
+                </div>
             </div>
         </div>
     </div>
