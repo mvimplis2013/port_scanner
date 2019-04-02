@@ -19,11 +19,16 @@ function draw_organization() { //} server, from_time, to_time, is_up ) {
 
         // For each organization chart box, provide the Name/ Category and ToolTip to show.
         data.addRows([
-            [{v:'Mike', f:"Mike<div style='color:red; font-style:italic'>President</div>"}, "", "The President"],
-            [{v:'Jim', f:"Jim<div style='color:red; font-style:italic'>Vice President</div>"}, "Mike", "VP"],
-            ["Alice", "Mike", ""],
-            ["Bob", "Jim", "Bob Sponge"],
-            ["Carol", "Bob", ""],
+            [{v:'VLAB3', f:"vlab3<div style='color:red; font-style:italic'>Austria DC</div>"}, "", "Main DataCenter"],
+            [{v:'VLAB1', f:"vlab1<div style='color:red; font-style:italic'>Athens Vrilissia</div>"}, "", "Small DataCenter"],
+            [{v:'VLAB2', f:"vlab1<div style='color:red; font-style:italic'>Athens Cholargos</div>"}, "", "EMail DataCenter"],
+            ["serverA", "VLAB3", "Server for Monitoring"],
+            ["Container-GUI", "serverA", "Python Flask & JavaScript"],
+            ["External-Robot", "serverA", "Python3"],
+            ["Internal-Agent", "serverA", "Responds to Forwarded Msgs"],
+            ["serverB", "VLAB3", "Supporting Utilies"],
+            ["MariaDB", "serverB", "Permanent Storage"],
+            ["RabbitMQ", "serverB", "Message-Exchange & RPC"],
         ]);
 
         $("#chart-div").css('opacity', 0.4);
