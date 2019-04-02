@@ -29,6 +29,10 @@ function draw_organization() { //} server, from_time, to_time, is_up ) {
             ["serverB", "VLAB3", "Supporting Utilies"],
             ["MariaDB", "serverB", "Permanent Storage"],
             ["RabbitMQ", "serverB", "Message-Exchange & RPC"],
+            ["Kubernetes", "serverB", "Docker Containers Management"],
+            ["serverC", "VLAB3", "Networking Services"],
+            ["DNS-Service", "serverC", "Use easy names"],
+            ["SSH-Service", "serverC", "For Administrators"],
         ]);
 
         $("#chart-div").css('opacity', 0.4);
