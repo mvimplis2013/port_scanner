@@ -93,13 +93,30 @@
 
                 <!-- Severity level ... How Important is in case of Failure -->
                 <label for="severity-level">How to proceed in case of failure</label>
-                <div class="input-group mb-3" id="ingrp-severity-level"> 
+                <div class="input-group mb-3" id="ingrp-severity-level">
+                    <!-- Severity High --> 
                     <div class="input-group-prepend">
                         <div class="input-group-text">
                             <input type="radio">
                         </div>
                     </div>
-                    <span class="input-group-text" id="severity-level">Very Important</span>
+                    <span class="input-group-text" id="severity-level">Very Important (Abort Process)</span>
+
+                    <!-- Severity Medium -->
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">
+                            <input type="radio">
+                        </div>
+                    </div>
+                    <span class="input-group-text" id="severity-Medium">Medium (Retry 4 Times & Abort)</span>
+    
+                    <!-- Severity Low -->
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">
+                            <input type="radio">
+                        </div>
+                    </div>
+                    <span class="input-group-text" id="severity-Low">Low (No Retry & Proceed)</span>
                 </div>
             </div>
         </div>
