@@ -93,7 +93,24 @@
 
                 <!-- Performance Metrics & Thresholds -->
                 <label for="metrics-thresholds">Define Performance Metrics and Thresholds for Overloaded & Not Used</label>
-                
+                <div class="input-group mb-3" id="ingrp-metrics-thresholds"> 
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">
+                            <input type="checkbox">
+                        </div>
+                        <span class="input-group-text">CPU Usage</span>
+                        <span class="input-group-text">Normal:</span>
+                    </div>
+                    <!-- Normal -->    
+                    <input type="text" class="form-control" role="cpu-usage" id="cpu-normal" placeholder="50%">
+                        
+                    <div class="input-group-append">
+                            <span class="input-group-text">High:</span>
+                    </div>
+                    <!-- High -->    
+                    <input type="text" class="form-control" role="cpu-usage" id="cpu-high" placeholder="100%">
+                </div>
+    
                 <!-- Severity level ... How Important is in case of Failure -->
                 <label for="severity-level">How to proceed in case of failure</label>
                 <div class="input-group mb-3" id="ingrp-severity-level">
