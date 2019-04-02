@@ -21,7 +21,7 @@ function draw_organization() { //} server, from_time, to_time, is_up ) {
         data.addRows([
             [{v:'VLAB3', f:"vlab3<div style='color:red; font-style:italic'>Austria DC</div>"}, "", "Main DataCenter"],
             [{v:'VLAB1', f:"vlab1<div style='color:red; font-style:italic'>Athens Vrilissia</div>"}, "", "Small DataCenter"],
-            [{v:'VLAB2', f:"vlab1<div style='color:red; font-style:italic'>Athens Cholargos</div>"}, "", "EMail DataCenter"],
+            [{v:'VLAB2', f:"vlab2<div style='color:red; font-style:italic'>Athens Cholargos</div>"}, "", "EMail DataCenter"],
             ["serverA", "VLAB3", "Server for Monitoring"],
             ["Container-GUI", "serverA", "Python Flask & JavaScript"],
             ["External-Robot", "serverA", "Python3"],
