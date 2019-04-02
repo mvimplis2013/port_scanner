@@ -49,7 +49,7 @@
                     <input type="text" class="form-control" role="parent-id" placeholder="Node-0">
                 </div>
 
-                <!-- Define Category ... is a Server/ VM-->
+                <!-- Define Category ... is a Server/ VM/ ... -->
                 <div class="input-group mb-3"> 
                     <div class="input-group-prepend">
                         <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown">Category</button>
@@ -64,7 +64,7 @@
                 </div>
 
                 <!-- Dafine IP/ DNS and Port -->
-                <div class="input-group mb-3" id="bg-ip-port"> 
+                <div class="input-group mb-3" id="ingrp-ip-port"> 
                     <div class="input-group-prepend">
                         <span class="input-group-text">IP or DNS :</span>
                     </div>
@@ -74,6 +74,32 @@
                         <span class="input-group-text">Port :</span>
                     </div>
                     <input type="text" class="form-control" role="port-number" placeholder="0000">
+                </div>
+
+                <!-- Define Type ... is a database/ mail-server/ ... -->
+                <div class="input-group mb-3" id="ingrp-service-type"> 
+                    <div class="input-group-prepend">
+                        <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-toggle="dropdown">Nice Services</button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="#">Database</a>
+                            <a class="dropdown-item" href="#">Mailserver</a>
+                            <a class="dropdown-item" href="#">MessageQueue</a>
+                            <a class="dropdown-item" href="#">FTP-Server</a>
+                            <a class="dropdown-item" href="#">SSH-Server</a>
+                        </div>
+                        <input type="text" class="form-control">
+                    </div>
+                </div>
+
+                <!-- Severity level ... How Important is in case of Failure -->
+                <label for="severity-level">How to proceed in case of failure</label>
+                <div class="input-group mb-3" id="ingrp-severity-level"> 
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">
+                            <input type="radio">
+                        </div>
+                    </div>
+                    <span class="input-group-text" id="severity-level">Very Important</span>
                 </div>
             </div>
         </div>
