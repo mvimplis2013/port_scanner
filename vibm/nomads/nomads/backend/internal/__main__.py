@@ -1,4 +1,5 @@
 from ..utils.ifconfig_linux import IFConfigCommand, IFConfigParser
+from ..utils.nmap_native import NMapNative, INTERNAL_SCAN_MAC_ADDRESSES
 
 print("Agent is Coming")
 
@@ -21,3 +22,8 @@ for ip in all_ips:
 
 for mac in all_macs:
     print("MAC is ..." + mac)
+
+nmap = NMapNative( all_ips[0] )
+nmap.run( INTERNAL_SCAN_MAC_ADDRESSES )
+
+print( "NMAP -sP -n response is ..." + nmap._result_utf8)

@@ -2,7 +2,7 @@
 
 # Lists of Supported Values
 declare -a processors_list=("arm" "amd")
-declare -a components_list=("collector" "datastore" "gui")
+declare -a components_list=("collector" "datastore" "gui" "internal-agent")
 
 # ******************************
 # *** Processor Manufacturer ***
