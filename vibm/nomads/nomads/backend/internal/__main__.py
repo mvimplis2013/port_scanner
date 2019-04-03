@@ -23,7 +23,8 @@ for ip in all_ips:
 for mac in all_macs:
     print("MAC is ..." + mac)
 
-nmap = NMapNative( all_ips[0] + "/24" )
+#nmap = NMapNative( all_ips[0] + "/24" )
+nmap = NMapNative( "192.168.5.0/24" )
 nmap.run( INTERNAL_SCAN_MAC_ADDRESSES )
 
 print( "NMAP -sP -n response is ..." + nmap._result_utf8)
