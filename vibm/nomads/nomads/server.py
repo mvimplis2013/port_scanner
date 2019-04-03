@@ -153,7 +153,7 @@ def translate_time_ranges( time_range ):
         
     if 'all' in time_range.lower():
         # Return ALL stored records
-        print("I will the MAXIMUM time window .. All records returned")
+        print("I will use the MAXIMUM time window .. All records returned")
         _from = None
     elif 'one hour' in time_range.lower():
         # One(1) Hour

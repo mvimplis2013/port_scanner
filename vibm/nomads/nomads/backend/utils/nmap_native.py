@@ -11,6 +11,10 @@ SCAN_TCP_UDP = "sudo nmap -sU -sT "
 # NMAP command to ping external server
 PING_SERVER = "nmap"
 
+# NMAP command to scan live devices at local network & get MAC addresses
+INTERNAL_SCAN_LIVE_DEVICES = "nmap -sP "
+INTERNAL_SCAN_MAC_ADDRESSES = "nmap -sP -n "
+
 OPEN_TCP_SSH = "22/tcp"
 
 logger = logging.getLogger("finestrino-interface")
