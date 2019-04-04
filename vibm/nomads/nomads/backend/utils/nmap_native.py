@@ -60,8 +60,8 @@ class NMapNative(object):
         return self.result_utf8
 
     def run(self, command_type=SCAN_TCP_UDP):
-        print( "**** NMAP Command Form ... " + command_type + self.target_ip + " !!!!" )
-        
+        #print( "**** NMAP Command Form ... " + command_type + self.target_ip + " !!!!" )
+
         result = subprocess.run([command_type + self.target_ip], shell=True, stdout=subprocess.PIPE)
         self.result_utf8 = result.stdout.decode('utf-8')
 
