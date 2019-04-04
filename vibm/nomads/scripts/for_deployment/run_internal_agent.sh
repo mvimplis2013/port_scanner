@@ -1,2 +1,14 @@
-SCRIPTS_LOCATION="./scripts/for_deployment/"
-source "$SCRIPTS_LOCATION"/prepare_context_of_build.sh arm x32 internal-agent
+docker stop internal-agent-container
+docker rm internal-agent-container
+
+docker rmi internal-agent
+
+cd ..
+cd ..
+
+git pull
+
+cd vibm/nomads
+
+docker build -t internal-agent .
+docker run --name internal-agent-container -it internal-agent
