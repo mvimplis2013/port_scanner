@@ -25,7 +25,8 @@ for mac in all_macs:
 
 #nmap = NMapNative( all_ips[0] + "/24" )
 #nmap = NMapNative( "192.168.5.5" )
-nmap = NMapNative( "10.0.0.0/24" )
+#nmap = NMapNative( "10.0.0.0/24" )
+nmap = NMapNative( "10.0.0.1" )
 nmap.run( INTERNAL_SCAN_MAC_ADDRESSES )
 
 print( "NMAP response is ..." + nmap._result_utf8)
