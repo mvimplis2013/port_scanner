@@ -13,7 +13,7 @@ PING_SERVER = "nmap"
 
 # NMAP command to scan live devices at local network & get MAC addresses
 INTERNAL_SCAN_LIVE_DEVICES = "nmap -sP "
-INTERNAL_SCAN_MAC_ADDRESSES = "nmap -sL"
+INTERNAL_SCAN_MAC_ADDRESSES = "nmap -sL "
 
 OPEN_TCP_SSH = "22/tcp"
 
