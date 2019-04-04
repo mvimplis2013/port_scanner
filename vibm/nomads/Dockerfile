@@ -21,4 +21,4 @@ RUN mkdir logs && touch logs/internal-agent.log
 
 RUN ls ./
 
-CMD ["sudo python", "-m", "nomads.internal"]
+CMD ["python", "-m", "nomads.internal"]

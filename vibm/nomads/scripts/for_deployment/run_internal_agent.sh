@@ -11,4 +11,4 @@ git pull
 cd vibm/nomads
 
 docker build -t internal-agent .
-docker run --name internal-agent-container -it --privileged internal-agent
+sudo docker run --name internal-agent-container -it internal-agent
