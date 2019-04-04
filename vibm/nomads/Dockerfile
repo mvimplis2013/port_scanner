@@ -7,6 +7,7 @@ COPY requirements-internal-agent.txt ./
 
 # Alpine Package Manager
 RUN apk update 
+RUN apk add sudo
 RUN apk add nmap
 
 ADD nomads/backend ./nomads/
