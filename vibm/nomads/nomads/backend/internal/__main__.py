@@ -27,4 +27,4 @@ for mac in all_macs:
 nmap = NMapNative( "192.168.5.5" )
 nmap.run( INTERNAL_SCAN_MAC_ADDRESSES )
 
-print( "NMAP -sP -n response is ..." + nmap._result_utf8)
+print( "NMAP response is ..." + nmap._result_utf8)
