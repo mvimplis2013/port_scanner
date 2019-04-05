@@ -1,12 +1,12 @@
 rabbitmq:
   image: management-alpine
 consumer: 
-  build: nomads/consumer
+  build: nomads/backend/internal/consumer
   links:
   - rabbitmq 
   command: python consumer.py
 producer:
-  build: producer
+  build: nomads/backend/internal/producer
   links: 
   - rabbitmq
   command: python producer.py
