@@ -1,7 +1,7 @@
 rabbitmq:
   image: management-alpine
 consumer: 
-  build: consumer
+  build: nomads/consumer
   links:
   - rabbitmq 
   command: python consumer.py
