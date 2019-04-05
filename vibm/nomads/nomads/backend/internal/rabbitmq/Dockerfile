@@ -5,4 +5,5 @@ RUN rabbitmq-plugins enable --offline rabbitmq_mqtt
 RUN echo 'NODENAME=rabbit@localhost' > /etc/rabbitmq/rabbitmq-env.conf
 
 EXPOSE 15672
+EXPOSE 5672
 EXPOSE 1883
