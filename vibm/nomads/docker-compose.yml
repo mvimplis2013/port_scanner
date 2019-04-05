@@ -1,5 +1,5 @@
 rabbitmq:
-  image: 3-management
+  image: rabbitmq:3-management-alpine
 consumer: 
   build: nomads/backend/internal/consumer
   links:
