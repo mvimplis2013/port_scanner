@@ -1,2 +1,12 @@
 rabbitmq:
   image: management-alpine
+consumer: 
+  build: consumer
+  links:
+  - rabbitmq 
+  command: python consumer.py
+producer:
+  build: producer
+  links: 
+  - rabbitmq
+  command: python producer.py
