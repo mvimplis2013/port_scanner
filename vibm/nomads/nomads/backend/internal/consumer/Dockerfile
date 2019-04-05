@@ -4,4 +4,4 @@ WORKDIR /usr/src/app
 ENV PYTHONPATH /usr/src/app
 
 COPY requirements.txt ./
-RUN pip install -r requirements-internal-agent.txt
+RUN pip install -r requirements.txt
