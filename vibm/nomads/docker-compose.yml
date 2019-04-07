@@ -1,11 +1,11 @@
 rabbitmq:
-  #image: rabbitmq:3-management-alpine
-  #command: rabbitmq-plugins enable --offline rabbitmq_mqtt
-  #restart: always
-  #ports:
-  #- 5672:5672 # Ports for daemon API
-  #- 15672:15672 # Ports for management interface
-  build: nomads/backend/internal/rabbitmq
+  image: rabbitmq:3-management-alpine
+  command: rabbitmq-plugins enable --offline rabbitmq_mqtt
+  restart: always
+  ports:
+  - 5672:5672 # Ports for daemon API
+  - 15672:15672 # Ports for management interface
+  #build: nomads/backend/internal/rabbitmq
 consumer: 
   build: nomads/backend/internal/consumer
   links:
