@@ -25,6 +25,8 @@ if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)
     LOG = logging.getLogger(__name__)
 
+    LOG.info("Producer Comming Up !")
+
     credentials = pika.PlainCredentials('guest', 'guest')
 
     parameters = pika.ConnectionParameters(args.server, int(args.port), '/', credentials)
