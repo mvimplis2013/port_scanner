@@ -8,4 +8,4 @@ RUN pip install -r requirements.txt
 
 ADD producer.py /usr/src/app/
 
-CMD ["python", "producer.py"]
+CMD ["python", "producer.py -p 5672 -s ${RABBIT_HOST_IP} -m 'Hello' -r 30"]
