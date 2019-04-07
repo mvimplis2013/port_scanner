@@ -7,3 +7,5 @@ COPY requirements.txt ./
 RUN pip install -r requirements.txt
 
 ADD producer.py /usr/src/app/
+
+CMD ["python", "producer.py"]
