@@ -26,6 +26,7 @@ if __name__ == '__main__':
     LOG = logging.getLogger(__name__)
 
     LOG.info("Producer Comming Up !")
+    print("Consumer is Comming Up !")
 
     credentials = pika.PlainCredentials('guest', 'guest')
 
