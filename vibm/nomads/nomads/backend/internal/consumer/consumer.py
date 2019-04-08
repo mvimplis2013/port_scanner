@@ -1,7 +1,7 @@
 import pika, logging
 
 connection = pika.BlockingConnection( 
-    pika.ConnectionParameters(host="my-rabbit")
+    pika.ConnectionParameters(host="rabbit-server")
 )
 
 main_channel = connection.channel()
