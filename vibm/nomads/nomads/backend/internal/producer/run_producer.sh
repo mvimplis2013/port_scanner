@@ -9,4 +9,4 @@ cd vibm/nomads/nomads/backend/internal/producer
 
 docker build -t producer .
 
-docker run -d --name producer-app producer #--network app-tier producer
+docker run -d --name producer-app --network=host producer
