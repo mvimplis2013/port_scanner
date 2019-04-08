@@ -1,7 +1,7 @@
 import pika, logging, functools
 
 def on_message(chan, method_frame, _header_frame, body,  userdata=None):
-    print("Userdata: " + userdata + " ... MessageBody: " + body)
+    print("Userdata: " + str(userdata) + " ... MessageBody: " + str(body))
     chan.basic_ack(delivery_tag=method_frame.delivery_tag)
 
 def main():
