@@ -27,9 +27,9 @@ if __name__ == '__main__':
 
     LOG.info( "Producer is Comming Up ... " + args.server + " !")
     
-    credentials = pika.PlainCredentials('guest', 'guest')
+    credentials = pika.PlainCredentials('nice_user', 'nice_user')
 
-    parameters = pika.ConnectionParameters(host="my-rabbit", credentials=credentials) #args.server, int(args.port), '/', credentials)
+    parameters = pika.ConnectionParameters("my-rabbit", credentials=credentials) #args.server, int(args.port), '/', credentials)
 
     connection = pika.BlockingConnection(parameters)
 
