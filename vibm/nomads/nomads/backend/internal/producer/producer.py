@@ -37,18 +37,36 @@ if __name__ == '__main__':
 
     channel = connection.channel()
 
-    q = channel.queue_declare('pc')
+    channel.exchange_declare(
+        exchange='test_exchange',
+        exchange_type='direct',
+        passive=False,
+        durable=True,
+        auto_delete=False
+    )
 
-    q_name = q.method.queue 
+    print('Sending message to create a queue')
 
-    channel.confirm_delivery()
+    channel.basic_publish(
+        'test_exchange', 'standard_key', 'queue:group',
+        pika.BasicProperties(content_type="text/plain", delivery_mode=1)
+    )
 
-    for i in range(0, int(args.repeat)):
-        if channel.basic_publish('', q_name, args.message):
-            LOG.info('Message has been delivered')
-        else: 
-            LOG.warning('Message NOT delivered')
+    connection.sleep(5)
 
-    sleep(2)
+    print("Sending text message to queue")
 
+    channel.basic_publish(
+        'test_exchange', 'group_key', 'Message to Group Key',
+        pika.BasicProperties(content_type="text/plain", delivery_mode=1)
+    )
+
+    connection.sleep(5)
+    print( "Sending text message" )
+
+    channel.basic_publish(
+        'test_exchange', 'standard_key', 'Message to standard key',
+        pika.BasicProperties(content_type="text/plain", delivery_mode=1)
+    )
+    
     connection.close()
