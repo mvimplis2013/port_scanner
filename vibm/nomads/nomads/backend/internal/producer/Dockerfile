@@ -13,4 +13,4 @@ ENV RABBIT_HOST_IP 172.24.0.3
 
 RUN ping -c 10 my-rabbit 
 
-CMD ["python", "producer.py", "-p 5672", "-s 62.46.10.194", "-m 'Hello'", "-r 30"]
+#CMD ["python", "producer.py", "-p 5672", "-s 62.46.10.194", "-m 'Hello'", "-r 30"]
