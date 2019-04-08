@@ -11,4 +11,4 @@ ADD producer.py /usr/src/app/
 # Environment Variable 
 ENV RABBIT_HOST_IP 172.17.0.2
 
-CMD ["python", "producer.py", "-p 5672", "-s ${RABBIT_HOST_IP}", "-m 'Hello'", "-r 30"]
+CMD ["python", "producer.py", "-p 5672", "-s 172.17.0.2", "-m 'Hello'", "-r 30"]
