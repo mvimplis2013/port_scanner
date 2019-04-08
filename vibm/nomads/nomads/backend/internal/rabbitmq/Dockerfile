@@ -8,7 +8,9 @@ RUN rabbitmq-plugins enable --offline rabbitmq_mqtt
 
 RUN echo 'NODENAME=rabbit@my-rabbit' > /etc/rabbitmq/rabbitmq-env.conf
 
-COPY init.sh /
+COPY ./init.sh /
+RUN chmod +x /init.sh
+
 ENTRYPOINT ["/init.sh"]
 
 EXPOSE 15672
