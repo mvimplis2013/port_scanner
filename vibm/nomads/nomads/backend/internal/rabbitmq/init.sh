@@ -7,4 +7,4 @@ rabbitmqctl set_permissions -p / $RABBITMQ_USER ".*" ".*" ".*"; \
 ) &
 
 # Call original entrypoint 
-rabbit-server $@
+rabbitmq-server $@
