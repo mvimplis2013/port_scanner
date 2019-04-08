@@ -27,7 +27,7 @@ if __name__ == '__main__':
 
     LOG.info( "Producer is Comming Up ... " + args.server + " !")
     
-    credentials = pika.PlainCredentials('guest', 'guest')
+    credentials = pika.PlainCredentials('nice_user', 'nice_user')
 
     parameters = pika.ConnectionParameters(args.server, int(args.port), '/', credentials)
 
