@@ -29,7 +29,7 @@ if __name__ == '__main__':
     
     credentials = pika.PlainCredentials('guest', 'guest')
 
-    parameters = pika.ConnectionParameters(host="my-rabbit") #args.server, int(args.port), '/', credentials)
+    parameters = pika.ConnectionParameters(host="my-rabbit", credentials=credentials) #args.server, int(args.port), '/', credentials)
 
     connection = pika.BlockingConnection(parameters)
 
