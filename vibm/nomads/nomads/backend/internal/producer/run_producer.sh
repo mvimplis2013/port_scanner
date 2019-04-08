@@ -9,4 +9,4 @@ cd vibm/nomads/nomads/backend/internal/producer
 
 docker build -t producer .
 
-docker run -it --name producer-app --network=host producer /bin/asash
+docker run -it --name producer-app --network=host producer /bin/ash
