@@ -6,6 +6,8 @@ parameters = pika.ConnectionParameters(host="rabbit-server", credentials=credent
 
 connection = pika.BlockingConnection( parameters )
 
-main_channel = connection.channel()
+channel = connection.channel()
+
+channel.
 
 print("Consumer Planet")
