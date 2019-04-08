@@ -1,1 +1,2 @@
 pika==1.0.0
+functools==0.5
