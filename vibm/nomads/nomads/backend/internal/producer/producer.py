@@ -33,6 +33,8 @@ if __name__ == '__main__':
 
     connection = pika.BlockingConnection(parameters)
 
+    LOG.info( "Immediately after connection" )
+
     channel = connection.channel()
 
     q = channel.queue_declare('pc')
