@@ -9,6 +9,6 @@ RUN pip install -r requirements.txt
 ADD producer.py /usr/src/app/
 
 # Environment Variable 
-ENV RABBIT_HOST_IP 172.17.0.2
+ENV RABBIT_HOST_IP 172.24.0.3
 
-CMD ["python", "producer.py", "-p 5672", "-s my-rabbit", "-m 'Hello'", "-r 30"]
+CMD ["python", "producer.py", "-p 5672", "-s $RABBIT_HOST_IP", "-m 'Hello'", "-r 30"]
