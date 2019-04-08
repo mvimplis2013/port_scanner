@@ -2,11 +2,7 @@ docker rm producer-app
 
 docker rmi producer 
 
-cd ..
-cd ..
-cd ..
-cd ..
-cd ..
+cd ~/projects/port_scanner
 
 git pull
 cd vibm/nomads/nomads/backend/internal/producer
