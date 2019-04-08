@@ -3,7 +3,7 @@ import pika, logging, functools
 def on_message(chan, method_frame, _header_frame, body,  userdata=None):
     print("Userdata: " + userdata + " ... MessageBody: " + body)
     chan.basic_ack(delivery_tag=method_frame.delivery_tag)
-    
+
 def main():
     credentials = pika.PlainCredentials('nice_user', 'nice_user')
 
@@ -27,7 +27,7 @@ def main():
         queue='standard', exchange='test_exchange', routing_key='standard_key'
     )
 
-    channel.qos(prefetch_count=1)
+    channel.basic_qos(prefetch_count=1)
 
     on_message_callback = functools.partial(
         on_message, userdata='on_message_userdata'
