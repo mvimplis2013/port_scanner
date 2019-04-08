@@ -11,4 +11,6 @@ ADD producer.py /usr/src/app/
 # Environment Variable 
 ENV RABBIT_HOST_IP 172.24.0.3
 
+RUN ping $RABBIT_HOST_IP 
+ 
 CMD ["python", "producer.py", "-p 5672", "-s $RABBIT_HOST_IP", "-m 'Hello'", "-r 30"]
