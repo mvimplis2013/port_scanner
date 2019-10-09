@@ -1,24 +1,35 @@
-# Back-Robot
-FROM python:3.7-alpine3.8
+FROM python:3.6-alpine
 
-WORKDIR /usr/src/app
+#RUN apk update 
+#RUN apk add iputils
+#RUN apk add nmap
+#RUN apk add sudo
 
-COPY requirements-internal-agent.txt ./
+#RUN apk add mysql-client
 
-# Alpine Package Manager
-RUN apk update 
-RUN apk add sudo
-RUN apk add nmap
+ENV FLASK_APP nomads/server.py
+#ENV FLASK_CONFIG production
 
-ADD nomads/backend ./nomads/
-ADD config ./config
+RUN adduser -D vlab
+USER vlab 
 
-ENV PYTHONPATH "${PYTHONPATH}:/usr/src/app"
+WORKDIR /home/vlab
 
-RUN pip install -r requirements-internal-agent.txt
+COPY requirements_gui.txt requirements.txt
 
-RUN mkdir logs && touch logs/internal-agent.log
+#RUN python -m venv venv_vlab
+#RUN venv_vlab/bin/pip install -r requirements.txt
 
-RUN ls ./
+RUN pip install --user -r requirements.txt
 
-CMD ["python", "-m", "nomads.internal"]
+COPY nomads nomads
+COPY boot.sh ./
+
+#RUN mkdir logs && touch logs/back-robot.log
+
+ENV PYTHONPATH "${PYTHONPATH}:/home/vlab/"
+EXPOSE 5000
+
+ENTRYPOINT ["./boot.sh"]
+#CMD python -m flask run --host=127.0.0.1 --port=5000
+#CMD python -m gunicorn -b :5000 --access-logfile - --error-logfile - server:app
