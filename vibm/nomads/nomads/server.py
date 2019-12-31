@@ -219,7 +219,7 @@ def render_organization_chart():
 A toolsuite for testing if IMPORTANT components are succesfully loaded 
 """
 # Is Database connection established ?
-@app.route('/admin/checks/database/connection', methods=['GET'])
+@app.route('/admin/checklist/database/connection', methods=['GET'])
 def check_database_connection():
     nomads_logger.debug("+++ Inside Check for Database Connection +++")
      
@@ -229,12 +229,15 @@ def check_database_connection():
     
     return "<h1>Ready to check database connection<h1>"
 
-@app.route('/admin/checks/iot/data', methods=["GET"])
+@app.route('/admin/checklist/iot/data', methods=["GET"])
 def check_iot_data_availability():
     nomads_logger.debug("~ Ready to Check for IoT Data Avaliability ~")
 
-    #db_manager = DatabaseManager()
-    #db_manager.check_table_exists()
-    #db_manager.close_connection()
+    db_manager = DatabaseManager()
+
+    # Need table name --> hot_air_AC_temperature
+    db_manager.check_table_exists("hot_air_AC_temperature")
+    
+    db_manager.close_connection()
 
     return "<h1>Ready to check IoT Data Availability</h1>"
