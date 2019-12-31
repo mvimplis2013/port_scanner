@@ -243,16 +243,23 @@ class DatabaseManager(object):
             return True
 
     """
-    Check that table exists and in case of yes then return all stored records to calling function.
+    Query the database for IoT Temperature Data .
     """
-    def check_table_all_records_back(self, table_name):
+    def select_all_hot_air_AC_temperature_records(self):
+        nomads_logger.debug( "Ready to read all Hot-Air-AC-Temperature records for Monitoring/ Graphing ..." )
+        
         result_proxy = self.connection.execute(
-            "SHOW TABLES LIKE '" + table_name + "'"
-        )
+            "SELECT * FROM hot_air_AC_temperature"
+         )
+        hot_air_AC_temperature_array = result_proxy.fetchall()
+        
+        for result in hot_air_AC_temperature_array:
+            nomads_logger.debug(f"Hot-Air-AC-Temperature Record Found ==> {result}")
 
-        records_found = result_proxy.fetchall()
+        #assert list(result_proxy) == []
+        #print( "Found \"%d\" External Servers" % len(external_servers_array))
 
-        return records_found
+        return hot_air_AC_temperature_array
 
 """
 #PROTOCOL = "mysql+pymysql://"

@@ -239,8 +239,8 @@ def check_iot_data_availability():
     db_manager.establish_connection()
 
     # Need table name --> hot_air_AC_temperature
-    # db_manager.check_table_exists("hot_air_AC_temperature")
-    iot_data_records = db_manager.check_table_all_records_back("hot_air_AC_temperature")
+    db_manager.check_table_exists("hot_air_AC_temperature")
+    iot_data_records = db_manager.select_all_hot_air_AC_temperature_records()
 
     db_manager.close_connection()
 
