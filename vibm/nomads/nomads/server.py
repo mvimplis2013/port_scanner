@@ -228,3 +228,13 @@ def check_database_connection():
     db_manager.close_connection()
     
     return "<h1>Ready to check database connection<h1>"
+
+@app.route('/admin/checks/iot/data', methods=["GET"])
+def check_iot_data_availability():
+    nomads_logger.debug("~ Ready to Check for IoT Data Avaliability ~")
+
+    #db_manager = DatabaseManager()
+    #db_manager.check_table_exists()
+    #db_manager.close_connection()
+
+    return "<h1>Ready to check IoT Data Availability</h1>"
