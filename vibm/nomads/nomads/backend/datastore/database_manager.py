@@ -242,6 +242,18 @@ class DatabaseManager(object):
             # Table Alread Defined
             return True
 
+    """
+    Check that table exists and in case of yes then return all stored records to calling function.
+    """
+    def check_table_all_records_back(self, table_name):
+        result_proxy = self.connection.execute(
+            "SHOW TABLES LIKE '" + table_name + "'"
+        )
+
+        records_found = result_proxy.fetchall()
+
+        return records_found
+
 """
 #PROTOCOL = "mysql+pymysql://"
 

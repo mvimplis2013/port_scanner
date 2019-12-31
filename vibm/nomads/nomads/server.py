@@ -239,8 +239,12 @@ def check_iot_data_availability():
     db_manager.establish_connection()
 
     # Need table name --> hot_air_AC_temperature
-    db_manager.check_table_exists("hot_air_AC_temperature")
-    
+    # db_manager.check_table_exists("hot_air_AC_temperature")
+    iot_data_records = db_manager.check_table_all_records_back("hot_air_AC_temperature")
+
     db_manager.close_connection()
 
-    return "<h1>Ready to check IoT Data Availability</h1>"
+    # Number of Records found in database with data from sensors
+    num_iot_records = len(iot_data_records)
+
+    return f"<h1>Number of IoT Records Found in Database = {num_iot_records}</h1>"
