@@ -235,6 +235,9 @@ def check_iot_data_availability():
 
     db_manager = DatabaseManager()
 
+    # First try to obtain a database connection for all upcoming transatcions
+    db_manager.establish_connection()
+
     # Need table name --> hot_air_AC_temperature
     db_manager.check_table_exists("hot_air_AC_temperature")
     
