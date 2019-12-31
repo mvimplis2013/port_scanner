@@ -22,6 +22,7 @@ except ImportError:
     from nomads.backend.utils.back_logger import nomads_logger
 
 DB_USER = "root"
+DB_PASS = "p@ssw0rd"
 DB_NAME = "nomads"
 
 class TableNotYetCreated(BaseException):
@@ -44,9 +45,9 @@ class DatabaseManager(object):
             # Database URL not available
             raise Exception("Undefined Database URL .. Cannot proceed !")
 
-        connection_str = "mysql+pymysql://" + DB_USER + "@" + database_url + "/" + DB_NAME
+        connection_str = "mysql+pymysql://" + DB_USER + ":" + DB_PASS + "@" + database_url + "/" + DB_NAME
 
-        #print("Connection string to database ... %s" % connection_str )
+        print("Connection string to database ... %s" % connection_str)
 
         # SQLAlchemy engine knows the SQL-dialect for used datastore
         self.engine = create_engine( connection_str, pool_recycle = 3600)
@@ -240,9 +241,6 @@ class DatabaseManager(object):
         else:
             # Table Alread Defined
             return True
-
-
-
 
 """
 #PROTOCOL = "mysql+pymysql://"

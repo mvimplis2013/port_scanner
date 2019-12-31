@@ -62,6 +62,7 @@ def get_freq_mins():
 def ping_ip_or_dns():
     ip = request.args.get("ping-ip")
     #print("!!! WELCOME ROBERT BERGER ING ... YOU JUST SEND ME A PING REQUEST FOR VLAB ... %s" % ip)
+    nomads_logger.debug("Inside PING_IP_OR_DNS") 
     
     simple_ping = ping_host(ip).upper()
     #print("Server Simple Ping -> %s" % simple_ping )
@@ -213,3 +214,17 @@ def render_organization_chart():
     data["description"] = "Define Parent-Child Associations in VLAB Infrastructure"
     
     return render_template("nice_organization_chart.html", value=data)
+
+"""
+A toolsuite for testing if IMPORTANT components are succesfully loaded 
+"""
+# Is Database connection established ?
+@app.route('/admin/checks/database/connection', methods=['GET'])
+def check_database_connection():
+    nomads_logger.debug("+++ Inside Check for Database Connection +++")
+     
+    db_manager = DatabaseManager()
+    db_manager.establish_connection() 
+    db_manager.close_connection()
+    
+    return "<h1>Ready to check database connection<h1>"

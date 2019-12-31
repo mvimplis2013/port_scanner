@@ -9,16 +9,16 @@ PORT_CONTAINER=5000
 
 GUI_CONTAINER="vlab_gui_container"
 #DOCKER_RUN_FLAGS="--name $GUI_CONTAINER -it --privileged --network app-tier -d -p $PORT_LOCAL:$PORT_CONTAINER -t -eMARIADB-SERVER=172.24.0.2 $GUI_IMAGE"
+DOCKER_RUN_FLAGS="--name $GUI_CONTAINER -it --privileged -d -p $PORT_LOCAL:$PORT_CONTAINER -t -eMARIADB-SERVER=172.24.0.2 $GUI_IMAGE"
 
 # Appropriate dockerfile is ready for "docker" commands to use
 # DOCKER ENGINE Commands Section
 
-#  Remove previous images
 docker container stop $GUI_CONTAINER
-docker container rm $GUI_CONTAINER 
+docker container rm $GUI_CONTAINER
 
-dcoker image rm $GUI_IMAGE
+docker image rm $GUI_IMAGE
 
 docker build -t "$GUI_IMAGE" . 
 
-#docker run $DOCKER_RUN_FLAGS
+docker run $DOCKER_RUN_FLAGS

@@ -56,6 +56,8 @@ function callRobot4PortScan() {
     }
   
     url = robot_ip + "scan-ports";
+    
+    console.log( url );
 
     vlab_target = $("#vlab-target").val();
     data = { "vlab-target": vlab_target }
