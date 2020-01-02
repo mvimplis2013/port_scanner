@@ -247,4 +247,5 @@ def check_iot_data_availability():
     # Number of Records found in database with data from sensors
     num_iot_records = len(iot_data_records)
 
-    return f"<h1>Number of IoT Records Found in Database = {num_iot_records}</h1>"
+    #return f"<h1>Number of IoT Records Found in Database = {num_iot_records}</h1>"
+    render_template("hot_air_ac_temperature_graph.html", name="PAPARAS")
