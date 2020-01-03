@@ -10,6 +10,38 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="">
+
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <script type="text/javascript">
+           google.charts.load('current', {'packages': ['corechart']});
+           google.charts.setOnLoadCallback(drawChart);
+
+           function drawChart() {
+               var iot_data_records = {{ iot_data_records }};
+               var num_iot_records = iot_data_records.length;
+
+               var data = google.visualization.arrayToDataTable(
+                   ['Time', 'Temperature'], 
+                   //[{{iot_data}}[0], {{iot_data}}[1]]
+                   ['07:00', '22.8'],
+                   ['08:00', '24.3'],
+                   ['09:00', '24,0'],
+                   ['10:00', '30,0']
+               );
+
+               var options = {
+                   title: 'Hot-Air AC Temperature Variation',
+                   curveType: 'function',
+                   legend: {position: 'bottom'}
+               };
+
+               var chart = new google.visualization.LineChart(
+                   document.getElementById('curve_chart')
+               );
+
+               chart.draw(data, options);
+           } 
+        </script>
     </head>
     <body>
         <!--[if lt IE 7]>
@@ -17,9 +49,11 @@
         <![endif]-->
         
         <p>
-            Your name is: {{name}}
+            Number of Hot-Air AC Temperature Records Found: {{ num_iot_records }}
         </p>
+
+        <div id="curve_chart" style="width: 900px; height: 500px"></div>
+
         <script src="" async defer></script>
     </body>
 </html>
-<html

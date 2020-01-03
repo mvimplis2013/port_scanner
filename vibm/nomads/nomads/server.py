@@ -248,4 +248,10 @@ def check_iot_data_availability():
     num_iot_records = len(iot_data_records)
 
     #return f"<h1>Number of IoT Records Found in Database = {num_iot_records}</h1>"
-    render_template("hot_air_ac_temperature_graph.html", name="PAPARAS")
+    render_template("hot_air_AC_temperature_graph.html", num_iot_records = num_iot_records, iot_data_records = iot_data_records)
+
+    # SOS --> How to pass many parameters into html-template
+    #   Solution 1 --> call ... render_template("index.html", param_A = param_A, param_B = param_B, param_C = param_C)
+    #   Solution 2 --> pass ALL local variables ... render_template("index.html", **locals())
+
+    # In this case pass one parameter [an array with records]... render_template("hot_air_ac_temperature_graph.html", iot_records=iot_records)
