@@ -17,11 +17,12 @@
            google.charts.setOnLoadCallback(drawChart);
 
            function drawChart() {
-               var record_time = '{{ record_time }}';
-               var record_value = '{{ record_value }}';
+               var all_records = '{{ all_records }}';
 
                //var records_first_0 = iot_data_records[0];
-               console.log( 'Record Time is ... ' + record_time );
+               records_array = all_records.split(";")
+
+               console.log( 'Record #1 ... ' + records_array[0] );
 
                //var records_first_10 = iot_data_records.slice(0, 10);
                console.log( 'Record Value is ... ' + record_value ); 

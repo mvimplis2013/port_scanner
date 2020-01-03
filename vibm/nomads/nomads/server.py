@@ -248,18 +248,20 @@ def check_iot_data_availability():
     # num_iot_records = len(iot_data_records)
 
     # Remove special symbols like '' in '2019-12-0'
-    iot_record_0 = str(iot_data_records[0])
-    iot_record_0 = iot_record_0.replace("\"", "") 
-    iot_record_0 = iot_record_0.replace("'", "") 
-    iot_record_0 = iot_record_0.replace("Decimal", "")
-    iot_record_0 = iot_record_0.replace("(", "") 
-    iot_record_0 = iot_record_0.replace(")", "") 
-    
-    iot_record_1 = str(iot_data_records[1])
-    #.replace('"', '') 
+    all_records = ""
+    for record in iot_data_records:
+        iot_record_i = str(record)
+        
+        iot_record_i = iot_record_i.replace("\"", "") 
+        iot_record_i = iot_record_i.replace("'", "") 
+        iot_record_i = iot_record_i.replace("Decimal", "")
+        iot_record_i = iot_record_i.replace("(", "") 
+        iot_record_i = iot_record_i.replace(")", "")
+
+        all_records = all_records + ";" + iot_record_i 
     
     #return f"<h1>Number of IoT Records Found in Database = {num_iot_records}</h1>"
-    return render_template("hot_air_AC_temperature_graph.html", record_time = iot_record_0, record_value = iot_record_1)
+    return render_template("hot_air_AC_temperature_graph.html", all_records = all_records)
 
     # SOS --> How to pass many parameters into html-template
     #   Solution 1 --> call ... render_template("index.html", param_A = param_A, param_B = param_B, param_C = param_C)
