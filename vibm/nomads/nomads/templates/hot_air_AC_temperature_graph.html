@@ -28,7 +28,7 @@
                //var data = google.visualization.arrayToDataTable([
                var data_table = new google.visualization.DataTable();
                
-               data_table.addColumn('date', 'Time');
+               data_table.addColumn('datetime', 'Time');
                data_table.addColumn('number', 'Temperature');
 
                for (var i = 0; i < records_array.length; i++) {
@@ -55,7 +55,7 @@
                    console.log( "Full Date Time is ..." + full_datetime);
                    console.log( "Date String is ..." + my_date_str);
                    console.log( "Time String is ..." + my_time_str);
-                   
+
                    console.log( "Full Date Time: Year=" + my_year);
                        
                    if (my_year < 2019) {
@@ -63,7 +63,7 @@
                    }
 
                    data_table.addRow( 
-                       [ new Date(my_date[0], my_date[1], my_date[2], my_time[0], my_time[1], my_time[2]), Number(values[2]) ] );
+                       [ new Date(my_year, my_date[1], my_date[2], my_time[0], my_time[1], my_time[2]), Number(values[2]) ] );
                }
 
                var options = {
