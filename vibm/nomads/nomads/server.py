@@ -251,7 +251,9 @@ def check_iot_data_availability():
     iot_record_0 = str(iot_data_records[0])
     iot_record_0 = iot_record_0.replace("\"", "") 
     iot_record_0 = iot_record_0.replace("'", "") 
-    iot_record_0 = iot_record_0.replace("Decimal(", "")
+    iot_record_0 = iot_record_0.replace("Decimal", "")
+    iot_record_0 = iot_record_0.replace("(", "") 
+    iot_record_0 = iot_record_0.replace(")", "") 
     
     iot_record_1 = str(iot_data_records[1])
     #.replace('"', '') 
