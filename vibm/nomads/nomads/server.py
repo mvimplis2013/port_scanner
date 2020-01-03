@@ -250,6 +250,8 @@ def check_iot_data_availability():
     # Remove special symbols like '' in '2019-12-0'
     all_records = ""
     for record in iot_data_records:
+        nomads_logger.debug(f"**** {record}")
+        
         iot_record_i = str(record)
         
         iot_record_i = iot_record_i.replace("\"", "") 
