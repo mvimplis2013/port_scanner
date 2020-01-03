@@ -250,7 +250,7 @@ def check_iot_data_availability():
     # Remove special symbols like '' in '2019-12-0'
     iot_record_0 = str(iot_data_records[0])
     iot_record_0 = iot_record_0.replace("\"", '') 
-    iot_record_0 = iot_data_records[0].replace("'", '') 
+    iot_record_0 = iot_record_0.replace("'", '') 
     
     
     iot_record_1 = str(iot_data_records[1])
