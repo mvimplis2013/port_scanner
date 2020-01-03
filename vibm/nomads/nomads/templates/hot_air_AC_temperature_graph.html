@@ -17,7 +17,7 @@
            google.charts.setOnLoadCallback(drawChart);
 
            function drawChart() {
-               var iot_data_records = {{ iot_data_records }};
+               var iot_data_records = '{{ iot_data_records }}';
                var num_iot_records = iot_data_records.length;
 
                var data = google.visualization.arrayToDataTable(
