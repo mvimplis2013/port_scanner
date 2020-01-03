@@ -41,10 +41,13 @@
                    values = record_i.split(',');
 
                    full_datetime = values[1];
+                   console.log("Full Date Time is ..." + full_datetime)
 
                    datetime = full_datetime.split("T");
 
                    my_date_str = datetime[0];
+                   console.log("Date String is ..." + my_date_str);
+
                    my_time_str = datetime[1];
 
                    my_date = my_date_str.split("-");
