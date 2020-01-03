@@ -50,20 +50,27 @@
                    my_date = my_date_str.split("-");
                    my_time = my_time_str.split(":");
 
-                   var my_year = my_date[0];
+                   var my_year = Number(my_date[0]);
+                   var my_month = Number(my_date[1]);
+                   var my_day = Number(my_date[2]);
+                   
+                   var my_hours = Number(my_time[0]);
+                   var my_minutes = Number(my_time[1]);
+                   var my_seconds = Number(my_time[2]);
                    
                    console.log( "Full Date Time is ..." + full_datetime);
                    console.log( "Date String is ..." + my_date_str);
                    console.log( "Time String is ..." + my_time_str);
 
-                   console.log( "Full Date Time: Year=" + my_year);
+                   console.log( "Full Date Time: Year=" + my_year + ", Month=" + my_month + ", Day=" + my_day + 
+                        ", Hours=" + my_hours + ", Minutes=" + my_minutes + ", Seconds=" + my_seconds);
                        
                    if (my_year < 2019) {
                        continue;
                    }
 
                    data_table.addRow( 
-                       [ new Date(my_year, my_date[1], my_date[2], my_time[0], my_time[1], my_time[2]), Number(values[2]) ] );
+                       [ new Date(my_year, my_month, my_day, my_hours, my_minutes, my_seconds, 0.0), Number(values[2]) ] );
                }
 
                var options = {
