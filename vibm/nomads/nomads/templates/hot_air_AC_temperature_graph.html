@@ -28,7 +28,7 @@
                //var data = google.visualization.arrayToDataTable([
                var data_table = new google.visualization.DataTable();
                
-               data_table.addColumn('string', 'Time');
+               data_table.addColumn('date', 'Time');
                data_table.addColumn('number', 'Temperature');
 
                for (var i = 0; i < records_array.length; i++) {
@@ -40,7 +40,18 @@
 
                    values = record_i.split(',');
 
-                   data_table.addRow( [ values[1], Number(values[2]) ] );
+                   full_datetime = values[1];
+
+                   datetime = full_datetime.split("T");
+
+                   my_date_str = datetime[0];
+                   my_time_str = datetime[1];
+
+                   my_date = my_date_str.split("-");
+                   my_time = my_time_str.split(":");
+
+                   data_table.addRow( 
+                       [ new Date(my_date[0], my_date[1], my_date[2], my_time[0], my_time[1], my_time[2]), Number(values[2]) ] );
                }
 
                var options = {
