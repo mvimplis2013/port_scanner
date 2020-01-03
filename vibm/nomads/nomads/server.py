@@ -248,7 +248,7 @@ def check_iot_data_availability():
     num_iot_records = len(iot_data_records)
 
     #return f"<h1>Number of IoT Records Found in Database = {num_iot_records}</h1>"
-    return render_template("hot_air_AC_temperature_graph.html", num_iot_records = num_iot_records, iot_data_records = iot_data_records)
+    return render_template("hot_air_AC_temperature_graph.html", record_time = iot_data_records[0], record_value = iot_data_records[1])
 
     # SOS --> How to pass many parameters into html-template
     #   Solution 1 --> call ... render_template("index.html", param_A = param_A, param_B = param_B, param_C = param_C)

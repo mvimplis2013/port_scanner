@@ -17,14 +17,14 @@
            google.charts.setOnLoadCallback(drawChart);
 
            function drawChart() {
-               var iot_data_records = '{{ iot_data_records }}';
-               var num_iot_records = '{{ num_iot_records }}';
+               var record_time = '{{ record_time }}';
+               var record_value = '{{ record_value }}';
 
-               var records_first_0 = iot_data_records[0];
-               console.log( 'First Record is ... ' + records_first_0 );
+               //var records_first_0 = iot_data_records[0];
+               console.log( 'Record Time is ... ' + record_time );
 
-               var records_first_10 = iot_data_records.slice(0, 10);
-               console.log( 'First Ten Records are ... ' + records_first_10 ); 
+               //var records_first_10 = iot_data_records.slice(0, 10);
+               console.log( 'Record Value is ... ' + record_value ); 
 
                var data = google.visualization.arrayToDataTable([
                    ['Time', 'Temperature'], 
