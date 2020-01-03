@@ -41,20 +41,22 @@
                    values = record_i.split(',');
 
                    full_datetime = values[1];
-                   console.log("Full Date Time is ..." + full_datetime)
-
+                   
                    datetime = full_datetime.split("T");
 
                    my_date_str = datetime[0];
-                   console.log("Date String is ..." + my_date_str);
-
                    my_time_str = datetime[1];
 
                    my_date = my_date_str.split("-");
                    my_time = my_time_str.split(":");
 
                    var my_year = my_date[0];
-                   console.log( "Full Date Time: Year=" + my_year );
+                   
+                   if (my_year < 2019) {
+                       console.log( "Full Date Time is ..." + full_datetime);
+                       console.log( "Date String is ..." + my_date_str);
+                       console.log( "Full Date Time: Year=" + my_year);
+                   }
 
                    data_table.addRow( 
                        [ new Date(my_date[0], my_date[1], my_date[2], my_time[0], my_time[1], my_time[2]), Number(values[2]) ] );
