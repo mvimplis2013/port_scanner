@@ -18,7 +18,10 @@
 
            function drawChart() {
                var iot_data_records = '{{ iot_data_records }}';
-               var num_iot_records = iot_data_records.length;
+               var num_iot_records = '{{ num_iot_records }}';
+
+               var records_first_0 = iot_data_records[0];
+               console.log( 'First Record is ... ' + records_first_0 ) 
 
                var data = google.visualization.arrayToDataTable([
                    ['Time', 'Temperature'], 
