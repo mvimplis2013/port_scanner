@@ -20,14 +20,14 @@
                var iot_data_records = '{{ iot_data_records }}';
                var num_iot_records = iot_data_records.length;
 
-               var data = google.visualization.arrayToDataTable(
+               var data = google.visualization.arrayToDataTable([
                    ['Time', 'Temperature'], 
                    //[{{iot_data}}[0], {{iot_data}}[1]]
                    ['07:00', '22.8'],
                    ['08:00', '24.3'],
                    ['09:00', '24,0'],
                    ['10:00', '30,0']
-               );
+               ]);
 
                var options = {
                    title: 'Hot-Air AC Temperature Variation',
