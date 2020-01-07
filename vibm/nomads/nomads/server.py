@@ -276,11 +276,12 @@ def check_iot_data_availability():
         all_records = all_records + ";" + iot_record_i 
     
     nomads_logger.debug(f"Length is = {len(other_iot_data_records)}")
-    
+
     more_records = ""
     for record in other_iot_data_records:
         nomads_logger.debug(f"$$$$$ {record}")
 
+        record = str(record)
         more_records = more_records + ";" + record
 
     #return f"<h1>Number of IoT Records Found in Database = {num_iot_records}</h1>"
