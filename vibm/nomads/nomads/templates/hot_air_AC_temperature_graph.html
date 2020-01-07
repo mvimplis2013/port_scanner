@@ -21,6 +21,7 @@
 
                //var records_first_0 = iot_data_records[0];
                records_array = all_records.split(";")
+               others_array = other_records.split(";")
 
                console.log( 'All Records ... ' + all_records );
                console.log( 'Record #1 ... ' + records_array[1] );
@@ -30,7 +31,7 @@
                
                data_table.addColumn('datetime', 'Time');
                data_table.addColumn('number', 'Temperature');
-               //data_table.addColumn('number', 'Power-Consumption');
+               data_table.addColumn('number', 'Power-Consumption');
 
                for (var i = 0; i < records_array.length; i++) {
                    record_i = records_array[i];
@@ -75,10 +76,58 @@
                    }
 
                    data_table.addRow( 
-                       [ new Date(my_year, my_month, my_day, my_hours, my_minutes, my_seconds, 0.0), Number(values[2]) ] );
+                       //[ new Date(my_year, my_month, my_day, my_hours, my_minutes, my_seconds, 0.0), Number(values[2]) ] );
+                       [full_datetime, Number(values[2])] );
                }
 
-               var options = {
+               for (var i = 0; i < others_array.length; i++) {
+                   record_i = others_array[i];
+
+                   if (!record_i) {
+                       continue;
+                   }
+
+                   values = record_i.split(',');
+
+                   full_datetime = values[1];
+                   
+                   //my_datetime = full_datetime.split("T");
+
+                   //my_date_str = my_datetime[0];
+                   //my_time_str = my_datetime[1];
+
+                   //my_date = my_date_str.split("-");
+                   //my_time = my_time_str.split(":");
+
+                   //var my_year = Number(my_date[0]);
+                   //var my_month = Number(my_date[1]);
+                   //var my_day = Number(my_date[2]);
+                   
+                   //var my_hours = Number(my_time[0]);
+                   //var my_minutes = Number(my_time[1]);
+                   //var my_seconds = Number(my_time[2]);
+                   
+                   //console.log( "Full Date Time is ..." + full_datetime);
+                   //console.log( "Date String is ..." + my_date_str);
+                   //console.log( "Year is ..." + my_year );
+                   //console.log( "Month is ..." + my_month );
+                   //console.log( "Day is ..." + my_day );
+
+                   //console.log( "Time String is ..." + my_time_str);
+
+                   //console.log( "Full Date Time: Year=" + my_year + ", Month=" + my_month + ", Day=" + my_day + 
+                    //    ", Hours=" + my_hours + ", Minutes=" + my_minutes + ", Seconds=" + my_seconds);
+                       
+                   //if (my_year < 2018) {
+                   //    continue;
+                   //}
+
+                   data_table.addRow( 
+                       //[ new Date(my_year, my_month, my_day, my_hours, my_minutes, my_seconds, 0.0), Number(values[2]) ] );
+                       [full_datetime, Number(values[2])] );
+               }
+
+                var options = {
                    title: 'Hot-Air AC Temperature Variation',
                    curveType: 'function',
                    legend: {position: 'bottom'},
