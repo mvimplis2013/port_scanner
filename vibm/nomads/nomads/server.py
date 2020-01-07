@@ -244,8 +244,11 @@ def check_iot_data_availability():
     db_manager.check_table_exists("hot_air_AC_temperature")
     all_iot_data_records[0] = db_manager.select_all_hot_air_AC_temperature_records()
 
-    db_manager.check_table_exists("sensor_ac_power_consumption")
-    all_iot_data_records[1] = db_manager.select_all_ac_power_consumption_records()
+    try:
+        db_manager.check_table_exists("sensor_ac_power_consumption")
+        all_iot_data_records[1] = db_manager.select_all_ac_power_consumption_records()
+    except Exception as ex:
+        nomads_logger.error(str(ex))
 
     db_manager.close_connection()
 
@@ -253,7 +256,7 @@ def check_iot_data_availability():
     # num_iot_records = len(iot_data_records)
 
     iot_data_records = all_iot_data_records[0]
-    
+
     # Remove special symbols like '' in '2019-12-0'
     all_records = ""
     for record in iot_data_records:
