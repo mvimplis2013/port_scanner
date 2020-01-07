@@ -282,6 +282,11 @@ def check_iot_data_availability():
         nomads_logger.debug(f"$$$$$ {record}")
 
         record = str(record)
+        record = record.replace("\"", "")
+        record = record.replace("'", "")
+        record = record.replace("(", "")
+        record = record.replace(")", "")
+        
         more_records = more_records + ";" + record
 
     #return f"<h1>Number of IoT Records Found in Database = {num_iot_records}</h1>"
