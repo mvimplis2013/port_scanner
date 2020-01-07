@@ -290,9 +290,9 @@ def check_iot_data_availability():
         more_records = more_records + ";" + record
 
     nomads_logger.debug(f"More Records = {more_records}")
-    
+
     #return f"<h1>Number of IoT Records Found in Database = {num_iot_records}</h1>"
-    return render_template("hot_air_AC_temperature_graph.html", all_records = all_records)
+    return render_template("hot_air_AC_temperature_graph.html", all_records = all_records, more_records = more_records)
 
     # SOS --> How to pass many parameters into html-template
     #   Solution 1 --> call ... render_template("index.html", param_A = param_A, param_B = param_B, param_C = param_C)
