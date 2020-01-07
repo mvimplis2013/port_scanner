@@ -238,15 +238,22 @@ def check_iot_data_availability():
     # First try to obtain a database connection for all upcoming transatcions
     db_manager.establish_connection()
 
+    all_iot_data_records = []
+
     # Need table name --> hot_air_AC_temperature
     db_manager.check_table_exists("hot_air_AC_temperature")
-    iot_data_records = db_manager.select_all_hot_air_AC_temperature_records()
+    all_iot_data_records[0] = db_manager.select_all_hot_air_AC_temperature_records()
+
+    db_manager.check_table_exists("sensor_ac_power_consumption")
+    all_iot_data_records[1] = db_manager.select_all_ac_power_consumption_records()
 
     db_manager.close_connection()
 
     # Number of Records found in database with data from sensors
     # num_iot_records = len(iot_data_records)
 
+    iot_data_records = all_iot_data_records[0]
+    
     # Remove special symbols like '' in '2019-12-0'
     all_records = ""
     for record in iot_data_records:

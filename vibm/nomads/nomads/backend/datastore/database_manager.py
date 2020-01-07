@@ -261,6 +261,13 @@ class DatabaseManager(object):
 
         return hot_air_AC_temperature_array
 
+    def select_all_ac_power_consumption_records(self):
+        result_proxy = self.connection.execute(
+            "SELECT * FROM sensor_ac_power_consumption"
+        )
+        ac_power_consumption_array = result_proxy.fetchall()
+
+        return ac_power_consumption_array
 """
 #PROTOCOL = "mysql+pymysql://"
 
