@@ -244,6 +244,11 @@ def check_iot_data_availability():
     db_manager.check_table_exists("hot_air_AC_temperature")
     iot_data_records = db_manager.select_all_hot_air_AC_temperature_records()
 
+    db_manager.close_connection()
+
+    db_manager = DatabaseManager()
+    db_manager.establish_connection()
+
     try:
         db_manager.check_table_exists("sensor_ac_power_consumption")
         other_iot_data_records = db_manager.select_all_ac_power_consumption_records()
@@ -275,7 +280,7 @@ def check_iot_data_availability():
         nomads_logger.debug(f"$$$$$ {record}")
 
         more_records = more_records + ";" + record
-        
+
     #return f"<h1>Number of IoT Records Found in Database = {num_iot_records}</h1>"
     return render_template("hot_air_AC_temperature_graph.html", all_records = all_records)
 
