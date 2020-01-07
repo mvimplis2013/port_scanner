@@ -267,6 +267,9 @@ class DatabaseManager(object):
         )
         ac_power_consumption_array = result_proxy.fetchall()
 
+        for result in ac_power_consumption_array:
+            nomads_logger.debug(f"AC Power-Consumption Found ==> {result}")
+
         return ac_power_consumption_array
 """
 #PROTOCOL = "mysql+pymysql://"
