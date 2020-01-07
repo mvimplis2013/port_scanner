@@ -286,9 +286,11 @@ def check_iot_data_availability():
         record = record.replace("'", "")
         record = record.replace("(", "")
         record = record.replace(")", "")
-        
+
         more_records = more_records + ";" + record
 
+    nomads_logger.debug(f"More Records = {more_records}")
+    
     #return f"<h1>Number of IoT Records Found in Database = {num_iot_records}</h1>"
     return render_template("hot_air_AC_temperature_graph.html", all_records = all_records)
 
