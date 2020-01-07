@@ -29,7 +29,7 @@
                var data_table = new google.visualization.DataTable();
                
                data_table.addColumn('datetime', 'Time');
-               data_table.addColumn('number', 'Temperature');
+               //data_table.addColumn('number', 'Temperature');
                data_table.addColumn('number', 'Power-Consumption');
 
                for (var i = 0; i < records_array.length; i++) {
@@ -74,16 +74,16 @@
                        continue;
                    }
 
-                   data_table.addRow( 
+                   //data_table.addRow( 
                        //[ new Date(my_year, my_month, my_day, my_hours, my_minutes, my_seconds, 0.0), Number(values[2]) ] );
-                       [full_datetime, Number(values[2])] );
+                    //   [full_datetime, Number(values[2])] );
                }
 
                var more_records = '{{ more_records }}';
 
                //var records_first_0 = iot_data_records[0];
                others_array = more_records.split(";")
-               
+
                for (var i = 0; i < others_array.length; i++) {
                    record_i = others_array[i];
 
