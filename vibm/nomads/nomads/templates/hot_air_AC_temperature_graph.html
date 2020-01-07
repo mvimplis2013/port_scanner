@@ -21,8 +21,7 @@
 
                //var records_first_0 = iot_data_records[0];
                records_array = all_records.split(";")
-               others_array = other_records.split(";")
-
+               
                console.log( 'All Records ... ' + all_records );
                console.log( 'Record #1 ... ' + records_array[1] );
 
@@ -80,6 +79,11 @@
                        [full_datetime, Number(values[2])] );
                }
 
+               var more_records = '{{ more_records }}';
+
+               //var records_first_0 = iot_data_records[0];
+               others_array = more_records.split(";")
+               
                for (var i = 0; i < others_array.length; i++) {
                    record_i = others_array[i];
 
