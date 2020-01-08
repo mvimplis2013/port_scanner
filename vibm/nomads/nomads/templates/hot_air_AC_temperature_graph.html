@@ -125,7 +125,7 @@
                    //console.log( "Day is ..." + my_day );
 
                    console.log("Full Datetime Offset is ... (" + (i+1) + ")" + full_datetime_offset + "/ " + Number( values[2] ));
-                   console.log( ".... " + Date.parse("1997-07-16T19:20:15"));//full_datetime) )
+                   console.log( ".... " + Date.parse(full_datetime) );
 
                    //console.log( "Full Date Time: Year=" + my_year + ", Month=" + my_month + ", Day=" + my_day + 
                     //    ", Hours=" + my_hours + ", Minutes=" + my_minutes + ", Seconds=" + my_seconds);
@@ -166,7 +166,7 @@
         <![endif]-->
         
         <p>
-            Number of Hot-Air AC Temperature Records Found: {{more_records.length}}
+            Number of Hot-Air AC Temperature Records Found: {{more_records}}.length
         </p>
 
         <div id="curve_chart" style="width: 900px; height: 500px"></div>
