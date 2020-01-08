@@ -46,7 +46,7 @@
                    full_datetime = values[1];
                    full_datetime = full_datetime.trim();
 
-                   full_datetime_offset = full_datetime.concat("-0090");
+                   full_datetime_offset = full_datetime.concat("-0000");
                    
                    //my_datetime = full_datetime.split("T");
 
@@ -79,8 +79,8 @@
                    //    continue;
                    //}
 
-                   //data_table_hot.addRow( 
-                   //    [new Date(full_datetime_offset), Number(values[2])] );
+                   data_table_hot.addRow( 
+                       [new Date(full_datetime_offset), Number(values[2])] );
                        //[full_datetime, Number(values[2])] );
                }
 
@@ -109,7 +109,7 @@
                    document.getElementById('curve-chart-temperature')
                );
 
-               //chart_hot.draw(data_table_hot, options_hot);
+               chart_hot.draw(data_table_hot, options_hot);
 
                // ************************************************
                // ******* Second Graph: Power Consumption ********
