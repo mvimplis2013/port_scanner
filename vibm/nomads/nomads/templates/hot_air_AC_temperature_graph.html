@@ -106,7 +106,7 @@
                };
 
                var chart_hot = new google.visualization.LineChart(
-                   document.getElementById('curve-chart-power')
+                   document.getElementById('curve-chart-temperature')
                );
 
                chart_hot.draw(data_table_hot, options_hot);
@@ -204,10 +204,10 @@
                };
 
                var chart = new google.visualization.LineChart(
-                   document.getElementById('curve-chart-temperature')
+                   document.getElementById('curve-chart-power')
                );
 
-               chart.draw(data_table_hot, options);
+               chart.draw(data_table, options);
            } 
         </script>
     </head>
