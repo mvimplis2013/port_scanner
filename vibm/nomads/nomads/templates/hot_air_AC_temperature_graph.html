@@ -12,6 +12,8 @@
         <link rel="stylesheet" href="">
 
         <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <script type="text/javascript" src="date.js"></script>
+
         <script type="text/javascript">
            google.charts.load('current', {'packages': ['corechart']});
            google.charts.setOnLoadCallback(drawChart);
@@ -71,7 +73,7 @@
 
                    console.log( "Full Date Time: Year=" + my_year + ", Month=" + my_month + ", Day=" + my_day + 
                         ", Hours=" + my_hours + ", Minutes=" + my_minutes + ", Seconds=" + my_seconds);
-                       
+    
                    //if (my_year < 2018) {
                    //    continue;
                    //}
@@ -123,6 +125,7 @@
                    //console.log( "Day is ..." + my_day );
 
                    console.log("Full Datetime Offset is ... ( " + (i+1) + " ) " + full_datetime_offset + " / " + Number( values[2] ));
+                   console.log( ".... " + Date.parse(full_datetime) )
 
                    //console.log( "Full Date Time: Year=" + my_year + ", Month=" + my_month + ", Day=" + my_day + 
                     //    ", Hours=" + my_hours + ", Minutes=" + my_minutes + ", Seconds=" + my_seconds);
@@ -130,8 +133,6 @@
                    //if (my_year < 2018) {
                    //    continue;
                    //}
-
-                   full_datetime_offset = "2014-12-06T10:30:00-0800";
 
                    data_table.addRow( 
                        //[ new Date(my_year, my_month, my_day, my_hours, my_minutes, my_seconds, 0.0), Number(values[2]) ] );
