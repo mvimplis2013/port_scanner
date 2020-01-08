@@ -80,11 +80,11 @@
                    //}
 
                    data_table_hot.addRow( 
-                       [ new Date(full_datetime_offset), Number(values[2]) ] );
+                       [new Date(full_datetime_offset), Number(values[2])] );
                        //[full_datetime, Number(values[2])] );
                }
 
-               var options = {
+               var options_hot = {
                    title: 'Hot-Air AC Temperature Variation',
                    width: 1600,
                    height: 800,
@@ -105,11 +105,11 @@
                    }
                };
 
-               var chart = new google.visualization.LineChart(
+               var chart_hot = new google.visualization.LineChart(
                    document.getElementById('curve-chart-power')
                );
 
-               chart.draw(data_table_hot, options);
+               chart_hot.draw(data_table_hot, options_hot);
 
                // ******* Second Graph ********
                // *****************************
