@@ -23,16 +23,16 @@
                //var records_first_0 = iot_data_records[0];
                records_array = all_records.split(";")
                
-               console.log( 'All Records ... ' + all_records );
-               console.log( 'Record #1 ... ' + records_array[1] );
+               //console.log( 'All Records ... ' + all_records );
+               //console.log( 'Record #1 ... ' + records_array[1] );
 
                //var data = google.visualization.arrayToDataTable([
-               var data_table = new google.visualization.DataTable();
+               var data_table_hot = new google.visualization.DataTable();
                
                //data_table.addColumn('string', 'Time');
-               data_table.addColumn('datetime', 'Time');
+               data_table_hot.addColumn('datetime', 'Time');
                //data_table.addColumn('number', 'Temperature');
-               data_table.addColumn('number', 'Power-Consumption');
+               data_table_hot.addColumn('number', 'Hot-Air Temperature');
 
                for (var i = 0; i < records_array.length; i++) {
                    record_i = records_array[i];
@@ -44,50 +44,79 @@
                    values = record_i.split(',');
 
                    full_datetime = values[1];
-                   full_datetime_offset = full_datetime.concat("-0000");
+                   full_datetime = full_datetime.trim();
+
+                   full_datetime_offset = full_datetime.concat("-0090");
                    
-                   my_datetime = full_datetime.split("T");
+                   //my_datetime = full_datetime.split("T");
 
-                   my_date_str = my_datetime[0];
-                   my_time_str = my_datetime[1];
+                   //my_date_str = my_datetime[0];
+                   //my_time_str = my_datetime[1];
 
-                   my_date = my_date_str.split("-");
-                   my_time = my_time_str.split(":");
+                   //my_date = my_date_str.split("-");
+                   //my_time = my_time_str.split(":");
 
-                   var my_year = Number(my_date[0]);
-                   var my_month = Number(my_date[1]);
-                   var my_day = Number(my_date[2]);
+                   //var my_year = Number(my_date[0]);
+                   //var my_month = Number(my_date[1]);
+                   //var my_day = Number(my_date[2]);
                    
-                   var my_hours = Number(my_time[0]);
-                   var my_minutes = Number(my_time[1]);
-                   var my_seconds = Number(my_time[2]);
+                   //var my_hours = Number(my_time[0]);
+                   //var my_minutes = Number(my_time[1]);
+                   //var my_seconds = Number(my_time[2]);
                    
-                   console.log( "Full Date Time is ..." + full_datetime);
-                   console.log( "Date String is ..." + my_date_str);
-                   console.log( "Year is ..." + my_year );
-                   console.log( "Month is ..." + my_month );
-                   console.log( "Day is ..." + my_day );
+                   //console.log( "Full Date Time is ..." + full_datetime);
+                   //console.log( "Date String is ..." + my_date_str);
+                   //console.log( "Year is ..." + my_year );
+                   //console.log( "Month is ..." + my_month );
+                   //console.log( "Day is ..." + my_day );
 
-                   console.log( "Time String is ..." + my_time_str);
+                   //console.log( "Time String is ..." + my_time_str);
 
-                   console.log( "Full Date Time: Year=" + my_year + ", Month=" + my_month + ", Day=" + my_day + 
-                        ", Hours=" + my_hours + ", Minutes=" + my_minutes + ", Seconds=" + my_seconds);
+                   //console.log( "Full Date Time: Year=" + my_year + ", Month=" + my_month + ", Day=" + my_day + 
+                   //     ", Hours=" + my_hours + ", Minutes=" + my_minutes + ", Seconds=" + my_seconds);
     
                    //if (my_year < 2018) {
                    //    continue;
                    //}
 
-                   //data_table.addRow( 
-                       //[ new Date(my_year, my_month, my_day, my_hours, my_minutes, my_seconds, 0.0), Number(values[2]) ] );
-                    //   [full_datetime, Number(values[2])] );
+                   data_table_hot.addRow( 
+                       [ new Date(full_datetime_offset), Number(values[2]) ] );
+                       //[full_datetime, Number(values[2])] );
                }
+
+               var options = {
+                   title: 'Hot-Air AC Temperature Variation',
+                   width: 1600,
+                   height: 800,
+                   hAxis: {
+                       format: 'MM/dd/yy hh:mm:ss',
+                       //direction: -1,
+                       slantedText: true,
+                       slantedTextAngle: 45
+                   },
+                   pointSize: 2,
+                   //curveType: 'function',
+                   legend: {position: 'bottom'},
+                   explorer: {
+                       actions: ['dragToZoom', 'rightClickToReset'],
+                       axis: 'horizontal',
+                       keepInBounds: true,
+                       maxZoomIn: 4.0
+                   }
+               };
+
+               var chart = new google.visualization.LineChart(
+                   document.getElementById('curve-chart-power')
+               );
+
+               chart.draw(data_table, options);
 
                var more_records = '{{ more_records }}';
 
                //var records_first_0 = iot_data_records[0];
                others_array = more_records.split(";")
 
-               console.log("Other Records Array Size = " + others_array.length)
+               //console.log("Other Records Array Size = " + others_array.length)
 
                for (var i = 0; i < others_array.length; i++) {
                    record_i = others_array[i];
@@ -103,7 +132,7 @@
                    // Remove leading and trailing spaces !!!
                    full_datetime = full_datetime.trim();
                    
-                   full_datetime_offset = full_datetime.concat("-0000");
+                   full_datetime_offset = full_datetime.concat("-0090");
                    
                    //my_datetime = full_datetime.split("T");
 
@@ -144,7 +173,7 @@
                }
 
                 var options = {
-                   title: 'Hot-Air AC Temperature Variation',
+                   title: 'AC Power Consumption',
                    width: 1600,
                    height: 800,
                    hAxis: {
@@ -165,10 +194,10 @@
                };
 
                var chart = new google.visualization.LineChart(
-                   document.getElementById('curve-chart-power')
+                   document.getElementById('curve-chart-temperature')
                );
 
-               chart.draw(data_table, options);
+               chart.draw(data_table_hot, options);
            } 
         </script>
     </head>
