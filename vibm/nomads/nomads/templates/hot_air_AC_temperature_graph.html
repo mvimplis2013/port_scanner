@@ -29,7 +29,7 @@
                var data_table = new google.visualization.DataTable();
                
                //data_table.addColumn('datetime', 'Time');
-               data_table.addColumn('string', 'Time');
+               data_table.addColumn('datetime', 'Time');
                //data_table.addColumn('number', 'Temperature');
                data_table.addColumn('number', 'Power-Consumption');
 
@@ -43,6 +43,7 @@
                    values = record_i.split(',');
 
                    full_datetime = values[1];
+                   full_datetime_offset = full_datetime.concat("-0000");
                    
                    my_datetime = full_datetime.split("T");
 
@@ -71,9 +72,9 @@
                    console.log( "Full Date Time: Year=" + my_year + ", Month=" + my_month + ", Day=" + my_day + 
                         ", Hours=" + my_hours + ", Minutes=" + my_minutes + ", Seconds=" + my_seconds);
                        
-                   if (my_year < 2018) {
-                       continue;
-                   }
+                   //if (my_year < 2018) {
+                   //    continue;
+                   //}
 
                    //data_table.addRow( 
                        //[ new Date(my_year, my_month, my_day, my_hours, my_minutes, my_seconds, 0.0), Number(values[2]) ] );
@@ -95,6 +96,7 @@
                    values = record_i.split(',');
 
                    full_datetime = values[1];
+                   full_datetime_offset = full_datetime.concat("-0000");
                    
                    //my_datetime = full_datetime.split("T");
 
@@ -129,7 +131,8 @@
 
                    data_table.addRow( 
                        //[ new Date(my_year, my_month, my_day, my_hours, my_minutes, my_seconds, 0.0), Number(values[2]) ] );
-                       [full_datetime, Number(values[2])] );
+                       //[full_datetime, Number(values[2])] );
+                       [new Date(full_datetime_offset), Number(values[2])] );
                }
 
                 var options = {
