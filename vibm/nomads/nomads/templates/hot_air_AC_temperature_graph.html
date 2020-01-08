@@ -79,8 +79,8 @@
                    //    continue;
                    //}
 
-                   //data_table_hot.addRow( 
-                       //[new Date(full_datetime_offset), Number(values[2])] );
+                   data_table_hot.addRow( 
+                       [new Date(full_datetime_offset), Number(values[2])] );
                        //[full_datetime, Number(values[2])] );
                }
 
@@ -116,6 +116,11 @@
 
                var data_table = new google.visualization.DataTable();
                
+               //data_table.addColumn('string', 'Time');
+               data_table.addColumn('datetime', 'Time');
+               //data_table.addColumn('number', 'Temperature');
+               data_table.addColumn('number', 'Power-Consumption');
+
                var more_records = '{{ more_records }}';
 
                //var records_first_0 = iot_data_records[0];
