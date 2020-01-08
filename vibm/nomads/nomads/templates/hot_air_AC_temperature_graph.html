@@ -131,6 +131,8 @@
                    //    continue;
                    //}
 
+                   full_datetime_offset = "2014";
+
                    data_table.addRow( 
                        //[ new Date(my_year, my_month, my_day, my_hours, my_minutes, my_seconds, 0.0), Number(values[2]) ] );
                        //[full_datetime, Number(values[2])] );
@@ -163,7 +165,7 @@
         <![endif]-->
         
         <p>
-            Number of Hot-Air AC Temperature Records Found: 199
+            Number of Hot-Air AC Temperature Records Found: {{more_records}}
         </p>
 
         <div id="curve_chart" style="width: 900px; height: 500px"></div>
