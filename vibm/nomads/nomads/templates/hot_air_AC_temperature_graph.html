@@ -99,6 +99,10 @@
                    values = record_i.split(',');
 
                    full_datetime = values[1];
+                   
+                   // Remove leading and trailing spaces !!!
+                   full_datetime = full_datetime.trim();
+                   
                    full_datetime_offset = full_datetime.concat("-0000");
                    
                    //my_datetime = full_datetime.split("T");
@@ -124,7 +128,7 @@
                    //console.log( "Day is ..." + my_day );
 
                    console.log("Full Datetime Offset is ... (" + (i+1) + ")" + full_datetime_offset + "/ " + Number( values[2] ));
-                   console.log( ".... " + Date.parse(full_datetime.trim()) );
+                   //console.log( ".... " + Date.parse(full_datetime.trim()) );
 
                    //console.log( "Full Date Time: Year=" + my_year + ", Month=" + my_month + ", Day=" + my_day + 
                     //    ", Hours=" + my_hours + ", Minutes=" + my_minutes + ", Seconds=" + my_seconds);
