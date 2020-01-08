@@ -111,22 +111,18 @@
 
                //chart_hot.draw(data_table_hot, options_hot);
 
-               // ******* Second Graph ********
-               // *****************************
-
-               var data_table = new google.visualization.DataTable();
-               
-               //data_table.addColumn('string', 'Time');
-               data_table.addColumn('datetime', 'Time');
-               //data_table.addColumn('number', 'Temperature');
-               data_table.addColumn('number', 'Power-Consumption');
+               // ************************************************
+               // ******* Second Graph: Power Consumption ********
+               // ************************************************
 
                var more_records = '{{ more_records }}';
 
                //var records_first_0 = iot_data_records[0];
                others_array = more_records.split(";")
 
-               //console.log("Other Records Array Size = " + others_array.length)
+               var data_table = new google.visualization.DataTable();               
+               data_table.addColumn('datetime', 'Time');
+               data_table.addColumn('number', 'Power-Consumption');
 
                for (var i = 0; i < others_array.length; i++) {
                    record_i = others_array[i];
@@ -142,7 +138,7 @@
                    // Remove leading and trailing spaces !!!
                    full_datetime = full_datetime.trim();
                    
-                   full_datetime_offset = full_datetime.concat("-0090");
+                   full_datetime_offset = full_datetime.concat("-0000");
                    
                    //my_datetime = full_datetime.split("T");
 
