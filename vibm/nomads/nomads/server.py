@@ -300,3 +300,8 @@ def check_iot_data_availability():
     #   Solution 2 --> pass ALL local variables ... render_template("index.html", **locals())
 
     # In this case pass one parameter [an array with records]... render_template("hot_air_ac_temperature_graph.html", iot_records=iot_records)
+
+    @app.route("mqtt/toggle_state", methods=["POST"])
+    def toggle_state():
+        if request.method == "POST":
+            return jsonify("Mesage Received !")
