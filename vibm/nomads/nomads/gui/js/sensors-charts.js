@@ -12,7 +12,7 @@ document.getElementById("sensor-1-status").onmousedown = function(event) {
                 type: "POST",
                 url: "mqtt/publish_state",
                 dataType: "json",
-                data: JSON.stringnify("lamp"),
+                data: JSON.stringify("lamp"),
                 contentType: "application/json;charset=UTF-8",
                 success: function(data) {
                     console.log(data);
