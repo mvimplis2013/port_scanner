@@ -301,7 +301,12 @@ def check_iot_data_availability():
 
     # In this case pass one parameter [an array with records]... render_template("hot_air_ac_temperature_graph.html", iot_records=iot_records)
 
-    @app.route("mqtt/toggle_state", methods=["POST"])
-    def toggle_state():
-        if request.method == "POST":
-            return jsonify("Mesage Received !")
+"""
+The request handler for sensor state TOGGLE
+"""
+@app.route("mqtt/toggle_state", methods=["POST"])
+def toggle_state():
+    nomads_logger.debug("Just received a request for Sensor State Toggle !")
+        
+    if request.method == "POST":
+        return jsonify("Mesage Received !")
