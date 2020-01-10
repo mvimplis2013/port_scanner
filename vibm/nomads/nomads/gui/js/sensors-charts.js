@@ -10,7 +10,7 @@ document.getElementById("sensor-1-status").onmousedown = function(event) {
             // Proceed with Sensor State Toggle
             $.ajax({
                 type: "POST",
-                url: "mqtt/toggle_state",
+                url: "/mqtt/toggle_state",
                 dataType: "json",
                 data: JSON.stringify("lamp"),
                 contentType: "application/json;charset=UTF-8",
