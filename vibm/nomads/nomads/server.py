@@ -23,7 +23,7 @@ except:
 
 from datetime import datetime, timedelta 
 
-from .beta import *
+from .beta.influx_translator import move_data
 
 project_root = os.path.dirname(__file__)
 template_path = os.path.join(project_root, "templates")
