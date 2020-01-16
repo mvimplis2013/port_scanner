@@ -23,6 +23,8 @@ except:
 
 from datetime import datetime, timedelta 
 
+from .beta import *
+
 project_root = os.path.dirname(__file__)
 template_path = os.path.join(project_root, "templates")
 static_path = os.path.join(project_root, "gui")
