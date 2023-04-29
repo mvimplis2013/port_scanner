@@ -8,7 +8,7 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
     long_description = f.read()
 
 install_dependencies = [
-    'python-libnmap==0.7.0',
+    'python-libnmap==0.7.3',
     'robotframework==3.0.4',
 ]
 
